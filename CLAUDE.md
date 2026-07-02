@@ -1,5 +1,9 @@
 # DeskSlayer — Claude Code 專案指南
 
+## 語言規則
+
+**一律使用繁體中文回覆**，包含說明、提問、commit message 以外的所有溝通內容（commit message 維持英文，見下方版本控制章節的規範）。
+
 ## 專案概述
 
 `DeskSlayer` 是一款桌面陪伴類打字戰鬥遊戲。玩家日常打字時，遊戲在背景累積能量並觸發角色攻擊，PvE 討伐怪物為主，非 PvP。

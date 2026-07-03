@@ -58,6 +58,11 @@
 - **W3**：系統選單與優化（Game State Machine、Save/Load、CPU 佔用率優化——背景常駐是生存關鍵）
 - **W4**：封裝測試與作品集包裝（Bug Fixing、itch.io 上架、README/架構圖/展示影片）
 
+## 測試備忘
+
+- **Editor Play Mode 對「背景持續運作」類功能測試會失真**：實測發現 Unity Editor 在 Play Mode 下，一旦編輯器視窗完全失去焦點，`Update()` 迴圈會直接停止推進（`Time.frameCount` 不再增加），並非只是降頻。Global Keyboard Hook 這類跑在獨立背景執行緒的機制不受影響（仍可正確攔截並排入佇列），但任何依賴 `Update()`／`Coroutine` 持續運作的系統（例如打字能量隨時間衰減、Buff 計時等）在 Editor 內測「視窗未聚焦」情境時會得到錯誤結果。
+  - **因應方式**：已將 Player Settings 的 `Run In Background` 開啟（原本預設 `false`）。之後任何涉及「遊戲視窗未聚焦時仍需持續運作」的系統，除了 Editor Play Mode 快速迭代外，**都要額外跑一次實際 Build（.exe）驗證**，Editor 內測試結果僅供參考，不能當最終驗收依據。
+
 ## 版本控制
 
 - 這個檔案（`CLAUDE.md`）本身要 commit 進 Git，讓規則跟著專案版本走。

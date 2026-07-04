@@ -164,6 +164,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &177994856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 177994858}
+  - component: {fileID: 177994857}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &177994857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177994856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2bdd8d04f4c0c4990462c9df0c9850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Audio.AudioManager
+--- !u!4 &177994858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177994856}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!213 &352608342
 Sprite:
   m_ObjectHideFlags: 0
@@ -387,6 +431,7 @@ GameObject:
   - component: {fileID: 453109598}
   - component: {fileID: 453109601}
   - component: {fileID: 453109602}
+  - component: {fileID: 453109603}
   m_Layer: 0
   m_Name: GlobalKeyboardHookService
   m_TagString: Untagged
@@ -461,6 +506,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.CombatDispatcher
   _targetEnemy: {fileID: 154133555}
+--- !u!114 &453109603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453109597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9746f7c09a9d9f40b5583dd79489a94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Audio.AudioDispatcher
+  _targetEnemy: {fileID: 154133555}
+  _lightAttackSound: {fileID: 11400000, guid: df57d9be2c3b61847b90e30eeec7bb9b, type: 2}
+  _heavyAttackSound: {fileID: 11400000, guid: 7e002e117266e634fa62b8a93bcec586, type: 2}
+  _enemyHitSound: {fileID: 11400000, guid: 171c9fcdb9907b24ba4e802b02d2262d, type: 2}
 --- !u!1 &480471068
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,3 +889,4 @@ SceneRoots:
   - {fileID: 480471070}
   - {fileID: 453109600}
   - {fileID: 154133556}
+  - {fileID: 177994858}

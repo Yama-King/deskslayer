@@ -312,7 +312,7 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: 000000bf0000003f000000000000003f0000003f00000000000000bf000000bf000000000000003f000000bf000000000000000000000000000000000000000000000000000000000000000000000000
+      _typelessdata: 000000bf0000003f000000000000003f0000003f00000000000000bf000000bf000000000000003f000000bf00000000000000000000803f0000803f0000803f00000000000000000000803f00000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 453109600}
   - component: {fileID: 453109599}
   - component: {fileID: 453109598}
+  - component: {fileID: 453109601}
   m_Layer: 0
   m_Name: GlobalKeyboardHookService
   m_TagString: Untagged
@@ -387,6 +388,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &453109601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453109597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4e9dc94671f714ca68c3c8d1e7eede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.TypingEnergySystem
+  _lightWeapon: {fileID: 11400000, guid: 7035f0509c3373444ab25f0f9a545788, type: 2}
+  _heavyWeapon: {fileID: 11400000, guid: 36a6172d20ba9dc4085602707e730f72, type: 2}
 --- !u!1 &480471068
 GameObject:
   m_ObjectHideFlags: 0

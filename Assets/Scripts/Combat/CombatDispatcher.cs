@@ -1,5 +1,6 @@
 using UnityEngine;
 using DeskSlayer.Enemy;
+using DeskSlayer.Juice;
 
 namespace DeskSlayer.Combat
 {
@@ -48,6 +49,12 @@ namespace DeskSlayer.Combat
             Debug.Log(result.IsHit
                 ? $"[CombatDispatcher] {weapon.WeaponName} 命中，傷害 {result.Damage}"
                 : $"[CombatDispatcher] {weapon.WeaponName} 未命中");
+
+            if (result.IsHit)
+            {
+                // 頓幀時長讀取「這次觸發攻擊的武器」自己的 HitStopDuration，輕/重攻擊各自獨立、不共用同一數值。
+                HitStopController.Instance?.Trigger(weapon.HitStopDuration);
+            }
 
             _targetEnemy.TakeHit(result);
         }

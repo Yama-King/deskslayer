@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 154133559}
   - component: {fileID: 154133558}
   - component: {fileID: 154133557}
+  - component: {fileID: 154133560}
   m_Layer: 0
   m_Name: TestDummyEnemy
   m_TagString: Untagged
@@ -261,6 +262,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &154133560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154133554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96bebf3d41357de45b81d916ab43562a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Juice.DamagePopupDispatcher
+  _damagePopupPrefab: {fileID: 7319359194954380776, guid: 99cb304a1ea146949b0a7ddc59a61ada, type: 3}
+  _spawnOffset: {x: 0, y: 1.6, z: 0}
 --- !u!1 &177994856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,6 +1073,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620163806}
   m_CullTransparentMesh: 1
+--- !u!1 &704009454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 704009456}
+  - component: {fileID: 704009455}
+  m_Layer: 0
+  m_Name: HitStopController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &704009455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704009454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a84719220296e8245836277cb8066611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Juice.HitStopController
+  _hitStopTimeScale: 0.05
+--- !u!4 &704009456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704009454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1385609750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,6 +1516,7 @@ GameObject:
   - component: {fileID: 1971712549}
   - component: {fileID: 1971712548}
   - component: {fileID: 1971712547}
+  - component: {fileID: 1971712550}
   m_Layer: 0
   m_Name: LightWeaponButton
   m_TagString: Untagged
@@ -1565,6 +1626,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971712545}
   m_CullTransparentMesh: 1
+--- !u!114 &1971712550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971712545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7cebd6ed9c229b498e07326ba6adcac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.UI.ButtonHoverPunch
+  _hoverScale: 1.1
+  _scaleDuration: 0.15
+  _clickScale: 0.9
+  _clickPunchDuration: 0.25
 --- !u!1 &1993462735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,6 +1654,7 @@ GameObject:
   - component: {fileID: 1993462739}
   - component: {fileID: 1993462738}
   - component: {fileID: 1993462737}
+  - component: {fileID: 1993462740}
   m_Layer: 0
   m_Name: HeavyWeaponButton
   m_TagString: Untagged
@@ -1686,6 +1764,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1993462735}
   m_CullTransparentMesh: 1
+--- !u!114 &1993462740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993462735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7cebd6ed9c229b498e07326ba6adcac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.UI.ButtonHoverPunch
+  _hoverScale: 1.1
+  _scaleDuration: 0.15
+  _clickScale: 0.9
+  _clickPunchDuration: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1698,3 +1792,4 @@ SceneRoots:
   - {fileID: 177994858}
   - {fileID: 1711104956}
   - {fileID: 453080788}
+  - {fileID: 704009456}

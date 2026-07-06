@@ -17,8 +17,8 @@ namespace DeskSlayer.Enemy
         private int _currentHealth;
         private IFrameGuard _iFrameGuard;
 
-        /// <summary>實際受到傷害時發出，供 AudioDispatcher 等純表現層模組訂閱，不帶任何戰鬥數據。</summary>
-        public event Action OnHit;
+        /// <summary>實際受到傷害時發出，帶入本次造成的傷害值，供 AudioDispatcher、DamagePopupDispatcher 等純表現層模組訂閱。</summary>
+        public event Action<int> OnHit;
 
         /// <summary>此敵人的數值資料，供 CombatDispatcher 呼叫 ICombatResolver.Resolve() 使用。</summary>
         public EnemyDataSO EnemyData => _enemyData;
@@ -58,7 +58,7 @@ namespace DeskSlayer.Enemy
             _iFrameGuard.Trigger();
 
             Debug.Log($"[EnemyController] {_enemyData.EnemyName} 受到 {result.Damage} 點傷害，剩餘生命值 {_currentHealth}/{_enemyData.MaxHealth}");
-            OnHit?.Invoke();
+            OnHit?.Invoke(result.Damage);
         }
     }
 }

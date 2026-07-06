@@ -15,4 +15,5 @@ MonoBehaviour:
   _weaponName: "\u91CD\u528D"
   _baseDamage: 30
   _icon: {fileID: 0}
+  _hitStopDuration: 0.15
   _keyPressThreshold: 20

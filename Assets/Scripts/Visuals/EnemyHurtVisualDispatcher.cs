@@ -32,7 +32,7 @@ namespace DeskSlayer.Visuals
             _enemyController.OnHit -= HandleHit;
         }
 
-        private void HandleHit()
+        private void HandleHit(int damage)
         {
             _animator.SetTrigger(HurtTriggerHash);
         }

@@ -63,7 +63,7 @@ namespace DeskSlayer.Audio
             AudioManager.Instance?.PlaySound(_heavyAttackSound);
         }
 
-        private void HandleEnemyHit()
+        private void HandleEnemyHit(int damage)
         {
             AudioManager.Instance?.PlaySound(_enemyHitSound);
         }

@@ -17,6 +17,9 @@ namespace DeskSlayer.Combat
         [SerializeField]
         private Sprite _icon;
 
+        [SerializeField, Min(0f), Tooltip("命中瞬間的頓幀（Hit-stop）持續時間，秒。輕/重武器各自設定，不共用同一數值。")]
+        private float _hitStopDuration = 0.03f;
+
         /// <summary>武器顯示名稱。</summary>
         public string WeaponName => _weaponName;
 
@@ -25,6 +28,9 @@ namespace DeskSlayer.Combat
 
         /// <summary>武器圖示，供 UI 顯示使用。</summary>
         public Sprite Icon => _icon;
+
+        /// <summary>命中瞬間觸發的頓幀持續時間（秒），由 HitStopController 讀取套用。</summary>
+        public float HitStopDuration => _hitStopDuration;
 
         /// <summary>
         /// 判斷這次按鍵是否應該觸發一次攻擊。由各武器子類別定義自己的觸發規則

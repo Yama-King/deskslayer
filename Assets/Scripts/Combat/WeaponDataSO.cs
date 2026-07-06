@@ -25,5 +25,12 @@ namespace DeskSlayer.Combat
 
         /// <summary>武器圖示，供 UI 顯示使用。</summary>
         public Sprite Icon => _icon;
+
+        /// <summary>
+        /// 判斷這次按鍵是否應該觸發一次攻擊。由各武器子類別定義自己的觸發規則
+        /// （例如輕武器每次按鍵都觸發、重武器需累積按鍵次數達閾值才觸發），
+        /// TypingEnergySystem 只需呼叫此方法即可，未來新增武器類型不需要修改 TypingEnergySystem（開放封閉原則）。
+        /// </summary>
+        public abstract bool TryTriggerAttack();
     }
 }

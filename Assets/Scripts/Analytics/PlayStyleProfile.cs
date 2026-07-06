@@ -28,6 +28,10 @@ namespace DeskSlayer.Analytics
         /// <summary>
         /// 輕攻擊傾向分數（0~100）。100 代表觸發紀錄全為輕攻擊，0 代表全為重攻擊。
         /// 尚未有任何攻擊觸發時回傳 50（中立值），避免一開局樣本不足就誤判風格。
+        /// 自武器改為手動切換後，這個分數的意義從「打字習慣」轉為「武器使用偏好統計」——
+        /// 玩家主動選擇裝備哪把武器、切換頻率高低的行為紀錄，不再是節奏或風格的直接證據。
+        /// 真正代表「風格揭曉」（節奏型 vs 爆發型）的分數是 <see cref="RhythmStabilityScore"/>，
+        /// 因為按鍵間隔是打字當下的自然行為，不受玩家有意識切換武器的影響。
         /// </summary>
         public float LightAttackTendencyScore
         {
@@ -47,6 +51,8 @@ namespace DeskSlayer.Analytics
         /// 打字節奏穩定度分數（0~100）。以按鍵間隔的變異係數（標準差 / 平均值）反推，
         /// 數值越高代表間隔越穩定（節奏型），越低代表忽快忽慢（爆發型）。
         /// 樣本不足兩筆時回傳 50（中立值）。
+        /// 這是真正用來判斷玩家「戰鬥風格」的依據——按鍵間隔反映的是打字當下的自然節奏，
+        /// 不像 <see cref="LightAttackTendencyScore"/> 會被玩家手動切換武器的主觀選擇干擾。
         /// </summary>
         public float RhythmStabilityScore
         {

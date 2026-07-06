@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d13ae43b7312a489bb02a26c45f6d4, type: 3}
   m_Name: EnemyHit_Sound
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Audio.SoundDataSO
-  _clips: []
+  _clips:
+  - {fileID: 8300000, guid: 2e3a38602e71465419716e380d0f8d20, type: 3}
   _minVolume: 0.8
   _maxVolume: 1
   _minPitch: 0.95

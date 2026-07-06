@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d13ae43b7312a489bb02a26c45f6d4, type: 3}
   m_Name: LightAttack_Sound
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Audio.SoundDataSO
-  _clips: []
+  _clips:
+  - {fileID: 8300000, guid: af820662ee03b7b4d9522b971fb4781c, type: 3}
   _minVolume: 0.8
   _maxVolume: 1
   _minPitch: 0.95

@@ -5,30 +5,27 @@ using DeskSlayer.KeyboardHook;
 namespace DeskSlayer.Combat
 {
     /// <summary>
-    /// 訂閱 GlobalKeyboardHookService 的按鍵事件，將打字輸入轉換為輕／重攻擊的「觸發事件」。
-    /// 職責僅限於按鍵計數與事件分派，不做傷害運算或敵人互動（交由下一階段的 ICombatResolver 等系統處理）。
+    /// 訂閱 GlobalKeyboardHookService 的按鍵事件，向 WeaponSwitcher 查詢目前裝備的武器，
+    /// 呼叫該武器的 TryTriggerAttack() 決定是否觸發攻擊。職責僅限於按鍵轉發與事件分派，
+    /// 不做傷害運算或敵人互動（交由 CombatDispatcher 等下游模組處理），也不認識任何具體武器的觸發規則。
     /// </summary>
     [RequireComponent(typeof(GlobalKeyboardHookService))]
+    [RequireComponent(typeof(WeaponSwitcher))]
     public sealed class TypingEnergySystem : MonoBehaviour
     {
-        [SerializeField]
-        private LightWeaponSO _lightWeapon;
-
-        [SerializeField]
-        private HeavyWeaponSO _heavyWeapon;
-
-        /// <summary>每次輕攻擊觸發時發出，帶入對應的輕武器數據。</summary>
+        /// <summary>裝備輕武器時觸發攻擊，帶入對應的輕武器數據。</summary>
         public event Action<LightWeaponSO> OnLightAttackTriggered;
 
-        /// <summary>累積按鍵次數達到重攻擊閾值時發出，帶入對應的重武器數據。</summary>
+        /// <summary>裝備重武器且累積按鍵次數達到閾值時觸發攻擊，帶入對應的重武器數據。</summary>
         public event Action<HeavyWeaponSO> OnHeavyAttackTriggered;
 
         private GlobalKeyboardHookService _hookService;
-        private int _keyPressCount;
+        private WeaponSwitcher _weaponSwitcher;
 
         private void Awake()
         {
             _hookService = GetComponent<GlobalKeyboardHookService>();
+            _weaponSwitcher = GetComponent<WeaponSwitcher>();
         }
 
         private void OnEnable()
@@ -43,37 +40,38 @@ namespace DeskSlayer.Combat
 
         private void HandleKeyPressed(KeyPressData data)
         {
-            TriggerLightAttack();
-            AccumulateHeavyAttack();
+            WeaponDataSO weapon = _weaponSwitcher.CurrentWeapon;
+            if (weapon == null || !weapon.TryTriggerAttack())
+            {
+                return;
+            }
+
+            NotifyAttackTriggered(weapon);
         }
 
-        private void TriggerLightAttack()
+        /// <summary>
+        /// 依武器實際型別分派對應的攻擊事件。輕/重攻擊是目前戰鬥系統既有的兩種「攻擊類別」，
+        /// CombatDispatcher、AudioDispatcher、PlayStyleAnalyzer 都已經依這兩個類別設計；
+        /// 之後若新增全新的攻擊類別（而非只是新增武器），才需要在這裡新增對應的分支與事件。
+        /// </summary>
+        private void NotifyAttackTriggered(WeaponDataSO weapon)
         {
-            if (_lightWeapon == null)
+            switch (weapon)
             {
-                return;
+                case LightWeaponSO lightWeapon:
+                    Debug.Log($"[TypingEnergySystem] 輕攻擊觸發，武器={lightWeapon.WeaponName}，傷害={lightWeapon.BaseDamage}");
+                    OnLightAttackTriggered?.Invoke(lightWeapon);
+                    break;
+
+                case HeavyWeaponSO heavyWeapon:
+                    Debug.Log($"[TypingEnergySystem] 重攻擊觸發，武器={heavyWeapon.WeaponName}，傷害={heavyWeapon.BaseDamage}");
+                    OnHeavyAttackTriggered?.Invoke(heavyWeapon);
+                    break;
+
+                default:
+                    Debug.LogWarning($"[TypingEnergySystem] 未知的武器型別 {weapon.GetType().Name}，無法分派攻擊事件");
+                    break;
             }
-
-            Debug.Log($"[TypingEnergySystem] 輕攻擊觸發，武器={_lightWeapon.WeaponName}，傷害={_lightWeapon.BaseDamage}");
-            OnLightAttackTriggered?.Invoke(_lightWeapon);
-        }
-
-        private void AccumulateHeavyAttack()
-        {
-            if (_heavyWeapon == null)
-            {
-                return;
-            }
-
-            _keyPressCount++;
-            if (_keyPressCount < _heavyWeapon.KeyPressThreshold)
-            {
-                return;
-            }
-
-            Debug.Log($"[TypingEnergySystem] 重攻擊觸發，武器={_heavyWeapon.WeaponName}，傷害={_heavyWeapon.BaseDamage}");
-            OnHeavyAttackTriggered?.Invoke(_heavyWeapon);
-            _keyPressCount = 0;
         }
     }
 }

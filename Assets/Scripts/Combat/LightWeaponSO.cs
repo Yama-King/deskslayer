@@ -14,5 +14,8 @@ namespace DeskSlayer.Combat
 
         /// <summary>是否每次按鍵都觸發輕攻擊。</summary>
         public bool TriggerOnEveryKeyPress => _triggerOnEveryKeyPress;
+
+        /// <summary>輕武器的觸發規則：每次呼叫都立即回傳 true。</summary>
+        public override bool TryTriggerAttack() => true;
     }
 }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98458c29a039f8340a1db29085a75aab, type: 3}
-  m_Name: TestDummy_Enemy
+  m_Name: Boss1_Enemy
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Enemy.EnemyDataSO
-  _enemyName: "\u6E2C\u8A66\u5047\u4EBA"
+  _enemyName: "Boss1"
   _maxHealth: 100
   _defense: 5
   _iFrameDuration: 0.3

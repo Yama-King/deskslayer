@@ -110,7 +110,10 @@ Shader "DeskSlayer/EnemyDissolve"
                 clip(dissolveEdge);
 
                 half4 main = CommonLitFragment(input, input.color);
-                float edgeBand = 1.0 - smoothstep(0.0, _EdgeWidth, dissolveEdge);
+                // 未在溶解中（_DissolveAmount 趨近 0）時，強制關閉邊緣高亮，
+                // 避免雜訊場本身低谷區塊被誤判成「正在溶解的邊緣」而殘留色斑。
+                float dissolveActive = step(0.0005, _DissolveAmount);
+                float edgeBand = (1.0 - smoothstep(0.0, _EdgeWidth, dissolveEdge)) * dissolveActive;
                 main.rgb = lerp(main.rgb, _EdgeColor.rgb, edgeBand * _EdgeColor.a);
                 return main;
             }
@@ -271,7 +274,10 @@ Shader "DeskSlayer/EnemyDissolve"
                 clip(dissolveEdge);
 
                 half4 main = CommonUnlitFragment(input, input.color);
-                float edgeBand = 1.0 - smoothstep(0.0, _EdgeWidth, dissolveEdge);
+                // 未在溶解中（_DissolveAmount 趨近 0）時，強制關閉邊緣高亮，
+                // 避免雜訊場本身低谷區塊被誤判成「正在溶解的邊緣」而殘留色斑。
+                float dissolveActive = step(0.0005, _DissolveAmount);
+                float edgeBand = (1.0 - smoothstep(0.0, _EdgeWidth, dissolveEdge)) * dissolveActive;
                 main.rgb = lerp(main.rgb, _EdgeColor.rgb, edgeBand * _EdgeColor.a);
                 return main;
             }

@@ -22,9 +22,6 @@ namespace DeskSlayer.Visuals
         [SerializeField, Tooltip("死亡瞬間凍結顯示的靜態畫面（各造型 Death 序列幀的第一格）")]
         private Sprite _deathSprite;
 
-        [SerializeField, Min(0.1f), Tooltip("溶解動畫總時長（秒）")]
-        private float _dissolveDuration = 1.2f;
-
         private static readonly int DissolveAmountId = Shader.PropertyToID("_DissolveAmount");
 
         private EnemyController _enemyController;
@@ -55,7 +52,8 @@ namespace DeskSlayer.Visuals
             _spriteRenderer.sprite = _deathSprite;
 
             float amount = 0f;
-            DOTween.To(() => amount, v => { amount = v; ApplyDissolveAmount(v); }, 1f, _dissolveDuration)
+            float dissolveDuration = _enemyController.EnemyData.DissolveDuration;
+            DOTween.To(() => amount, v => { amount = v; ApplyDissolveAmount(v); }, 1f, dissolveDuration)
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {

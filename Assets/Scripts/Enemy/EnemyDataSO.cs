@@ -21,6 +21,9 @@ namespace DeskSlayer.Enemy
         [SerializeField, Min(0f), Tooltip("受擊後的無敵幀時間（秒），期間內的攻擊不重複計算傷害")]
         private float _iFrameDuration = 0.3f;
 
+        [SerializeField, Min(0.1f), Tooltip("死亡溶解動畫總時長（秒），供 EnemyDeathVisualDispatcher 播放溶解效果使用")]
+        private float _dissolveDuration = 1.2f;
+
         /// <summary>敵人顯示名稱。</summary>
         public string EnemyName => _enemyName;
 
@@ -32,5 +35,8 @@ namespace DeskSlayer.Enemy
 
         /// <summary>無敵幀時間（秒），供 EnemyController 建立 IFrameGuard 使用。</summary>
         public float IFrameDuration => _iFrameDuration;
+
+        /// <summary>死亡溶解動畫總時長（秒），供 EnemyDeathVisualDispatcher 使用。</summary>
+        public float DissolveDuration => _dissolveDuration;
     }
 }

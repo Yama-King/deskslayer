@@ -16,3 +16,4 @@ MonoBehaviour:
   _maxHealth: 100
   _defense: 5
   _iFrameDuration: 0.3
+  _dissolveDuration: 1.2

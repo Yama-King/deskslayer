@@ -37,6 +37,12 @@ namespace DeskSlayer.Combat
             _typingEnergySystem.OnHeavyAttackTriggered -= HandleAttackTriggered;
         }
 
+        /// <summary>切換目前的攻擊目標，供 EnemyRotationManager 在生成新敵人後轉移目標使用。</summary>
+        public void SetTarget(EnemyController target)
+        {
+            _targetEnemy = target;
+        }
+
         private void HandleAttackTriggered(WeaponDataSO weapon)
         {
             if (_targetEnemy == null)

@@ -1026,7 +1026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a84719220296e8245836277cb8066611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Juice.HitStopController
-  _hitStopTimeScale: 0.05
+  _hitStopTimeScale: 0.5
 --- !u!4 &704009456
 Transform:
   m_ObjectHideFlags: 0

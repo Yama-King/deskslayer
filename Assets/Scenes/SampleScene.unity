@@ -506,7 +506,6 @@ GameObject:
   m_Component:
   - component: {fileID: 188836424}
   - component: {fileID: 188836423}
-  - component: {fileID: 188836425}
   m_Layer: 0
   m_Name: TempWeaponDropDispatcher
   m_TagString: Untagged
@@ -545,22 +544,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &188836425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188836422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 642476e4c85ea1a4a84da6526f4ca3b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Juice.WeaponDropPopupDispatcher
-  _popupPrefab: {fileID: 1140792301584470548, guid: e6ff13c087ec0434a8caa4bfc52b2c92, type: 3}
-  _displayConfig: {fileID: 11400000, guid: 78f3f937ce61f3d43b52859ad7bec8cb, type: 2}
-  _feedbackConfig: {fileID: 11400000, guid: 376091f7408adaa4b96a344612f025b8, type: 2}
-  _spawnOffset: {x: 0, y: 1.6, z: 0}
 --- !u!1 &195845698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,6 +1178,7 @@ GameObject:
   - component: {fileID: 453109603}
   - component: {fileID: 453109604}
   - component: {fileID: 453109605}
+  - component: {fileID: 453109606}
   m_Layer: 0
   m_Name: GlobalKeyboardHookService
   m_TagString: Untagged
@@ -1280,7 +1264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Audio.AudioDispatcher
   _targetEnemy: {fileID: 0}
-  _weaponDropDispatcher: {fileID: 188836423}
+  _weaponDropDispatcher: {fileID: 453109605}
   _lightAttackSound: {fileID: 11400000, guid: df57d9be2c3b61847b90e30eeec7bb9b, type: 2}
   _heavyAttackSound: {fileID: 11400000, guid: 7e002e117266e634fa62b8a93bcec586, type: 2}
   _enemyHitSound: {fileID: 11400000, guid: 171c9fcdb9907b24ba4e802b02d2262d, type: 2}
@@ -1314,6 +1298,22 @@ MonoBehaviour:
   _database: {fileID: 11400000, guid: 3d2f24c6a3a49584c88c55df1c46fe61, type: 2}
   _dropConfig: {fileID: 11400000, guid: 50cca059ab71e0843b5a60db005cd338, type: 2}
   _inventoryService: {fileID: 174295085}
+--- !u!114 &453109606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453109597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 642476e4c85ea1a4a84da6526f4ca3b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Juice.WeaponDropPopupDispatcher
+  _popupPrefab: {fileID: 1140792301584470548, guid: e6ff13c087ec0434a8caa4bfc52b2c92, type: 3}
+  _displayConfig: {fileID: 11400000, guid: 78f3f937ce61f3d43b52859ad7bec8cb, type: 2}
+  _feedbackConfig: {fileID: 11400000, guid: 376091f7408adaa4b96a344612f025b8, type: 2}
+  _spawnOffset: {x: 0, y: 1.6, z: 0}
 --- !u!1 &480471068
 GameObject:
   m_ObjectHideFlags: 0
@@ -2722,7 +2722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bd64e75d039a641a56079e4a94dba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.UI.WeaponDropLogPanel
-  _dropDispatcher: {fileID: 188836423}
+  _dropDispatcher: {fileID: 453109605}
   _entryPrefab: {fileID: 8040432003562602922, guid: ed5b3947e97900540a81ef35753219ba, type: 3}
   _listContainer: {fileID: 408537476}
   _displayConfig: {fileID: 11400000, guid: 78f3f937ce61f3d43b52859ad7bec8cb, type: 2}

@@ -15,6 +15,9 @@ namespace DeskSlayer.Audio
         [SerializeField]
         private EnemyController _targetEnemy;
 
+        [SerializeField, Tooltip("武器掉落事件來源，選填，未指定時不播放掉落音效")]
+        private WeaponDropDispatcher _weaponDropDispatcher;
+
         [SerializeField]
         private SoundDataSO _lightAttackSound;
 
@@ -23,6 +26,9 @@ namespace DeskSlayer.Audio
 
         [SerializeField]
         private SoundDataSO _enemyHitSound;
+
+        [SerializeField]
+        private SoundDataSO _weaponDropSound;
 
         private TypingEnergySystem _typingEnergySystem;
 
@@ -40,6 +46,11 @@ namespace DeskSlayer.Audio
             {
                 _targetEnemy.OnHit += HandleEnemyHit;
             }
+
+            if (_weaponDropDispatcher != null)
+            {
+                _weaponDropDispatcher.OnWeaponDropped += HandleWeaponDropped;
+            }
         }
 
         private void OnDisable()
@@ -50,6 +61,11 @@ namespace DeskSlayer.Audio
             if (_targetEnemy != null)
             {
                 _targetEnemy.OnHit -= HandleEnemyHit;
+            }
+
+            if (_weaponDropDispatcher != null)
+            {
+                _weaponDropDispatcher.OnWeaponDropped -= HandleWeaponDropped;
             }
         }
 
@@ -66,6 +82,11 @@ namespace DeskSlayer.Audio
         private void HandleEnemyHit(int damage)
         {
             AudioManager.Instance?.PlaySound(_enemyHitSound);
+        }
+
+        private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition)
+        {
+            AudioManager.Instance?.PlaySound(_weaponDropSound);
         }
     }
 }

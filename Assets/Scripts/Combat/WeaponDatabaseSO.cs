@@ -15,6 +15,7 @@ namespace DeskSlayer.Combat
         private List<WeaponDataSO> _allWeapons = new List<WeaponDataSO>();
 
         private Dictionary<(WeaponFamily family, WeaponRarity rarity), List<WeaponDataSO>> _variantsLookup;
+        private Dictionary<WeaponFamily, List<int>> _variantNumbersLookup;
 
         /// <summary>所有已登錄的武器資產。</summary>
         public IReadOnlyList<WeaponDataSO> AllWeapons => _allWeapons;
@@ -47,10 +48,27 @@ namespace DeskSlayer.Combat
             return null;
         }
 
+        /// <summary>
+        /// 查詢指定家族底下實際存在的變體編號（升冪排序），供背包 UI 動態列出變體入口，
+        /// 不需要在 UI 層寫死「固定 5 個變體」。找不到對應家族時回傳空清單。
+        /// </summary>
+        public IReadOnlyList<int> GetVariantNumbers(WeaponFamily family)
+        {
+            EnsureVariantNumbersLookupBuilt();
+
+            if (_variantNumbersLookup.TryGetValue(family, out List<int> variants))
+            {
+                return variants;
+            }
+
+            return System.Array.Empty<int>();
+        }
+
         private void OnEnable()
         {
             // 清空快取，確保 Domain Reload 或清單在 Inspector 被改動後，下次查詢會重新建立索引而非沿用舊資料。
             _variantsLookup = null;
+            _variantNumbersLookup = null;
         }
 
         private void EnsureLookupBuilt()
@@ -76,6 +94,39 @@ namespace DeskSlayer.Combat
                 }
 
                 variants.Add(weapon);
+            }
+        }
+
+        private void EnsureVariantNumbersLookupBuilt()
+        {
+            if (_variantNumbersLookup != null)
+            {
+                return;
+            }
+
+            var seen = new Dictionary<WeaponFamily, HashSet<int>>();
+            foreach (WeaponDataSO weapon in _allWeapons)
+            {
+                if (weapon == null)
+                {
+                    continue;
+                }
+
+                if (!seen.TryGetValue(weapon.Family, out HashSet<int> variantSet))
+                {
+                    variantSet = new HashSet<int>();
+                    seen[weapon.Family] = variantSet;
+                }
+
+                variantSet.Add(weapon.Variant);
+            }
+
+            _variantNumbersLookup = new Dictionary<WeaponFamily, List<int>>();
+            foreach (KeyValuePair<WeaponFamily, HashSet<int>> pair in seen)
+            {
+                List<int> sorted = new List<int>(pair.Value);
+                sorted.Sort();
+                _variantNumbersLookup[pair.Key] = sorted;
             }
         }
     }

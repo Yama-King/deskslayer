@@ -75,6 +75,12 @@ namespace DeskSlayer.Combat
             return _ownedWeapons.ContainsKey(weapon);
         }
 
+        /// <summary>查詢指定武器目前擁有的實例（等級、傷害倍率等），尚未擁有時回傳 null，供背包 UI 顯示已擁有武器的詳細數值。</summary>
+        public WeaponInstance GetOwnedInstance(WeaponDataSO weapon)
+        {
+            return _ownedWeapons.TryGetValue(weapon, out WeaponInstance instance) ? instance : null;
+        }
+
         /// <summary>
         /// 收下一次掉落。尚未擁有該武器時視為「首次取得」，直接建立 0 級的武器實例；
         /// 已擁有時視為「重複品」，累加重複品數量供之後合成消耗。

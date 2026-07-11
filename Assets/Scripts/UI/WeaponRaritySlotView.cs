@@ -46,6 +46,12 @@ namespace DeskSlayer.UI
         [SerializeField, Tooltip("無法合成時顯示原因，例如「還需 X 個」或「已達上限」")]
         private TextMeshProUGUI _synthesizeReasonLabel;
 
+        [SerializeField, Tooltip("尚未擁有時顯示的武器碎片兌換按鈕，碎片數量不足時停用")]
+        private Button _shardExchangeButton;
+
+        [SerializeField, Tooltip("顯示碎片累積進度，例如「碎片 3/5」，僅在尚未擁有時顯示")]
+        private TextMeshProUGUI _shardProgressLabel;
+
         private WeaponDataSO _weapon;
         private WeaponInventoryService _inventoryService;
         private WeaponDropConfigSO _dropConfig;
@@ -69,9 +75,11 @@ namespace DeskSlayer.UI
 
             _equipButton.onClick.AddListener(HandleEquipClicked);
             _synthesizeButton.onClick.AddListener(HandleSynthesizeClicked);
+            _shardExchangeButton.onClick.AddListener(HandleShardExchangeClicked);
             _inventoryService.OnWeaponObtained += HandleWeaponObtained;
             _inventoryService.OnDuplicateObtained += HandleDuplicateObtained;
             _inventoryService.OnWeaponUpgraded += HandleWeaponUpgraded;
+            _inventoryService.OnShardCountChanged += HandleShardCountChanged;
             _isBound = true;
 
             Refresh();
@@ -86,9 +94,11 @@ namespace DeskSlayer.UI
 
             _equipButton.onClick.RemoveListener(HandleEquipClicked);
             _synthesizeButton.onClick.RemoveListener(HandleSynthesizeClicked);
+            _shardExchangeButton.onClick.RemoveListener(HandleShardExchangeClicked);
             _inventoryService.OnWeaponObtained -= HandleWeaponObtained;
             _inventoryService.OnDuplicateObtained -= HandleDuplicateObtained;
             _inventoryService.OnWeaponUpgraded -= HandleWeaponUpgraded;
+            _inventoryService.OnShardCountChanged -= HandleShardCountChanged;
         }
 
         private void HandleWeaponObtained(WeaponInstance instance)
@@ -118,6 +128,14 @@ namespace DeskSlayer.UI
             PlaySynthesizeFeedback();
         }
 
+        private void HandleShardCountChanged(WeaponFamily family, WeaponRarity rarity, int newCount)
+        {
+            if (family == _weapon.Family && rarity == _weapon.Rarity)
+            {
+                Refresh();
+            }
+        }
+
         private void HandleEquipClicked()
         {
             _weaponSwitcher.EquipWeapon(_weapon);
@@ -126,6 +144,14 @@ namespace DeskSlayer.UI
         private void HandleSynthesizeClicked()
         {
             _inventoryService.TryUpgrade(_weapon);
+        }
+
+        private void HandleShardExchangeClicked()
+        {
+            if (_inventoryService.TryExchangeShard(_weapon))
+            {
+                PlayShardExchangeFeedback();
+            }
         }
 
         private void Refresh()
@@ -162,12 +188,23 @@ namespace DeskSlayer.UI
             _duplicateLabel.text = string.Empty;
             _damageLabel.text = string.Empty;
 
-            _equipButton.interactable = false;
-            _synthesizeButton.interactable = false;
+            // 尚未擁有時，裝備／合成完全沒有意義（沒有實例可裝備、沒有重複品可合成），
+            // 直接整組隱藏，改在同一個版位顯示唯一可行的動作——碎片兌換，避免多加一整排
+            // 控制項撐爆 DetailContent 固定的版面高度。
+            _equipButton.gameObject.SetActive(false);
+            _synthesizeButton.gameObject.SetActive(false);
             if (_synthesizeReasonLabel != null)
             {
-                _synthesizeReasonLabel.text = "尚未擁有";
+                _synthesizeReasonLabel.gameObject.SetActive(false);
             }
+
+            _shardExchangeButton.gameObject.SetActive(true);
+            if (_shardProgressLabel != null)
+            {
+                _shardProgressLabel.gameObject.SetActive(true);
+            }
+
+            RefreshShardExchangeState();
         }
 
         private void RefreshOwned()
@@ -183,8 +220,22 @@ namespace DeskSlayer.UI
             _duplicateLabel.text = $"重複 x{duplicateCount}";
             _damageLabel.text = $"傷害 {Mathf.RoundToInt(_weapon.BaseDamage * instance.DamageMultiplier)}";
 
+            _equipButton.gameObject.SetActive(true);
             _equipButton.interactable = true;
+            _synthesizeButton.gameObject.SetActive(true);
+            if (_synthesizeReasonLabel != null)
+            {
+                _synthesizeReasonLabel.gameObject.SetActive(true);
+            }
+
             RefreshSynthesisState(instance, duplicateCount);
+
+            // 已擁有這把武器後，碎片兌換入口就沒有意義了（兌換範圍限定尚未收集的變體），直接關閉。
+            _shardExchangeButton.gameObject.SetActive(false);
+            if (_shardProgressLabel != null)
+            {
+                _shardProgressLabel.gameObject.SetActive(false);
+            }
         }
 
         private void RefreshSynthesisState(WeaponInstance instance, int duplicateCount)
@@ -220,12 +271,38 @@ namespace DeskSlayer.UI
             }
         }
 
+        /// <summary>
+        /// 依目前碎片數量刷新兌換按鈕的可互動狀態與進度文字。碎片依家族+稀有度累積，
+        /// 兌換範圍限定同家族、同稀有度底下這把尚未收集的變體，資格判定完全交給
+        /// WeaponInventoryService.CanExchangeShard，這裡只負責把結果轉譯成畫面文字。
+        /// </summary>
+        private void RefreshShardExchangeState()
+        {
+            int shardCount = _inventoryService.GetShardCount(_weapon.Family, _weapon.Rarity);
+            int shardCost = _dropConfig.GetShardExchangeCost(_weapon.Rarity);
+
+            _shardExchangeButton.interactable = _inventoryService.CanExchangeShard(_weapon);
+            if (_shardProgressLabel != null)
+            {
+                _shardProgressLabel.text = $"碎片 {shardCount}/{shardCost}";
+            }
+        }
+
         private void PlaySynthesizeFeedback()
         {
             RectTransform levelTransform = _levelLabel.rectTransform;
             levelTransform.DOKill();
             levelTransform.localScale = Vector3.one * 1.3f;
             levelTransform.DOScale(1f, 0.3f).SetEase(Ease.OutBack);
+        }
+
+        /// <summary>兌換成功、格子從未擁有變已擁有時的進場回饋，跟合成成功的縮放彈跳手法一致。</summary>
+        private void PlayShardExchangeFeedback()
+        {
+            RectTransform iconTransform = _icon.rectTransform;
+            iconTransform.DOKill();
+            iconTransform.localScale = Vector3.one * 1.3f;
+            iconTransform.DOScale(1f, 0.3f).SetEase(Ease.OutBack);
         }
     }
 }

@@ -6,8 +6,8 @@ namespace DeskSlayer.Enemy
 {
     /// <summary>
     /// 單一敵人死亡輪換管理器：場上永遠只有一隻敵人，死亡溶解播放完成、GameObject 銷毀後，
-    /// 從三種敵人 Prefab 中隨機挑一種在同一出生點生成下一隻，並將 CombatDispatcher 的攻擊目標
-    /// 轉移到新敵人。不做波次、難度遞增等額外管理邏輯。
+    /// 從三種敵人 Prefab 中隨機挑一種在同一出生點生成下一隻，並將 CombatDispatcher、WeaponDropDispatcher
+    /// 的目標一併轉移到新敵人。不做波次、難度遞增等額外管理邏輯。
     /// </summary>
     public sealed class EnemyRotationManager : MonoBehaviour
     {
@@ -19,6 +19,9 @@ namespace DeskSlayer.Enemy
 
         [SerializeField]
         private CombatDispatcher _combatDispatcher;
+
+        [SerializeField, Tooltip("武器掉落系統的橋接元件，敵人輪換時需一併轉移目標，否則新敵人死亡不會觸發掉落判定")]
+        private WeaponDropDispatcher _weaponDropDispatcher;
 
         private void Start()
         {
@@ -34,6 +37,11 @@ namespace DeskSlayer.Enemy
             deathDispatcher.OnDissolveComplete += HandleDefeated;
 
             _combatDispatcher.SetTarget(instance);
+
+            if (_weaponDropDispatcher != null)
+            {
+                _weaponDropDispatcher.SetTarget(instance);
+            }
 
             void HandleDefeated()
             {

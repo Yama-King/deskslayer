@@ -529,7 +529,7 @@ MonoBehaviour:
   _targetEnemy: {fileID: 647615086}
   _database: {fileID: 11400000, guid: 3d2f24c6a3a49584c88c55df1c46fe61, type: 2}
   _dropConfig: {fileID: 11400000, guid: 50cca059ab71e0843b5a60db005cd338, type: 2}
-  _inventoryService: {fileID: 2023308146}
+  _inventoryService: {fileID: 174295085}
 --- !u!4 &188836424
 Transform:
   m_ObjectHideFlags: 0

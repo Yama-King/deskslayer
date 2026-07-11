@@ -1,4 +1,5 @@
 using DeskSlayer.Combat;
+using DeskSlayer.Juice;
 using UnityEngine;
 
 namespace DeskSlayer.UI
@@ -23,6 +24,9 @@ namespace DeskSlayer.UI
         [SerializeField, Tooltip("背包 UI 共用的稀有度顯示樣式設定（顏色／顯示名稱），避免另外維護一份")]
         private WeaponRarityDisplayConfigSO _displayConfig;
 
+        [SerializeField, Tooltip("各稀有度的掉落視覺回饋強度曲線（與原地跳出提示共用）")]
+        private WeaponDropFeedbackConfigSO _feedbackConfig;
+
         [SerializeField, Min(1), Tooltip("同時最多顯示的紀錄筆數，超過時最舊的先移除")]
         private int _maxEntries = 5;
 
@@ -44,14 +48,14 @@ namespace DeskSlayer.UI
 
         private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition)
         {
-            if (_entryPrefab == null || _listContainer == null || _displayConfig == null)
+            if (_entryPrefab == null || _listContainer == null || _displayConfig == null || _feedbackConfig == null)
             {
                 return;
             }
 
             WeaponDropLogEntry entry = Instantiate(_entryPrefab, _listContainer);
             entry.transform.SetAsFirstSibling();
-            entry.Show(weapon, _displayConfig.GetStyle(weapon.Rarity));
+            entry.Show(weapon, _displayConfig.GetStyle(weapon.Rarity), _feedbackConfig.GetFeedback(weapon.Rarity));
 
             EnforceMaxEntries();
         }

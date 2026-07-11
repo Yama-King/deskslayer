@@ -18,6 +18,9 @@ namespace DeskSlayer.Juice
         [SerializeField, Tooltip("背包 UI 共用的稀有度顯示樣式設定（顏色／顯示名稱），避免另外維護一份")]
         private WeaponRarityDisplayConfigSO _displayConfig;
 
+        [SerializeField, Tooltip("各稀有度的掉落視覺回饋強度曲線（尺寸／飄移距離／時長）")]
+        private WeaponDropFeedbackConfigSO _feedbackConfig;
+
         [SerializeField, Tooltip("相對於死亡位置的生成偏移量（世界座標），預設往上偏移到頭頂位置")]
         private Vector3 _spawnOffset = new Vector3(0f, 1.6f, 0f);
 
@@ -40,13 +43,13 @@ namespace DeskSlayer.Juice
 
         private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition)
         {
-            if (_popupPrefab == null || _displayConfig == null)
+            if (_popupPrefab == null || _displayConfig == null || _feedbackConfig == null)
             {
                 return;
             }
 
             WeaponDropPopup popup = Instantiate(_popupPrefab, dropPosition + _spawnOffset, Quaternion.identity);
-            popup.Show(weapon, _displayConfig.GetStyle(weapon.Rarity));
+            popup.Show(weapon, _displayConfig.GetStyle(weapon.Rarity), _feedbackConfig.GetFeedback(weapon.Rarity));
         }
     }
 }

@@ -84,7 +84,7 @@ namespace DeskSlayer.Audio
             AudioManager.Instance?.PlaySound(_enemyHitSound);
         }
 
-        private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition)
+        private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition, WeaponDropOutcome outcome)
         {
             AudioManager.Instance?.PlaySound(_weaponDropSound);
         }

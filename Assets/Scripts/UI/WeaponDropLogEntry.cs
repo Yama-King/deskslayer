@@ -32,11 +32,14 @@ namespace DeskSlayer.UI
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        /// <summary>顯示本次掉落內容並依稀有度強度曲線開始進場動畫與自動消失倒數。</summary>
-        public void Show(WeaponDataSO weapon, WeaponRarityDisplayConfigSO.RarityStyle style, WeaponDropFeedbackConfigSO.RarityFeedback feedback)
+        /// <summary>顯示本次掉落內容並依稀有度強度曲線開始進場動畫與自動消失倒數。已封頂武器轉換成碎片時，
+        /// 名稱文字改顯示「轉換為碎片」，跟原地跳出提示共用同一套判斷規則。</summary>
+        public void Show(WeaponDataSO weapon, WeaponRarityDisplayConfigSO.RarityStyle style, WeaponDropFeedbackConfigSO.RarityFeedback feedback, WeaponDropOutcome outcome)
         {
             _icon.sprite = weapon.Icon;
-            _nameLabel.text = weapon.WeaponName;
+            _nameLabel.text = outcome == WeaponDropOutcome.ShardConverted
+                ? $"{weapon.WeaponName}（轉換為碎片）"
+                : weapon.WeaponName;
             _rarityColorTag.color = style.Color;
 
             _canvasGroup.alpha = 1f;

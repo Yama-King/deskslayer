@@ -36,11 +36,14 @@ namespace DeskSlayer.Juice
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        /// <summary>顯示本次掉落內容並依稀有度強度曲線開始進場＋飄移＋淡出動畫。</summary>
-        public void Show(WeaponDataSO weapon, WeaponRarityDisplayConfigSO.RarityStyle style, WeaponDropFeedbackConfigSO.RarityFeedback feedback)
+        /// <summary>顯示本次掉落內容並依稀有度強度曲線開始進場＋飄移＋淡出動畫。已封頂武器轉換成碎片時，
+        /// 名稱文字改顯示「轉換為碎片」，讓玩家清楚知道這次重複品沒有被浪費掉，動畫本身不做任何區分。</summary>
+        public void Show(WeaponDataSO weapon, WeaponRarityDisplayConfigSO.RarityStyle style, WeaponDropFeedbackConfigSO.RarityFeedback feedback, WeaponDropOutcome outcome)
         {
             _icon.sprite = weapon.Icon;
-            _nameLabel.text = weapon.WeaponName;
+            _nameLabel.text = outcome == WeaponDropOutcome.ShardConverted
+                ? $"{weapon.WeaponName}（轉換為碎片）"
+                : weapon.WeaponName;
             _rarityFrame.color = style.Color;
 
             _canvasGroup.alpha = 1f;

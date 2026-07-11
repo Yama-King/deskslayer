@@ -16,4 +16,10 @@ MonoBehaviour:
   _baseDamage: 30
   _icon: {fileID: 0}
   _hitStopDuration: 3
+  _family: 1
+  _variant: 1
+  _rarity: 0
+  _isPermanentStarter: 1
+  _maxUpgradeLevel: 10
+  _upgradeBonusCapRatio: 0.5
   _keyPressThreshold: 20

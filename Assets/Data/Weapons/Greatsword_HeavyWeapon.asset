@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.HeavyWeaponSO
   _weaponName: "\u91CD\u528D"
   _baseDamage: 30
-  _icon: {fileID: -7008412969330441016, guid: 53a56cdc881631d4b93bd98c4fcb909d, type: 3}
+  _icon: {fileID: 21300000, guid: de429b1e362919143afa3a7e9bfa7760, type: 3}
   _hitStopDuration: 3
   _family: 1
   _variant: 1

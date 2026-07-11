@@ -119,6 +119,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &174295084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174295086}
+  - component: {fileID: 174295085}
+  m_Layer: 0
+  m_Name: WeaponInventoryService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &174295085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174295084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cebb4ac594eecd4e9fcada3c171aab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.WeaponInventoryService
+  _database: {fileID: 11400000, guid: 3d2f24c6a3a49584c88c55df1c46fe61, type: 2}
+  _dropConfig: {fileID: 11400000, guid: 50cca059ab71e0843b5a60db005cd338, type: 2}
+--- !u!4 &174295086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174295084}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177994856
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,6 +201,54 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 177994856}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &188836422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 188836424}
+  - component: {fileID: 188836423}
+  m_Layer: 0
+  m_Name: TempWeaponDropDispatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &188836423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188836422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5283f91e1b131647a0b1daaedcd3384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.WeaponDropDispatcher
+  _targetEnemy: {fileID: 647615086}
+  _database: {fileID: 11400000, guid: 3d2f24c6a3a49584c88c55df1c46fe61, type: 2}
+  _dropConfig: {fileID: 11400000, guid: 50cca059ab71e0843b5a60db005cd338, type: 2}
+  _inventoryService: {fileID: 2023308146}
+--- !u!4 &188836424
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188836422}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -229,6 +323,7 @@ MonoBehaviour:
   - {fileID: 5250773286392313792, guid: b434f6351e2e92640b43b4cb14770cab, type: 3}
   _spawnPoint: {fileID: 446063728}
   _combatDispatcher: {fileID: 453109602}
+  _weaponDropDispatcher: {fileID: 453109605}
 --- !u!4 &447229485
 Transform:
   m_ObjectHideFlags: 0
@@ -382,6 +477,7 @@ GameObject:
   - component: {fileID: 453109602}
   - component: {fileID: 453109603}
   - component: {fileID: 453109604}
+  - component: {fileID: 453109605}
   m_Layer: 0
   m_Name: GlobalKeyboardHookService
   m_TagString: Untagged
@@ -483,6 +579,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.WeaponSwitcher
   _defaultWeapon: {fileID: 11400000, guid: 7035f0509c3373444ab25f0f9a545788, type: 2}
+--- !u!114 &453109605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453109597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5283f91e1b131647a0b1daaedcd3384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.WeaponDropDispatcher
+  _targetEnemy: {fileID: 0}
+  _database: {fileID: 11400000, guid: 3d2f24c6a3a49584c88c55df1c46fe61, type: 2}
+  _dropConfig: {fileID: 11400000, guid: 50cca059ab71e0843b5a60db005cd338, type: 2}
+  _inventoryService: {fileID: 174295085}
 --- !u!1 &480471068
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,6 +1109,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620163806}
   m_CullTransparentMesh: 1
+--- !u!1 &647615085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 647615087}
+  - component: {fileID: 647615086}
+  m_Layer: 0
+  m_Name: TempEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &647615086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647615085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad7c0209bee6e84bb20af5149b6d440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Enemy.EnemyController
+  _enemyData: {fileID: 11400000, guid: 2e73f0f744480414e94f1196bfc6772c, type: 2}
+--- !u!4 &647615087
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647615085}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &704009454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,6 +1861,52 @@ MonoBehaviour:
   _scaleDuration: 0.15
   _clickScale: 0.9
   _clickPunchDuration: 0.25
+--- !u!1 &2023308145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2023308147}
+  - component: {fileID: 2023308146}
+  m_Layer: 0
+  m_Name: TempInventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2023308146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023308145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cebb4ac594eecd4e9fcada3c171aab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.WeaponInventoryService
+  _database: {fileID: 11400000, guid: 3d2f24c6a3a49584c88c55df1c46fe61, type: 2}
+  _dropConfig: {fileID: 11400000, guid: 50cca059ab71e0843b5a60db005cd338, type: 2}
+--- !u!4 &2023308147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023308145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1718,3 +1921,7 @@ SceneRoots:
   - {fileID: 704009456}
   - {fileID: 446063728}
   - {fileID: 447229485}
+  - {fileID: 2023308147}
+  - {fileID: 647615087}
+  - {fileID: 188836424}
+  - {fileID: 174295086}

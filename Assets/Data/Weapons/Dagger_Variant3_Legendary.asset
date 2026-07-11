@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95d130f114ad84843a6720428ce20411, type: 3}
-  m_Name: Dagger_LightWeapon
+  m_Name: Dagger_Variant3_Legendary
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.LightWeaponSO
-  _weaponName: "\u5C0F\u5200"
-  _baseDamage: 5
-  _icon: {fileID: -7008412969330441016, guid: ca41f0ded610b9a4da1a4cd445957c65, type: 3}
+  _weaponName: "\u5C0F\u5200\xB7\u8B8A\u9AD43\uFF08\u50B3\u8AAA\uFF09"
+  _baseDamage: 15
+  _icon: {fileID: -7008412969330441016, guid: 8786dd4aeb739a841901b6c220b93ca0, type: 3}
   _hitStopDuration: 0.03
   _family: 0
-  _variant: 1
-  _rarity: 0
-  _isPermanentStarter: 1
+  _variant: 3
+  _rarity: 3
+  _isPermanentStarter: 0
   _maxUpgradeLevel: 10
   _upgradeBonusCapRatio: 0.5
   _triggerOnEveryKeyPress: 1

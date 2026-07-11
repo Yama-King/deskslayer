@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e23e214602f41f54c87d268e0b2ec594, type: 3}
-  m_Name: Greatsword_HeavyWeapon
+  m_Name: Greatsword_Variant4_Legendary
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.HeavyWeaponSO
-  _weaponName: "\u91CD\u528D"
-  _baseDamage: 30
-  _icon: {fileID: -7008412969330441016, guid: 53a56cdc881631d4b93bd98c4fcb909d, type: 3}
+  _weaponName: "\u91CD\u528D\xB7\u8B8A\u9AD44\uFF08\u50B3\u8AAA\uFF09"
+  _baseDamage: 90
+  _icon: {fileID: -7008412969330441016, guid: 36ee9e3cc6e76d14b9664178873e8f7b, type: 3}
   _hitStopDuration: 3
   _family: 1
-  _variant: 1
-  _rarity: 0
-  _isPermanentStarter: 1
+  _variant: 4
+  _rarity: 3
+  _isPermanentStarter: 0
   _maxUpgradeLevel: 10
   _upgradeBonusCapRatio: 0.5
   _keyPressThreshold: 20

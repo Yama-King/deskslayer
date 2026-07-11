@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using DeskSlayer.Enemy;
 
@@ -10,6 +11,10 @@ namespace DeskSlayer.Combat
     /// </summary>
     public sealed class WeaponDropDispatcher : MonoBehaviour
     {
+        /// <summary>掉落判定完成且成功加入背包後發出，帶入掉落的武器資料與死亡位置，
+        /// 供純表現層模組（掉落提示、記錄清單、音效等）訂閱，不參與任何掉落判定邏輯。</summary>
+        public event Action<WeaponDataSO, Vector3> OnWeaponDropped;
+
         [SerializeField]
         private EnemyController _targetEnemy;
 
@@ -77,6 +82,7 @@ namespace DeskSlayer.Combat
 
             _inventoryService.AddDrop(drop);
             Debug.Log($"[WeaponDropDispatcher] 掉落武器：{drop.WeaponName}（{drop.Family}/{drop.Rarity}/變體{drop.Variant}）");
+            OnWeaponDropped?.Invoke(drop, _targetEnemy.transform.position);
         }
     }
 }

@@ -66,6 +66,7 @@ namespace DeskSlayer.UI
             _weaponSwitcher = weaponSwitcher;
             _displayConfig = displayConfig;
 
+            _equipButton.onClick.AddListener(HandleEquipClicked);
             _inventoryService.OnWeaponObtained += HandleWeaponObtained;
             _inventoryService.OnDuplicateObtained += HandleDuplicateObtained;
             _inventoryService.OnWeaponUpgraded += HandleWeaponUpgraded;
@@ -81,6 +82,7 @@ namespace DeskSlayer.UI
                 return;
             }
 
+            _equipButton.onClick.RemoveListener(HandleEquipClicked);
             _inventoryService.OnWeaponObtained -= HandleWeaponObtained;
             _inventoryService.OnDuplicateObtained -= HandleDuplicateObtained;
             _inventoryService.OnWeaponUpgraded -= HandleWeaponUpgraded;
@@ -108,6 +110,11 @@ namespace DeskSlayer.UI
             {
                 Refresh();
             }
+        }
+
+        private void HandleEquipClicked()
+        {
+            _weaponSwitcher.EquipWeapon(_weapon);
         }
 
         private void Refresh()

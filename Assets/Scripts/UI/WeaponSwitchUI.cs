@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DeskSlayer.Combat;
@@ -27,7 +28,7 @@ namespace DeskSlayer.UI
         private HeavyWeaponSO _heavyWeapon;
 
         [SerializeField]
-        private Text _currentWeaponLabel;
+        private TextMeshProUGUI _currentWeaponLabel;
 
         private void OnEnable()
         {

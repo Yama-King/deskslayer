@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.LightWeaponSO
   _weaponName: "\u5C0F\u5200\xB7\u8B8A\u9AD42\uFF08\u7A00\u6709\uFF09"
   _baseDamage: 8
-  _icon: {fileID: -7008412969330441016, guid: 419e08136a19381439ed6e21dc812f86, type: 3}
+  _icon: {fileID: 21300000, guid: 39139087ee52ed04db4469bda0b20a92, type: 3}
   _hitStopDuration: 0.03
   _family: 0
   _variant: 2

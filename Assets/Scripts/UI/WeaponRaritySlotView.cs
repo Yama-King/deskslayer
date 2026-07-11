@@ -1,3 +1,4 @@
+using DG.Tweening;
 using DeskSlayer.Combat;
 using TMPro;
 using UnityEngine;
@@ -6,9 +7,9 @@ using UnityEngine.UI;
 namespace DeskSlayer.UI
 {
     /// <summary>
-    /// 單一稀有度列項：顯示該稀有度的擁有狀態與數值。未擁有時只顯示鎖定剪影，不洩漏具體數值；
-    /// 已擁有時讀取 WeaponInstance 的加成後數值。裝備／合成按鈕的點擊互動留待後續兩個切片實作，
-    /// 這裡先只反映「目前是否可互動」的狀態，不接上點擊事件。
+    /// 單一稀有度列項：顯示該稀有度的擁有狀態與數值，並提供裝備／合成互動。
+    /// 未擁有時只顯示鎖定剪影，不洩漏具體數值；已擁有時讀取 WeaponInstance 的加成後數值。
+    /// 合成的可互動判定與執行完全交給 WeaponInventoryService，這裡只負責把結果轉譯成畫面文字。
     /// </summary>
     public sealed class WeaponRaritySlotView : MonoBehaviour
     {
@@ -67,6 +68,7 @@ namespace DeskSlayer.UI
             _displayConfig = displayConfig;
 
             _equipButton.onClick.AddListener(HandleEquipClicked);
+            _synthesizeButton.onClick.AddListener(HandleSynthesizeClicked);
             _inventoryService.OnWeaponObtained += HandleWeaponObtained;
             _inventoryService.OnDuplicateObtained += HandleDuplicateObtained;
             _inventoryService.OnWeaponUpgraded += HandleWeaponUpgraded;
@@ -83,6 +85,7 @@ namespace DeskSlayer.UI
             }
 
             _equipButton.onClick.RemoveListener(HandleEquipClicked);
+            _synthesizeButton.onClick.RemoveListener(HandleSynthesizeClicked);
             _inventoryService.OnWeaponObtained -= HandleWeaponObtained;
             _inventoryService.OnDuplicateObtained -= HandleDuplicateObtained;
             _inventoryService.OnWeaponUpgraded -= HandleWeaponUpgraded;
@@ -106,15 +109,23 @@ namespace DeskSlayer.UI
 
         private void HandleWeaponUpgraded(WeaponInstance instance)
         {
-            if (instance.Data == _weapon)
+            if (instance.Data != _weapon)
             {
-                Refresh();
+                return;
             }
+
+            Refresh();
+            PlaySynthesizeFeedback();
         }
 
         private void HandleEquipClicked()
         {
             _weaponSwitcher.EquipWeapon(_weapon);
+        }
+
+        private void HandleSynthesizeClicked()
+        {
+            _inventoryService.TryUpgrade(_weapon);
         }
 
         private void Refresh()
@@ -207,6 +218,14 @@ namespace DeskSlayer.UI
             {
                 _synthesizeReasonLabel.text = string.Empty;
             }
+        }
+
+        private void PlaySynthesizeFeedback()
+        {
+            RectTransform levelTransform = _levelLabel.rectTransform;
+            levelTransform.DOKill();
+            levelTransform.localScale = Vector3.one * 1.3f;
+            levelTransform.DOScale(1f, 0.3f).SetEase(Ease.OutBack);
         }
     }
 }

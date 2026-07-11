@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98458c29a039f8340a1db29085a75aab, type: 3}
   m_Name: Boss3_Enemy
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Enemy.EnemyDataSO
-  _enemyName: "Boss3"
+  _enemyName: Boss3
   _maxHealth: 100
   _defense: 5
   _iFrameDuration: 0.3
-  _dissolveDuration: 1.2
+  _dissolveDuration: 0.3

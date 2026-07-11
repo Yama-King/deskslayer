@@ -48,7 +48,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EdgeColor: {r: 0.6, g: 1, b: 1, a: 1}
+    - _EdgeColor: {r: 0.9622642, g: 0.85497993, b: 0.5355998, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

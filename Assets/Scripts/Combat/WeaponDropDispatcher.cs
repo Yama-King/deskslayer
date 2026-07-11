@@ -11,9 +11,10 @@ namespace DeskSlayer.Combat
     /// </summary>
     public sealed class WeaponDropDispatcher : MonoBehaviour
     {
-        /// <summary>掉落判定完成且成功加入背包後發出，帶入掉落的武器資料與死亡位置，
-        /// 供純表現層模組（掉落提示、記錄清單、音效等）訂閱，不參與任何掉落判定邏輯。</summary>
-        public event Action<WeaponDataSO, Vector3> OnWeaponDropped;
+        /// <summary>掉落判定完成且成功加入背包後發出，帶入掉落的武器資料、死亡位置與本次實際結果
+        /// （取得新武器／重複品／轉換為碎片），供純表現層模組（掉落提示、記錄清單、音效等）訂閱，
+        /// 不參與任何掉落判定邏輯。</summary>
+        public event Action<WeaponDataSO, Vector3, WeaponDropOutcome> OnWeaponDropped;
 
         [SerializeField]
         private EnemyController _targetEnemy;
@@ -73,16 +74,26 @@ namespace DeskSlayer.Combat
                 return;
             }
 
-            WeaponDataSO drop = _dropResolver.ResolveDrop(_database, _dropConfig, _inventoryService);
+            WeaponDataSO drop = _dropResolver.ResolveDrop(_database, _dropConfig);
             if (drop == null)
             {
-                Debug.Log("[WeaponDropDispatcher] 本次無武器掉落（所有稀有度皆已封頂）");
+                Debug.Log("[WeaponDropDispatcher] 本次無武器掉落（該家族尚未建置任何武器資產）");
                 return;
             }
 
-            _inventoryService.AddDrop(drop);
-            Debug.Log($"[WeaponDropDispatcher] 掉落武器：{drop.WeaponName}（{drop.Family}/{drop.Rarity}/變體{drop.Variant}）");
-            OnWeaponDropped?.Invoke(drop, _targetEnemy.transform.position);
+            WeaponDropOutcome outcome;
+            if (_inventoryService.IsWeaponMaxed(drop))
+            {
+                _inventoryService.AddShard(drop.Family, drop.Rarity);
+                outcome = WeaponDropOutcome.ShardConverted;
+            }
+            else
+            {
+                outcome = _inventoryService.AddDrop(drop);
+            }
+
+            Debug.Log($"[WeaponDropDispatcher] 掉落武器：{drop.WeaponName}（{drop.Family}/{drop.Rarity}/變體{drop.Variant}），結果：{outcome}");
+            OnWeaponDropped?.Invoke(drop, _targetEnemy.transform.position, outcome);
         }
     }
 }

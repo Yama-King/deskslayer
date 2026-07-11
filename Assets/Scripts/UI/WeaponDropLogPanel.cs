@@ -46,7 +46,7 @@ namespace DeskSlayer.UI
             }
         }
 
-        private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition)
+        private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition, WeaponDropOutcome outcome)
         {
             if (_entryPrefab == null || _listContainer == null || _displayConfig == null || _feedbackConfig == null)
             {
@@ -55,7 +55,7 @@ namespace DeskSlayer.UI
 
             WeaponDropLogEntry entry = Instantiate(_entryPrefab, _listContainer);
             entry.transform.SetAsFirstSibling();
-            entry.Show(weapon, _displayConfig.GetStyle(weapon.Rarity), _feedbackConfig.GetFeedback(weapon.Rarity));
+            entry.Show(weapon, _displayConfig.GetStyle(weapon.Rarity), _feedbackConfig.GetFeedback(weapon.Rarity), outcome);
 
             EnforceMaxEntries();
         }

@@ -16,15 +16,19 @@ MonoBehaviour:
   - _rarity: 0
     _dropWeight: 60
     _fusionCost: 3
+    _shardExchangeCost: 5
   - _rarity: 1
     _dropWeight: 30
     _fusionCost: 5
+    _shardExchangeCost: 8
   - _rarity: 2
     _dropWeight: 8
     _fusionCost: 8
+    _shardExchangeCost: 12
   - _rarity: 3
     _dropWeight: 2
     _fusionCost: 10
+    _shardExchangeCost: 15
   _familyConfigs:
   - _family: 0
     _weight: 1

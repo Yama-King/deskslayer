@@ -41,7 +41,7 @@ namespace DeskSlayer.Juice
             _dropDispatcher.OnWeaponDropped -= HandleWeaponDropped;
         }
 
-        private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition)
+        private void HandleWeaponDropped(WeaponDataSO weapon, Vector3 dropPosition, WeaponDropOutcome outcome)
         {
             if (_popupPrefab == null || _displayConfig == null || _feedbackConfig == null)
             {
@@ -49,7 +49,7 @@ namespace DeskSlayer.Juice
             }
 
             WeaponDropPopup popup = Instantiate(_popupPrefab, dropPosition + _spawnOffset, Quaternion.identity);
-            popup.Show(weapon, _displayConfig.GetStyle(weapon.Rarity), _feedbackConfig.GetFeedback(weapon.Rarity));
+            popup.Show(weapon, _displayConfig.GetStyle(weapon.Rarity), _feedbackConfig.GetFeedback(weapon.Rarity), outcome);
         }
     }
 }

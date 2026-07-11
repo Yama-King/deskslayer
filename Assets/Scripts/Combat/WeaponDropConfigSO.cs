@@ -22,16 +22,21 @@ namespace DeskSlayer.Combat
             [SerializeField, Min(1), Tooltip("此稀有度合成升一級需要消耗的重複品數量")]
             private int _fusionCost;
 
-            public RarityConfig(WeaponRarity rarity, float dropWeight, int fusionCost)
+            [SerializeField, Min(1), Tooltip("此稀有度封頂後，用武器碎片兌換一把尚未收集變體需要消耗的碎片數量")]
+            private int _shardExchangeCost;
+
+            public RarityConfig(WeaponRarity rarity, float dropWeight, int fusionCost, int shardExchangeCost)
             {
                 _rarity = rarity;
                 _dropWeight = dropWeight;
                 _fusionCost = fusionCost;
+                _shardExchangeCost = shardExchangeCost;
             }
 
             public WeaponRarity Rarity => _rarity;
             public float DropWeight => _dropWeight;
             public int FusionCost => _fusionCost;
+            public int ShardExchangeCost => _shardExchangeCost;
         }
 
         [Serializable]
@@ -53,13 +58,13 @@ namespace DeskSlayer.Combat
             public float Weight => _weight;
         }
 
-        [SerializeField, Tooltip("各稀有度的掉落權重與合成消耗數量")]
+        [SerializeField, Tooltip("各稀有度的掉落權重、合成消耗數量與碎片兌換消耗數量")]
         private RarityConfig[] _rarityConfigs =
         {
-            new RarityConfig(WeaponRarity.Common, 60f, 3),
-            new RarityConfig(WeaponRarity.Rare, 30f, 5),
-            new RarityConfig(WeaponRarity.Epic, 8f, 8),
-            new RarityConfig(WeaponRarity.Legendary, 2f, 10)
+            new RarityConfig(WeaponRarity.Common, 60f, 3, 5),
+            new RarityConfig(WeaponRarity.Rare, 30f, 5, 8),
+            new RarityConfig(WeaponRarity.Epic, 8f, 8, 12),
+            new RarityConfig(WeaponRarity.Legendary, 2f, 10, 15)
         };
 
         [SerializeField, Tooltip("各家族被選中的權重")]
@@ -97,6 +102,20 @@ namespace DeskSlayer.Combat
             return 1;
         }
 
+        /// <summary>查詢指定稀有度封頂後兌換一把尚未收集變體所需的碎片數量，找不到對應設定時回傳預設值 1。</summary>
+        public int GetShardExchangeCost(WeaponRarity rarity)
+        {
+            foreach (RarityConfig config in _rarityConfigs)
+            {
+                if (config.Rarity == rarity)
+                {
+                    return config.ShardExchangeCost;
+                }
+            }
+
+            return 1;
+        }
+
         /// <summary>查詢指定家族被選中的權重，找不到對應設定時回傳 0（視為不會掉落）。</summary>
         public float GetFamilyWeight(WeaponFamily family)
         {
@@ -115,10 +134,10 @@ namespace DeskSlayer.Combat
         {
             _rarityConfigs = new[]
             {
-                new RarityConfig(WeaponRarity.Common, 60f, 3),
-                new RarityConfig(WeaponRarity.Rare, 30f, 5),
-                new RarityConfig(WeaponRarity.Epic, 8f, 8),
-                new RarityConfig(WeaponRarity.Legendary, 2f, 10)
+                new RarityConfig(WeaponRarity.Common, 60f, 3, 5),
+                new RarityConfig(WeaponRarity.Rare, 30f, 5, 8),
+                new RarityConfig(WeaponRarity.Epic, 8f, 8, 12),
+                new RarityConfig(WeaponRarity.Legendary, 2f, 10, 15)
             };
 
             _familyConfigs = new[]

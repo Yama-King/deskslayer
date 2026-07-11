@@ -22,4 +22,5 @@ MonoBehaviour:
   _isPermanentStarter: 0
   _maxUpgradeLevel: 10
   _upgradeBonusCapRatio: 0.5
+  _attackAnimatorController: {fileID: 9100000, guid: 470f1960eeb40f24fa920f77b2625db4, type: 2}
   _triggerOnEveryKeyPress: 1

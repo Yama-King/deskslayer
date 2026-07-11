@@ -38,6 +38,9 @@ namespace DeskSlayer.Combat
         [SerializeField, Range(0f, 2f), Tooltip("合成加成封頂比例，例如 0.5 代表滿級時傷害最多比基礎值提升 50%")]
         private float _upgradeBonusCapRatio = 0.5f;
 
+        [SerializeField, Tooltip("裝備此武器時，場上武器揮擊動畫要播放的 AnimatorController。同一家族同一變體的所有稀有度共用同一份，稀有度不影響外觀。留空時 PlayerAttackVisualDispatcher 會保留目前已設定的 Animator Controller，不強制切換。")]
+        private RuntimeAnimatorController _attackAnimatorController;
+
         /// <summary>武器顯示名稱。</summary>
         public string WeaponName => _weaponName;
 
@@ -67,6 +70,9 @@ namespace DeskSlayer.Combat
 
         /// <summary>合成加成封頂比例（滿級時的傷害加成上限）。</summary>
         public float UpgradeBonusCapRatio => _upgradeBonusCapRatio;
+
+        /// <summary>裝備此武器時，場上武器揮擊動畫要播放的 AnimatorController，供 PlayerAttackVisualDispatcher 切換使用。</summary>
+        public RuntimeAnimatorController AttackAnimatorController => _attackAnimatorController;
 
         /// <summary>
         /// 判斷這次按鍵是否應該觸發一次攻擊。由各武器子類別定義自己的觸發規則

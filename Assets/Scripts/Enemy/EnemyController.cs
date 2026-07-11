@@ -36,13 +36,19 @@ namespace DeskSlayer.Enemy
 
         private void Awake()
         {
+            if (_enemyData == null)
+            {
+                Debug.LogWarning($"[EnemyController] {name} 未指定 _enemyData，敵人邏輯將停用", this);
+                return;
+            }
+
             _currentHealth = _enemyData.MaxHealth;
             _iFrameGuard = new IFrameGuard(_enemyData.IFrameDuration);
         }
 
         private void Update()
         {
-            _iFrameGuard.Tick(Time.deltaTime);
+            _iFrameGuard?.Tick(Time.deltaTime);
         }
 
         /// <summary>
@@ -50,7 +56,7 @@ namespace DeskSlayer.Enemy
         /// </summary>
         public void TakeHit(CombatResult result)
         {
-            if (_isDead)
+            if (_isDead || _enemyData == null)
             {
                 return;
             }

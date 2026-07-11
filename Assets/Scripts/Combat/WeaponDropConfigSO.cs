@@ -61,10 +61,10 @@ namespace DeskSlayer.Combat
         [SerializeField, Tooltip("各稀有度的掉落權重、合成消耗數量與碎片兌換消耗數量")]
         private RarityConfig[] _rarityConfigs =
         {
-            new RarityConfig(WeaponRarity.Common, 60f, 3, 5),
-            new RarityConfig(WeaponRarity.Rare, 30f, 5, 8),
-            new RarityConfig(WeaponRarity.Epic, 8f, 8, 12),
-            new RarityConfig(WeaponRarity.Legendary, 2f, 10, 15)
+            new RarityConfig(WeaponRarity.Common, 80f, 3),
+            new RarityConfig(WeaponRarity.Rare, 15f, 5),
+            new RarityConfig(WeaponRarity.Epic, 4f, 8),
+            new RarityConfig(WeaponRarity.Legendary, 1f, 10)
         };
 
         [SerializeField, Tooltip("各家族被選中的權重")]
@@ -134,10 +134,10 @@ namespace DeskSlayer.Combat
         {
             _rarityConfigs = new[]
             {
-                new RarityConfig(WeaponRarity.Common, 60f, 3, 5),
-                new RarityConfig(WeaponRarity.Rare, 30f, 5, 8),
-                new RarityConfig(WeaponRarity.Epic, 8f, 8, 12),
-                new RarityConfig(WeaponRarity.Legendary, 2f, 10, 15)
+                new RarityConfig(WeaponRarity.Common, 80f, 3),
+                new RarityConfig(WeaponRarity.Rare, 15f, 5),
+                new RarityConfig(WeaponRarity.Epic, 4f, 8),
+                new RarityConfig(WeaponRarity.Legendary, 1f, 10)
             };
 
             _familyConfigs = new[]

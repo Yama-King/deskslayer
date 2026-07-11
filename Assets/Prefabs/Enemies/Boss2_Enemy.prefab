@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad7c0209bee6e84bb20af5149b6d440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Enemy.EnemyController
-  _enemyData: {fileID: 11400000, guid: 2e73f0f744480414e94f1196bfc6772c, type: 2}
+  _enemyData: {fileID: 11400000, guid: d53ea1a46c6741acb4be5e54c1c1d6e2, type: 2}
 --- !u!212 &3361199945828467129
 SpriteRenderer:
   serializedVersion: 2

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2390009908272529799}
   - component: {fileID: 2584715061621609329}
   - component: {fileID: 897924229137271524}
+  - component: {fileID: 1798514099645772211}
   m_Layer: 0
   m_Name: Boss1_Enemy
   m_TagString: Untagged
@@ -173,4 +174,18 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 2711647640081259926}
   _animator: {fileID: 350694615433343420}
   _deathSprite: {fileID: 6991849013916550155, guid: 1c6bf3786e84da542ac8cb7064098122, type: 3}
-  _dissolveDuration: 1.2
+--- !u!114 &1798514099645772211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7845446509638145624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e522c54a51bd78428b884294aa415b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.SpriteWeatherTintDispatcher
+  _spriteRenderer: {fileID: 2711647640081259926}
+  _weatherService: {fileID: 0}
+  _tintTransitionDuration: 0.6

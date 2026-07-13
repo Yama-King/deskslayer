@@ -106,3 +106,7 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
 /.plastic/
+
+# Weather API key (secret) - real config file must not be committed, only the .example template is
+/Assets/StreamingAssets/weather-config.json
+/Assets/StreamingAssets/weather-config.json.meta

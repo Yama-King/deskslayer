@@ -4108,6 +4108,56 @@ MonoBehaviour:
   _scaleDuration: 0.15
   _clickScale: 0.9
   _clickPunchDuration: 0.25
+--- !u!1 &1985973431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1985973433}
+  - component: {fileID: 1985973432}
+  m_Layer: 0
+  m_Name: WeatherService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1985973432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985973431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e782427d7abdae94983f831f1390f8fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Weather.WeatherService
+  _cityDatabase: {fileID: 11400000, guid: ff496131f7463e846b9e2a3ba44ca2db, type: 2}
+  _conditionMap: {fileID: 11400000, guid: 18537de3e7320d6469ca82fcce213e74, type: 2}
+  _modifierDatabase: {fileID: 11400000, guid: 90a4e546d889aee458722a782a071264, type: 2}
+  _defaultCategory: 1
+  _initialDelaySeconds: 5
+  _pollIntervalSeconds: 3600
+--- !u!4 &1985973433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985973431}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1993462735
 GameObject:
   m_ObjectHideFlags: 0
@@ -4633,3 +4683,4 @@ SceneRoots:
   - {fileID: 1424092608433096100}
   - {fileID: 1690754330}
   - {fileID: 1185138696}
+  - {fileID: 1985973433}

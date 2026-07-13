@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0966e61d7d62134aa54aaa11e5f689e, type: 3}
+  m_Name: WeatherCityDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Weather.WeatherCityDatabaseSO
+  _cities:
+  - _displayName: "\u53F0\u5317\u5E02"
+    _latitude: 25.0478
+    _longitude: 121.5319
+  - _displayName: "\u53F0\u4E2D\u5E02"
+    _latitude: 24.1477
+    _longitude: 120.6736
+  - _displayName: "\u9AD8\u96C4\u5E02"
+    _latitude: 22.6273
+    _longitude: 120.3014
+  - _displayName: "\u82B1\u84EE\u7E23"
+    _latitude: 23.9871
+    _longitude: 121.6015
+  - _displayName: "\u6597\u516D\u5E02"
+    _latitude: 23.7092
+    _longitude: 120.5433
+  _selectedCityIndex: 0

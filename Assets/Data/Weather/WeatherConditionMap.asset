@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4395fe6627c90a148be71f8a7b815897, type: 3}
+  m_Name: WeatherConditionMap
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Weather.WeatherConditionMapSO
+  _ranges:
+  - _minId: 200
+    _maxId: 232
+    _category: 3
+  - _minId: 300
+    _maxId: 321
+    _category: 2
+  - _minId: 500
+    _maxId: 531
+    _category: 2
+  - _minId: 600
+    _maxId: 622
+    _category: 4
+  - _minId: 701
+    _maxId: 781
+    _category: 1
+  - _minId: 800
+    _maxId: 800
+    _category: 0
+  - _minId: 801
+    _maxId: 804
+    _category: 1
+  _fallbackCategory: 1

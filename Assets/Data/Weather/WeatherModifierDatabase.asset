@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ddd4de24517874b97de86dbfd7d6af, type: 3}
+  m_Name: WeatherModifierDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Weather.WeatherModifierDatabaseSO
+  _entries:
+  - _category: 0
+    _attackModifierPercent: -15
+    _defenseModifierPercent: -15
+    _icon: {fileID: 0}
+    _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  - _category: 1
+    _attackModifierPercent: 0
+    _defenseModifierPercent: 0
+    _icon: {fileID: 0}
+    _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  - _category: 2
+    _attackModifierPercent: 10
+    _defenseModifierPercent: 5
+    _icon: {fileID: 0}
+    _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  - _category: 3
+    _attackModifierPercent: 20
+    _defenseModifierPercent: 15
+    _icon: {fileID: 0}
+    _tintColor: {r: 1, g: 1, b: 1, a: 1}
+  - _category: 4
+    _attackModifierPercent: 35
+    _defenseModifierPercent: 25
+    _icon: {fileID: 0}
+    _tintColor: {r: 1, g: 1, b: 1, a: 1}

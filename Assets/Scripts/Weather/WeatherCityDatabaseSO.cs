@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DeskSlayer.Weather
 {
     /// <summary>
-    /// 可選擇的城市清單資料（顯示名稱＋經緯度）。城市選擇 UI 是後續切片的範圍，
-    /// 本切片先固定使用 _selectedCityIndex 指定的城市，供之後接上 UI 時直接沿用同一份資產。
+    /// 可選擇的城市清單資料（顯示名稱＋經緯度）。清單本身唯讀，供城市選擇 UI 動態生成項目；
+    /// 目前選定的城市索引則透過 SetSelectedCityIndex 寫入，僅供 WeatherService 呼叫
+    /// （UI 不應直接修改索引，需透過 WeatherService.SelectCity 才會一併觸發持久化與重新查詢）。
     /// </summary>
     [CreateAssetMenu(fileName = "WeatherCityDatabase", menuName = "DeskSlayer/Weather/Weather City Database", order = 1)]
     public sealed class WeatherCityDatabaseSO : ScriptableObject
@@ -44,8 +46,14 @@ namespace DeskSlayer.Weather
             new CityEntry("斗六市", 23.7092f, 120.5433f)
         };
 
-        [SerializeField, Min(0), Tooltip("W1 階段固定使用的城市索引，城市選擇 UI 完成前僅能在此手動調整")]
+        [SerializeField, Min(0), Tooltip("目前選定的城市索引，預設值供尚未讀取到任何存檔偏好時使用")]
         private int _selectedCityIndex;
+
+        /// <summary>唯讀城市清單，供城市選擇 UI 依筆數動態生成項目，不寫死清單長度。</summary>
+        public IReadOnlyList<CityEntry> Cities => _cities;
+
+        /// <summary>目前選定的城市索引。</summary>
+        public int SelectedCityIndex => _selectedCityIndex;
 
         /// <summary>目前固定選用的城市。索引超出範圍時回傳清單第一筆並印出 Warning，清單為空時回傳預設值並印出 Warning。</summary>
         public CityEntry CurrentCity
@@ -66,6 +74,18 @@ namespace DeskSlayer.Weather
 
                 return _cities[_selectedCityIndex];
             }
+        }
+
+        /// <summary>寫入目前選定的城市索引。僅供 WeatherService 呼叫，索引超出範圍時印出 Warning 並略過。</summary>
+        public void SetSelectedCityIndex(int index)
+        {
+            if (_cities == null || index < 0 || index >= _cities.Length)
+            {
+                Debug.LogWarning($"[WeatherCityDatabaseSO] 嘗試設定的城市索引 {index} 超出範圍，略過");
+                return;
+            }
+
+            _selectedCityIndex = index;
         }
     }
 }

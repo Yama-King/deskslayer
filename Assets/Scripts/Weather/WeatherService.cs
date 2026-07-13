@@ -34,6 +34,7 @@ namespace DeskSlayer.Weather
         private float _pollIntervalSeconds = 3600f;
 
         private IWeatherProvider _provider;
+        private Coroutine _immediateFetchCoroutine;
 
         /// <summary>目前的天氣分類。</summary>
         public WeatherCategory CurrentCategory { get; private set; }
@@ -43,6 +44,13 @@ namespace DeskSlayer.Weather
 
         private void Awake()
         {
+            // 先套用上次選定的城市（若有存檔），確保第一次天氣查詢就用玩家選的城市，
+            // 不會先用預設城市查一次、讀到存檔後又要再查第二次。
+            if (_cityDatabase != null && WeatherCityPreferenceStore.TryLoad(out int savedCityIndex))
+            {
+                _cityDatabase.SetSelectedCityIndex(savedCityIndex);
+            }
+
             ApplyCategory(WeatherCacheStore.TryLoad(out WeatherCategory cached) ? cached : _defaultCategory, notify: false);
 
             WeatherApiKeyLoader.TryLoad(out string apiKey);
@@ -52,6 +60,28 @@ namespace DeskSlayer.Weather
         private void OnEnable()
         {
             StartCoroutine(PollRoutine());
+        }
+
+        /// <summary>
+        /// 供城市選擇 UI 呼叫：切換目前選定的城市、寫入偏好設定，並立即重新查詢天氣，
+        /// 不需要等到下一次排程輪詢（預設週期 _pollIntervalSeconds）才反映新城市的天氣。
+        /// </summary>
+        public void SelectCity(int cityIndex)
+        {
+            if (_cityDatabase == null)
+            {
+                Debug.LogWarning("[WeatherService] 尚未指派城市資料庫，無法切換城市");
+                return;
+            }
+
+            _cityDatabase.SetSelectedCityIndex(cityIndex);
+            WeatherCityPreferenceStore.Save(cityIndex);
+
+            if (_immediateFetchCoroutine != null)
+            {
+                StopCoroutine(_immediateFetchCoroutine);
+            }
+            _immediateFetchCoroutine = StartCoroutine(FetchOnce());
         }
 
         private IEnumerator PollRoutine()

@@ -16,25 +16,25 @@ MonoBehaviour:
   - _category: 0
     _attackModifierPercent: -15
     _defenseModifierPercent: -15
-    _icon: {fileID: 0}
-    _tintColor: {r: 1, g: 1, b: 1, a: 1}
+    _icon: {fileID: 21300000, guid: 468f00ff27bf8aa4b8c74818a8994310, type: 3}
+    _tintColor: {r: 1, g: 0.92, b: 0.75, a: 1}
   - _category: 1
     _attackModifierPercent: 0
     _defenseModifierPercent: 0
-    _icon: {fileID: 0}
+    _icon: {fileID: 21300000, guid: 38e05490b1c28e84081b4e09be2be8f1, type: 3}
     _tintColor: {r: 1, g: 1, b: 1, a: 1}
   - _category: 2
     _attackModifierPercent: 10
     _defenseModifierPercent: 5
-    _icon: {fileID: 0}
-    _tintColor: {r: 1, g: 1, b: 1, a: 1}
+    _icon: {fileID: 21300000, guid: 5a79db1f026943d45b4685187a8664f3, type: 3}
+    _tintColor: {r: 0.55, g: 0.68, b: 0.95, a: 1}
   - _category: 3
     _attackModifierPercent: 20
     _defenseModifierPercent: 15
-    _icon: {fileID: 0}
-    _tintColor: {r: 1, g: 1, b: 1, a: 1}
+    _icon: {fileID: 21300000, guid: 1593d142d37e8dd4fa6ac49ace356c97, type: 3}
+    _tintColor: {r: 0.45, g: 0.35, b: 0.58, a: 1}
   - _category: 4
     _attackModifierPercent: 35
     _defenseModifierPercent: 25
-    _icon: {fileID: 0}
-    _tintColor: {r: 1, g: 1, b: 1, a: 1}
+    _icon: {fileID: 21300000, guid: 865d3de9ef2a7a245ad2b6ed1948b47f, type: 3}
+    _tintColor: {r: 0.85, g: 0.97, b: 1, a: 1}

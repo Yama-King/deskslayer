@@ -1,6 +1,7 @@
 using UnityEngine;
 using DeskSlayer.Combat;
 using DeskSlayer.Visuals;
+using DeskSlayer.Weather;
 
 namespace DeskSlayer.Enemy
 {
@@ -23,6 +24,9 @@ namespace DeskSlayer.Enemy
         [SerializeField, Tooltip("武器掉落系統的橋接元件，敵人輪換時需一併轉移目標，否則新敵人死亡不會觸發掉落判定")]
         private WeaponDropDispatcher _weaponDropDispatcher;
 
+        [SerializeField, Tooltip("天氣服務來源，敵人生成後注入給其 SpriteWeatherTintDispatcher，留空時新敵人不套用天氣色調")]
+        private WeatherService _weatherService;
+
         private void Start()
         {
             SpawnRandomEnemy();
@@ -35,6 +39,12 @@ namespace DeskSlayer.Enemy
 
             EnemyDeathVisualDispatcher deathDispatcher = instance.GetComponent<EnemyDeathVisualDispatcher>();
             deathDispatcher.OnDissolveComplete += HandleDefeated;
+
+            SpriteWeatherTintDispatcher tintDispatcher = instance.GetComponent<SpriteWeatherTintDispatcher>();
+            if (tintDispatcher != null)
+            {
+                tintDispatcher.Initialize(_weatherService);
+            }
 
             _combatDispatcher.SetTarget(instance);
 

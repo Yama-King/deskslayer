@@ -1082,6 +1082,7 @@ MonoBehaviour:
   _spawnPoint: {fileID: 446063728}
   _combatDispatcher: {fileID: 453109602}
   _weaponDropDispatcher: {fileID: 453109605}
+  _weatherService: {fileID: 1985973432}
 --- !u!4 &447229485
 Transform:
   m_ObjectHideFlags: 0
@@ -1385,6 +1386,7 @@ GameObject:
   - component: {fileID: 480471069}
   - component: {fileID: 480471072}
   - component: {fileID: 480471071}
+  - component: {fileID: 480471073}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1508,6 +1510,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &480471073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480471068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e522c54a51bd78428b884294aa415b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.SpriteWeatherTintDispatcher
+  _spriteRenderer: {fileID: 480471069}
+  _weatherService: {fileID: 1985973432}
+  _tintTransitionDuration: 0.6
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,6 +2231,95 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 380, y: 380}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &754675540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 754675544}
+  - component: {fileID: 754675543}
+  - component: {fileID: 754675542}
+  - component: {fileID: 754675541}
+  m_Layer: 0
+  m_Name: WeatherIconDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &754675541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754675540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859af0688ac9bc248908822f8f323012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.UI.WeatherIconView
+  _iconImage: {fileID: 754675542}
+--- !u!114 &754675542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754675540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &754675543
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754675540}
+  m_CullTransparentMesh: 1
+--- !u!224 &754675544
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754675540}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.6458586, y: 1.6458586, z: 1.6458586}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1726056910}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -547, y: 372}
+  m_SizeDelta: {x: 48, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &776865263
 GameObject:
@@ -2975,6 +3081,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103131571}
   m_CullTransparentMesh: 1
+--- !u!1 &1160803803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1160803804}
+  - component: {fileID: 1160803805}
+  m_Layer: 0
+  m_Name: IconDispatcherHost
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1160803804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160803803}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -674.80206, y: -379.37042, z: 0}
+  m_LocalScale: {x: 1.6458586, y: 1.6458586, z: 1.6458586}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1726056910}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1160803805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160803803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7078d5dd294cd954fafa765d0bd5a2b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.UI.WeatherIconDispatcher
+  _weatherService: {fileID: 1985973432}
+  _iconView: {fileID: 754675541}
 --- !u!1 &1174713813
 GameObject:
   m_ObjectHideFlags: 0
@@ -4489,6 +4641,8 @@ RectTransform:
   m_Children:
   - {fileID: 1218191664}
   - {fileID: 83200869}
+  - {fileID: 754675544}
+  - {fileID: 1160803804}
   m_Father: {fileID: 1515790692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4531,7 +4685,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -10}
-  m_SizeDelta: {x: 360, y: 20}
+  m_SizeDelta: {x: 360, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1737823858
 MonoBehaviour:

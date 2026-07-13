@@ -1,5 +1,3 @@
-using DeskSlayer.Enemy;
-
 namespace DeskSlayer.Combat
 {
     /// <summary>
@@ -7,12 +5,14 @@ namespace DeskSlayer.Combat
     /// 呼應背景常駐軟體對 CPU 佔用率的嚴格要求。
     /// 抽出介面是為了保留未來替換成即時碰撞判定的彈性，呼叫端（如 CombatDispatcher）
     /// 不需要因為判定方式改變而跟著修改。
+    /// 只接收「已經彙整完所有加成」的最終數值，不需要知道攻擊力/防禦力是怎麼算出來的
+    /// （武器基礎值？天氣修正？未來的裝備/buff？），數值來源改變時本介面完全不受影響。
     /// </summary>
     public interface ICombatResolver
     {
-        /// <summary>計算武器攻擊敵人的判定結果。</summary>
-        /// <param name="weapon">發動攻擊的武器數據。</param>
-        /// <param name="enemy">受擊敵人的數據。</param>
-        CombatResult Resolve(WeaponDataSO weapon, EnemyDataSO enemy);
+        /// <summary>計算判定結果。</summary>
+        /// <param name="attackPower">呼叫端已彙整完所有加成的最終攻擊力。</param>
+        /// <param name="defensePower">呼叫端已彙整完所有加成的最終防禦力。</param>
+        CombatResult Resolve(int attackPower, int defensePower);
     }
 }

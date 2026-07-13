@@ -1,5 +1,4 @@
 using UnityEngine;
-using DeskSlayer.Enemy;
 
 namespace DeskSlayer.Combat
 {
@@ -13,12 +12,9 @@ namespace DeskSlayer.Combat
         private const float MinHitChance = 0.3f;
         private const float MaxHitChance = 0.95f;
 
-        public CombatResult Resolve(WeaponDataSO weapon, EnemyDataSO enemy)
+        public CombatResult Resolve(int attackPower, int defensePower)
         {
-            int attack = weapon.BaseDamage;
-            int defense = enemy.Defense;
-
-            float rawHitChance = (float)attack / (attack + defense);
+            float rawHitChance = (float)attackPower / (attackPower + defensePower);
             float hitChance = Mathf.Clamp(rawHitChance, MinHitChance, MaxHitChance);
 
             if (Random.value > hitChance)
@@ -26,7 +22,7 @@ namespace DeskSlayer.Combat
                 return new CombatResult(false, 0);
             }
 
-            int damage = Mathf.Max(1, attack - defense);
+            int damage = Mathf.Max(1, attackPower - defensePower);
             return new CombatResult(true, damage);
         }
     }

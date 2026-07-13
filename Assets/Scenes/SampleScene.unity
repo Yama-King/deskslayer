@@ -1203,6 +1203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.CombatDispatcher
   _targetEnemy: {fileID: 0}
+  _weatherService: {fileID: 1985973432}
 --- !u!114 &453109603
 MonoBehaviour:
   m_ObjectHideFlags: 0

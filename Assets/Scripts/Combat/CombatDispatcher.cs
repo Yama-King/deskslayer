@@ -1,6 +1,7 @@
 using UnityEngine;
 using DeskSlayer.Enemy;
 using DeskSlayer.Juice;
+using DeskSlayer.Weather;
 
 namespace DeskSlayer.Combat
 {
@@ -16,13 +17,24 @@ namespace DeskSlayer.Combat
         [SerializeField]
         private EnemyController _targetEnemy;
 
+        [SerializeField, Tooltip("天氣數值彙整來源，留空時視為無天氣修正")]
+        private WeatherService _weatherService;
+
         private TypingEnergySystem _typingEnergySystem;
         private ICombatResolver _combatResolver;
+        private PlayerCombatStatsProvider _combatStatsProvider;
 
         private void Awake()
         {
             _typingEnergySystem = GetComponent<TypingEnergySystem>();
             _combatResolver = new DefaultCombatResolver();
+        }
+
+        private void Start()
+        {
+            // 延後到 Start 才建立，確保 WeatherService.Awake()（套用快取天氣分類）已經執行完畢，
+            // 避免依 Script Execution Order 而讀到尚未套用快取的初始值。
+            _combatStatsProvider = new PlayerCombatStatsProvider(_weatherService);
         }
 
         private void OnEnable()
@@ -35,6 +47,11 @@ namespace DeskSlayer.Combat
         {
             _typingEnergySystem.OnLightAttackTriggered -= HandleAttackTriggered;
             _typingEnergySystem.OnHeavyAttackTriggered -= HandleAttackTriggered;
+        }
+
+        private void OnDestroy()
+        {
+            _combatStatsProvider?.Dispose();
         }
 
         /// <summary>切換目前的攻擊目標，供 EnemyRotationManager 在生成新敵人後轉移目標使用。</summary>
@@ -50,7 +67,10 @@ namespace DeskSlayer.Combat
                 return;
             }
 
-            CombatResult result = _combatResolver.Resolve(weapon, _targetEnemy.EnemyData);
+            int finalAttackPower = _combatStatsProvider.GetFinalAttackPower(weapon.BaseDamage);
+            int finalDefensePower = _targetEnemy.EnemyData.Defense;
+
+            CombatResult result = _combatResolver.Resolve(finalAttackPower, finalDefensePower);
 
             Debug.Log(result.IsHit
                 ? $"[CombatDispatcher] {weapon.WeaponName} 命中，傷害 {result.Damage}"

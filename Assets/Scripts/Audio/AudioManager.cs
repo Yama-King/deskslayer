@@ -1,3 +1,4 @@
+using DeskSlayer.GameState;
 using UnityEngine;
 
 namespace DeskSlayer.Audio
@@ -35,6 +36,63 @@ namespace DeskSlayer.Audio
             if (Instance == this)
             {
                 Instance = null;
+            }
+        }
+
+        private void OnEnable()
+        {
+            SubscribeToGameStateMachine();
+        }
+
+        private void Start()
+        {
+            // Unity 只保證所有物件的 Awake 先於任何物件的 Start，不保證 OnEnable 的跨物件順序，
+            // 這裡補一次訂閱，確保不論 GameStateMachine 的 Awake 相對順序為何都能訂閱成功。
+            SubscribeToGameStateMachine();
+        }
+
+        private void OnDisable()
+        {
+            if (GameStateMachine.Instance != null)
+            {
+                GameStateMachine.Instance.OnGamePhaseChanged -= HandleGamePhaseChanged;
+            }
+        }
+
+        private void SubscribeToGameStateMachine()
+        {
+            if (GameStateMachine.Instance == null)
+            {
+                return;
+            }
+
+            GameStateMachine.Instance.OnGamePhaseChanged -= HandleGamePhaseChanged;
+            GameStateMachine.Instance.OnGamePhaseChanged += HandleGamePhaseChanged;
+        }
+
+        /// <summary>
+        /// 暫停時凍結所有正在播放的音源、解除暫停時復播，避免戰鬥音效在暫停中持續播放
+        /// 造成違和感。AudioSource.Pause/UnPause 會保留播放位置，恢復時從原本位置接續，
+        /// 不會重新播放整段音效。
+        /// </summary>
+        private void HandleGamePhaseChanged(GamePhase? previous, GamePhase current)
+        {
+            if (current == GamePhase.Paused)
+            {
+                foreach (AudioSource source in _sourcePool)
+                {
+                    if (source.isPlaying)
+                    {
+                        source.Pause();
+                    }
+                }
+            }
+            else
+            {
+                foreach (AudioSource source in _sourcePool)
+                {
+                    source.UnPause();
+                }
             }
         }
 

@@ -1,4 +1,5 @@
 using System;
+using DeskSlayer.GameState;
 using UnityEngine;
 
 namespace DeskSlayer.KeyboardHook
@@ -18,6 +19,7 @@ namespace DeskSlayer.KeyboardHook
 
         private KeyboardEventQueue _eventQueue;
         private IKeyboardHookProvider _hookProvider;
+        private bool _isPaused;
 
         private void Awake()
         {
@@ -32,29 +34,59 @@ namespace DeskSlayer.KeyboardHook
 
         private void OnEnable()
         {
-            if (_hookProvider == null)
+            if (_hookProvider != null)
             {
-                return;
+                try
+                {
+                    _hookProvider.StartListening();
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                }
             }
 
-            try
-            {
-                _hookProvider.StartListening();
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
+            SubscribeToGameStateMachine();
+        }
+
+        private void Start()
+        {
+            // Unity 只保證所有物件的 Awake 先於任何物件的 Start，不保證 OnEnable 的跨物件順序，
+            // 這裡補一次訂閱，確保不論 GameStateMachine 的 Awake 相對順序為何都能訂閱成功。
+            SubscribeToGameStateMachine();
         }
 
         private void OnDisable()
         {
             _hookProvider?.StopListening();
+
+            if (GameStateMachine.Instance != null)
+            {
+                GameStateMachine.Instance.OnGamePhaseChanged -= HandleGamePhaseChanged;
+            }
         }
 
         private void OnApplicationQuit()
         {
             _hookProvider?.StopListening();
+        }
+
+        private void SubscribeToGameStateMachine()
+        {
+            if (GameStateMachine.Instance == null)
+            {
+                return;
+            }
+
+            // 訂閱前先同步一次目前階段，避免訂閱完成前的極短暫視窗誤判為未暫停
+            _isPaused = GameStateMachine.Instance.CurrentPhase == GamePhase.Paused;
+            GameStateMachine.Instance.OnGamePhaseChanged -= HandleGamePhaseChanged;
+            GameStateMachine.Instance.OnGamePhaseChanged += HandleGamePhaseChanged;
+        }
+
+        private void HandleGamePhaseChanged(GamePhase? previous, GamePhase current)
+        {
+            _isPaused = current == GamePhase.Paused;
         }
 
         private void Update()
@@ -67,7 +99,13 @@ namespace DeskSlayer.KeyboardHook
             int processed = 0;
             while (processed < _maxEventsPerFrame && _eventQueue.TryDequeue(out KeyPressData data))
             {
-                DispatchEvent(data);
+                // 暫停中仍要把佇列排空，避免解除暫停瞬間把暫停期間累積的按鍵一次性補放；
+                // 但不分派事件——直接捨棄，而不是延後處理，確保暫停時打的字不會事後補觸發攻擊。
+                if (!_isPaused)
+                {
+                    DispatchEvent(data);
+                }
+
                 processed++;
             }
         }

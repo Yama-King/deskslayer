@@ -543,6 +543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.WeaponInventoryService
   _database: {fileID: 11400000, guid: 3d2f24c6a3a49584c88c55df1c46fe61, type: 2}
   _dropConfig: {fileID: 11400000, guid: 50cca059ab71e0843b5a60db005cd338, type: 2}
+  _weaponSwitcher: {fileID: 453109604}
 --- !u!4 &174295086
 Transform:
   m_ObjectHideFlags: 0

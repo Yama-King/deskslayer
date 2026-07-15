@@ -20,7 +20,8 @@ namespace DeskSlayer.Persistence
 
         private const string SaveFileName = "savedata.json";
 
-        private static string SaveFilePath => Path.Combine(Application.persistentDataPath, SaveFileName);
+        /// <summary>存檔檔案的完整路徑。公開給 Editor 工具（例如清空存檔）使用，避免另外重複定義檔名常數。</summary>
+        public static string SaveFilePath => Path.Combine(Application.persistentDataPath, SaveFileName);
 
         /// <summary>
         /// 讀取存檔。檔案不存在（例如玩家第一次啟動遊戲）或內容無法解析（損毀/格式不符）時，

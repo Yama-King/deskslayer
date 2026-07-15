@@ -1,4 +1,5 @@
 using DG.Tweening;
+using DeskSlayer.GameState;
 using UnityEngine;
 
 namespace DeskSlayer.Juice
@@ -37,6 +38,50 @@ namespace DeskSlayer.Juice
             if (Instance == this)
             {
                 Instance = null;
+            }
+        }
+
+        private void OnEnable()
+        {
+            SubscribeToGameStateMachine();
+        }
+
+        private void Start()
+        {
+            // Unity 只保證所有物件的 Awake 先於任何物件的 Start，不保證 OnEnable 的跨物件順序，
+            // 這裡補一次訂閱，確保不論 GameStateMachine 的 Awake 相對順序為何都能訂閱成功。
+            SubscribeToGameStateMachine();
+        }
+
+        private void OnDisable()
+        {
+            if (GameStateMachine.Instance != null)
+            {
+                GameStateMachine.Instance.OnGamePhaseChanged -= HandleGamePhaseChanged;
+            }
+        }
+
+        private void SubscribeToGameStateMachine()
+        {
+            if (GameStateMachine.Instance == null)
+            {
+                return;
+            }
+
+            GameStateMachine.Instance.OnGamePhaseChanged -= HandleGamePhaseChanged;
+            GameStateMachine.Instance.OnGamePhaseChanged += HandleGamePhaseChanged;
+        }
+
+        /// <summary>
+        /// 暫停時只取消尚未觸發的即時回復回呼（DOVirtual.DelayedCall 用 ignoreTimeScale: true，
+        /// 暫停中仍會照跑），刻意不呼叫 RestoreTimeScale()——Time.timeScale 的最終值一律交由
+        /// GameStateMachine 決定，避免頓幀回復把暫停中的 timeScale 悄悄改回 1。
+        /// </summary>
+        private void HandleGamePhaseChanged(GamePhase? previous, GamePhase current)
+        {
+            if (current == GamePhase.Paused)
+            {
+                DOTween.Kill(RestoreTweenId);
             }
         }
 

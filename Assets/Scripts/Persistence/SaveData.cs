@@ -23,6 +23,15 @@ namespace DeskSlayer.Persistence
         public List<WeaponSaveEntry> ownedWeapons = new List<WeaponSaveEntry>();
 
         public List<ShardSaveEntry> weaponShards = new List<ShardSaveEntry>();
+
+        /// <summary>目前裝備武器的識別碼。variant 為 0 代表玩家從未手動裝備過武器，
+        /// 交由 WeaponSwitcher 的 Inspector 預設武器決定（比照 selectedWeatherCityIndex 用 -1 表示未設定的作法，
+        /// 這裡因 Variant 欄位本身是 1~5 的合法範圍，改用 0 作為「未設定」的哨兵值）。</summary>
+        public WeaponFamily equippedWeaponFamily;
+
+        public int equippedWeaponVariant;
+
+        public WeaponRarity equippedWeaponRarity;
     }
 
     /// <summary>

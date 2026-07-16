@@ -21,6 +21,13 @@ namespace DeskSlayer.DesktopWindow
         private UniWindowController _windowController;
         private bool _hasAppliedStartupBounds;
 
+        /// <summary>
+        /// 涵蓋所有螢幕的視窗範圍是否已經套用完成。套用時機是同步的 P/Invoke 呼叫，
+        /// 這個旗標一變 true，windowPosition/windowSize 當下就已經是正確值，可供其他系統
+        /// （例如 DesktopWindowClickThroughMediator 的座標轉換）安全依賴，不需要額外等待。
+        /// </summary>
+        public bool HasAppliedStartupBounds => _hasAppliedStartupBounds;
+
         private void Awake()
         {
             _windowController = GetComponent<UniWindowController>();

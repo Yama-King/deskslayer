@@ -33,6 +33,19 @@ namespace DeskSlayer.UI
             _originalScale = _rectTransform.localScale;
         }
 
+        /// <summary>
+        /// 更新 hover/click 回饋動畫要回彈的基準縮放倍率並立即套用（非 hover 狀態下）。
+        /// 這個元件是 RectTransform.localScale 唯一擁有者：外部（例如常駐錨定按鈕的整組縮放設定）
+        /// 需要改變按鈕基礎大小時，透過這個方法交給這裡統一處理，不要直接改寫 localScale，
+        /// 否則會跟這裡的 DOTween 回饋動畫互搶同一個欄位、產生時序競態。
+        /// </summary>
+        public void SetBaseScale(float multiplier)
+        {
+            _originalScale = Vector3.one * multiplier;
+            _rectTransform.DOKill();
+            _rectTransform.localScale = _originalScale;
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
             _rectTransform.DOKill();

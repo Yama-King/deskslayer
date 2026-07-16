@@ -53,6 +53,12 @@ namespace DeskSlayer.DesktopWindow
         /// <summary>本幀命中的 Collider2D；LastHitKind 不是 GameObject 時一律為 null。</summary>
         public Collider2D LastHitCollider { get; private set; }
 
+        /// <summary>
+        /// 本幀游標換算後的 Unity Screen 座標（見 ToUnityScreenPoint），供步驟3拖曳邏輯直接讀取，
+        /// 避免重新呼叫一次 UniWindowController.GetCursorPosition() 另外維護一套轉換邏輯。
+        /// </summary>
+        public Vector2 LastScreenPoint { get; private set; }
+
         private void Awake()
         {
             _windowController = GetComponent<UniWindowController>();
@@ -82,6 +88,7 @@ namespace DeskSlayer.DesktopWindow
             }
 
             Vector2 screenPoint = ToUnityScreenPoint(UniWindowController.GetCursorPosition());
+            LastScreenPoint = screenPoint;
             EvaluateCursorTarget(screenPoint);
 
             _windowController.isClickThrough = (LastHitKind == CursorHitKind.None);

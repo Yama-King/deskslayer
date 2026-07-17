@@ -3040,6 +3040,7 @@ Transform:
   - {fileID: 1711104956}
   - {fileID: 447229485}
   - {fileID: 1985973433}
+  - {fileID: 1682623545}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &842991759
@@ -5566,6 +5567,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -77.23004}
   m_SizeDelta: {x: 1000, y: 554.4601}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1682623544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1682623545}
+  - component: {fileID: 1682623546}
+  m_Layer: 0
+  m_Name: AdaptiveFrameRateController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1682623545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682623544}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -179.14238, y: -272.21872, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 776865264}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1682623546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682623544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be8169ca2cb438d4fb118d90ff9462f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Performance.AdaptiveFrameRateController
+  _policy: {fileID: 11400000, guid: 0527db4d0c269774aa4eb50cf434b351, type: 2}
+  _keyboardHookService: {fileID: 453109599}
+  _dragCoordinator: {fileID: 46956599}
 --- !u!1 &1690754326
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,6 +42,7 @@ namespace DeskSlayer.DesktopWindow
         private Camera _camera;
         private int _hitTestLayerMask;
         private PointerEventData _pointerEventData;
+        private bool _hasSuppressedRedundantPackageHitTest;
 
         // 每幀重複使用，避免 GC Allocation——判定邏輯每幀都要跑，這是捨棄套件內建 Opacity 模式、
         // 換成自己控制的核心理由之一，這裡的實作也要延續同樣的效能要求。
@@ -87,11 +88,39 @@ namespace DeskSlayer.DesktopWindow
                 return;
             }
 
+            if (!_hasSuppressedRedundantPackageHitTest)
+            {
+                SuppressRedundantPackageHitTest();
+            }
+
             Vector2 screenPoint = ToUnityScreenPoint(UniWindowController.GetCursorPosition());
             LastScreenPoint = screenPoint;
             EvaluateCursorTarget(screenPoint);
 
             _windowController.isClickThrough = (LastHitKind == CursorHitKind.None);
+        }
+
+        /// <summary>
+        /// UniWinCore 套件自己的 HitTestCoroutine()（Start() 內無條件啟動，見套件原始碼）並不會因為
+        /// isHitTestEnabled=false 而停止執行——那個旗標只讓套件內部的 UpdateClickThrough() 不去套用
+        /// 結果，協程本身仍會持續跑。經 Profiler Hierarchy 實測，這顆協程是目前所有腳本相關項目中
+        /// 自耗時最高的一項；更嚴重的是，套件目前 transparentType 是 Alpha（W3 完整整合階段的既定
+        /// 選擇，見 CLAUDE.md 與〈技術決策紀錄_桌面透明視窗完整整合路線選擇.md〉，色鍵二元判斷的
+        /// 限制在這個模式下已不適用，這裡沿用套件預設值即可，不是設定遺漏），這代表協程每幀實際落入
+        /// GetOnOpaquePixel() 的 Texture2D.ReadPixels 分支（見套件原始碼 UniWindowController.cs:781）
+        /// ——GPU 像素回讀是每幀成本最高的操作之一，而這整條計算結果（onObject）在本專案完全沒有被
+        /// 讀取，因為點擊穿透判定已經完全交給這個 Mediator 自己處理。
+        ///
+        /// 用公開 API MonoBehaviour.StopAllCoroutines() 停止，不修改套件原始碼（套件走 Git UPM
+        /// 相依套件，改原始碼會在下次套件解析時遺失，也不是可以進版控的做法）。安全性：套件裡唯一
+        /// 另一個協程 ForceZoomed 只在 shouldFitMonitor=true 時才會啟動，而該欄位在本專案預設為
+        /// false 且沒有任何程式碼設定它，因此呼叫當下必然只有 HitTestCoroutine 在執行，不會誤殺
+        /// 其他協程。等到 HasAppliedStartupBounds 才呼叫，是因為要確保套件啟動流程本身已經走完。
+        /// </summary>
+        private void SuppressRedundantPackageHitTest()
+        {
+            _windowController.StopAllCoroutines();
+            _hasSuppressedRedundantPackageHitTest = true;
         }
 
         /// <summary>

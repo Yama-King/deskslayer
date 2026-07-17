@@ -18,6 +18,9 @@ namespace DeskSlayer.Enemy
         [SerializeField]
         private Transform _spawnPoint;
 
+        [SerializeField, Tooltip("新敵人要 parent 到的世界根節點，讓拖曳 GameWorldRoot 時場上的敵人也會一起跟著移動")]
+        private Transform _gameWorldRoot;
+
         [SerializeField]
         private CombatDispatcher _combatDispatcher;
 
@@ -35,7 +38,7 @@ namespace DeskSlayer.Enemy
         private void SpawnRandomEnemy()
         {
             EnemyController prefab = _enemyPrefabs[Random.Range(0, _enemyPrefabs.Length)];
-            EnemyController instance = Instantiate(prefab, _spawnPoint.position, prefab.transform.rotation);
+            EnemyController instance = Instantiate(prefab, _spawnPoint.position, prefab.transform.rotation, _gameWorldRoot);
 
             EnemyDeathVisualDispatcher deathDispatcher = instance.GetComponent<EnemyDeathVisualDispatcher>();
             deathDispatcher.OnDissolveComplete += HandleDefeated;

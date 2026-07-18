@@ -255,6 +255,7 @@ namespace DeskSlayer.ShareCard
         private ShareCardDisplayData BuildDisplayData()
         {
             _statsTracker?.RefreshDailyRolloverIfNeeded();
+            _playStyleAnalyzer?.RefreshDailyRolloverIfNeeded();
 
             long typedCount = 0;
             long killCount = 0;
@@ -265,8 +266,15 @@ namespace DeskSlayer.ShareCard
                 killCount = _showDailyScope ? _statsTracker.DailyKillCount : _statsTracker.TotalKillCount;
             }
 
-            float lightScore = _playStyleAnalyzer != null ? _playStyleAnalyzer.LightAttackTendencyScore : 0f;
-            float rhythmScore = _playStyleAnalyzer != null ? _playStyleAnalyzer.RhythmStabilityScore : 0f;
+            float lightScore = 0f;
+            float rhythmScore = 0f;
+
+            if (_playStyleAnalyzer != null)
+            {
+                lightScore = _showDailyScope ? _playStyleAnalyzer.DailyLightAttackTendencyScore : _playStyleAnalyzer.TotalLightAttackTendencyScore;
+                rhythmScore = _showDailyScope ? _playStyleAnalyzer.DailyRhythmStabilityScore : _playStyleAnalyzer.TotalRhythmStabilityScore;
+            }
+
             string scopeLabel = _showDailyScope ? _dailyScopeLabel : _totalScopeLabel;
 
             StyleArchetypeId archetypeId = _thresholdConfig != null

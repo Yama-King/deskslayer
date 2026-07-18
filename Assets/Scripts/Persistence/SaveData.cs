@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DeskSlayer.Combat;
+using DeskSlayer.Weather;
 
 namespace DeskSlayer.Persistence
 {
@@ -32,6 +33,28 @@ namespace DeskSlayer.Persistence
         public int equippedWeaponVariant;
 
         public WeaponRarity equippedWeaponRarity;
+
+        public AchievementSaveData achievements = new AchievementSaveData();
+    }
+
+    /// <summary>
+    /// 成就系統的存檔資料：已解鎖成就的識別碼清單，以及數值累積門檻型成就依賴的底層累積數值
+    /// （打字字數、攻擊觸發次數）與集合完成型成就依賴的已體驗天氣分類集合。這些累積數值本身
+    /// 不存在於 TypingEnergySystem／PlayStyleAnalyzer／WeatherService 等既有系統中（皆為純
+    /// session 記憶體狀態），因此由成就系統獨立持久化，不影響既有系統的存檔範圍。
+    /// 新增門檻階段資產時，只要 unlockedAchievementIds 裡沒有對應 id 就視為未解鎖，
+    /// 讀取舊存檔不會因為缺少新 id 而失敗。
+    /// </summary>
+    [Serializable]
+    public sealed class AchievementSaveData
+    {
+        public List<string> unlockedAchievementIds = new List<string>();
+
+        public long typedCharacterCount;
+
+        public int attackTriggerCount;
+
+        public List<WeatherCategory> seenWeatherCategories = new List<WeatherCategory>();
     }
 
     /// <summary>

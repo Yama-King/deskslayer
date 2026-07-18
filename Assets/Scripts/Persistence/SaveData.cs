@@ -37,6 +37,8 @@ namespace DeskSlayer.Persistence
         public AchievementSaveData achievements = new AchievementSaveData();
 
         public ShareCardSaveData shareCard = new ShareCardSaveData();
+
+        public PlayStyleSaveData playStyle = new PlayStyleSaveData();
     }
 
     /// <summary>
@@ -102,5 +104,39 @@ namespace DeskSlayer.Persistence
         public long totalKillCount;
 
         public string lastRecordedDate = string.Empty;
+    }
+
+    /// <summary>
+    /// PlayStyleAnalyzer（打字節奏／輕重攻擊傾向統計）的存檔資料：當日／累積輕重武器按鍵歸屬次數，
+    /// 當日／累積節奏線上統計累加器（Welford's Online Algorithm 的樣本數、平均值、平方差累加值），
+    /// 以及跨日惰性歸零判斷用的「上次記錄日期」。這個日期欄位與 <see cref="ShareCardSaveData.lastRecordedDate"/>
+    /// 語意相同、格式相同，但各自獨立維護、不共用也不互相參照，比照兩系統一貫的獨立原則。
+    /// 節奏累加器只保留三個數值、不保留任何原始樣本，資料量極小，因此當日／累積皆納入存檔範圍，
+    /// 確保玩家同一天內重啟遊戲時，當日統計能正確接續而非從零重新開始。
+    /// </summary>
+    [Serializable]
+    public sealed class PlayStyleSaveData
+    {
+        public int dailyLightWeaponKeyPressCount;
+
+        public int dailyHeavyWeaponKeyPressCount;
+
+        public long totalLightWeaponKeyPressCount;
+
+        public long totalHeavyWeaponKeyPressCount;
+
+        public string lastRecordedDate = string.Empty;
+
+        public long dailyRhythmSampleCount;
+
+        public double dailyRhythmMean;
+
+        public double dailyRhythmM2;
+
+        public long totalRhythmSampleCount;
+
+        public double totalRhythmMean;
+
+        public double totalRhythmM2;
     }
 }

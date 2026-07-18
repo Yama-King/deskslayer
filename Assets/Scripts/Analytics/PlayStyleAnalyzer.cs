@@ -1,37 +1,74 @@
 using UnityEngine;
 using DeskSlayer.KeyboardHook;
 using DeskSlayer.Combat;
+using DeskSlayer.Persistence;
 
 namespace DeskSlayer.Analytics
 {
     /// <summary>
-    /// 統計玩家打字節奏與輕重攻擊觸發比例，映射成「戰鬥風格」傾向分數，供未來 UI 查詢。
+    /// 統計玩家打字節奏與輕重攻擊觸發比例，映射成「戰鬥風格」傾向分數（當日／累積兩個版本），供 UI 查詢。
     /// 純粹訂閱既有事件做統計，不修改 GlobalKeyboardHookService 或 TypingEnergySystem。
-    /// 統計運算拆到 PlayStyleProfile（純 C# class），此類別僅負責 Unity 生命週期與事件轉接，
+    /// 統計運算拆到 PlayStyleProfile（純 C# class），此類別負責 Unity 生命週期、事件轉接，
+    /// 以及與 SaveLifecycleController 之間的存檔讀寫橋接（PlayStyleProfile 本身不依賴 Persistence，
     /// 比照 IFrameGuard（純邏輯）與 EnemyController（Unity 宿主）的分工方式。
     /// </summary>
     [RequireComponent(typeof(GlobalKeyboardHookService))]
     [RequireComponent(typeof(TypingEnergySystem))]
+    [RequireComponent(typeof(WeaponSwitcher))]
     public sealed class PlayStyleAnalyzer : MonoBehaviour
     {
         [SerializeField, Tooltip("Debug.Log 定期輸出目前風格分數的間隔秒數")]
         private float _logIntervalSeconds = 5f;
 
+        [SerializeField, Tooltip("打字段落切分閾值（毫秒）。按鍵間隔超過此值視為玩家離開打字動作，該次間隔不列入節奏穩定度計算母體，需依實際試玩感受微調")]
+        private float _segmentBreakThresholdMs = (float)PlayStyleProfile.DefaultSegmentBreakThresholdMs;
+
+        [SerializeField, Tooltip("計算節奏穩定度所需的段落內樣本數下限。低於此下限時分數維持前次結果不更新，避免極少樣本算出失真分數")]
+        private int _minSegmentSampleCount = PlayStyleProfile.DefaultMinSegmentSampleCount;
+
         private GlobalKeyboardHookService _hookService;
         private TypingEnergySystem _typingEnergySystem;
+        private WeaponSwitcher _weaponSwitcher;
         private readonly PlayStyleProfile _profile = new PlayStyleProfile();
         private float _logTimer;
 
-        /// <summary>輕攻擊傾向分數（0~100）。數值越高代表越傾向輕攻擊流，越低代表越傾向重攻擊流。</summary>
-        public float LightAttackTendencyScore => _profile.LightAttackTendencyScore;
+        /// <summary>當日輕攻擊傾向分數（0~100）。數值越高代表今天越傾向輕攻擊流，越低代表越傾向重攻擊流。</summary>
+        public float DailyLightAttackTendencyScore => _profile.DailyLightAttackTendencyScore;
 
-        /// <summary>打字節奏穩定度分數（0~100）。數值越高代表按鍵間隔越穩定（節奏型），越低代表忽快忽慢（爆發型）。</summary>
-        public float RhythmStabilityScore => _profile.RhythmStabilityScore;
+        /// <summary>累積（全生涯）輕攻擊傾向分數（0~100）。</summary>
+        public float TotalLightAttackTendencyScore => _profile.TotalLightAttackTendencyScore;
+
+        /// <summary>當日打字節奏穩定度分數（0~100）。數值越高代表今天的按鍵間隔越穩定（節奏型），越低代表忽快忽慢（爆發型）。</summary>
+        public float DailyRhythmStabilityScore => _profile.DailyRhythmStabilityScore;
+
+        /// <summary>累積打字節奏穩定度分數（0~100），代表近期整體節奏特徵，不特別區分日期界線。</summary>
+        public float TotalRhythmStabilityScore => _profile.TotalRhythmStabilityScore;
 
         private void Awake()
         {
             _hookService = GetComponent<GlobalKeyboardHookService>();
             _typingEnergySystem = GetComponent<TypingEnergySystem>();
+            _weaponSwitcher = GetComponent<WeaponSwitcher>();
+            _profile.SegmentBreakThresholdMs = _segmentBreakThresholdMs;
+            _profile.MinSegmentSampleCount = _minSegmentSampleCount;
+
+            PlayStyleSaveData saveData = SaveLifecycleController.CurrentSaveData.playStyle;
+            _profile.InitializePersistedAttackState(
+                saveData.dailyLightWeaponKeyPressCount,
+                saveData.dailyHeavyWeaponKeyPressCount,
+                saveData.totalLightWeaponKeyPressCount,
+                saveData.totalHeavyWeaponKeyPressCount,
+                saveData.lastRecordedDate);
+            _profile.InitializePersistedRhythmState(
+                saveData.dailyRhythmSampleCount,
+                saveData.dailyRhythmMean,
+                saveData.dailyRhythmM2,
+                saveData.totalRhythmSampleCount,
+                saveData.totalRhythmMean,
+                saveData.totalRhythmM2);
+            _profile.RefreshDailyRolloverIfNeeded();
+
+            SyncPersistedPlayStyleState();
         }
 
         private void OnEnable()
@@ -57,13 +94,29 @@ namespace DeskSlayer.Analytics
             }
 
             _logTimer = 0f;
-            Debug.Log($"[PlayStyleAnalyzer] 輕攻擊傾向={LightAttackTendencyScore:F1} 分，節奏穩定度={RhythmStabilityScore:F1} 分");
+            Debug.Log($"[PlayStyleAnalyzer] 輕攻擊傾向(當日/累積)={DailyLightAttackTendencyScore:F1}/{TotalLightAttackTendencyScore:F1} 分，節奏穩定度(當日/累積)={DailyRhythmStabilityScore:F1}/{TotalRhythmStabilityScore:F1} 分");
         }
 
-        /// <summary>僅用於記錄時間戳記以計算節奏，攻擊觸發計數一律交由 TypingEnergySystem 的事件負責，避免重複判斷有效按鍵。</summary>
+        /// <summary>
+        /// 比對目前日期與上次記錄日期，跨日時歸零當日計數與節奏線上累加器。供分享卡生成流程等外部呼叫端
+        /// 在讀取當日分數前主動呼叫，確保跨日後第一次讀取就是正確數字（比照 ShareCardStatsTracker 的作法，
+        /// 但這裡驅動的是 PlayStyleProfile 自己獨立維護的日期欄位，不影響 ShareCardStatsTracker）。
+        /// </summary>
+        public void RefreshDailyRolloverIfNeeded()
+        {
+            _profile.RefreshDailyRolloverIfNeeded();
+            SyncPersistedPlayStyleState();
+        }
+
+        /// <summary>
+        /// 記錄時間戳記以計算節奏，並依當下裝備的武器類型記錄按鍵歸屬（供 LightAttackTendencyScore 使用）。
+        /// 攻擊「觸發」計數則一律交由 TypingEnergySystem 的事件負責，避免重複判斷有效按鍵。
+        /// </summary>
         private void HandleKeyPressed(KeyPressData data)
         {
             _profile.RecordKeyTimestamp(data.TimestampTicks);
+            _profile.RecordEquippedWeaponKeyPress(ResolveWeaponCategory(_weaponSwitcher.CurrentWeapon));
+            SyncPersistedPlayStyleState();
         }
 
         private void HandleLightAttackTriggered(LightWeaponSO weapon)
@@ -74,6 +127,42 @@ namespace DeskSlayer.Analytics
         private void HandleHeavyAttackTriggered(HeavyWeaponSO weapon)
         {
             _profile.RecordHeavyAttack();
+        }
+
+        private static WeaponCategory ResolveWeaponCategory(WeaponDataSO weapon)
+        {
+            switch (weapon)
+            {
+                case LightWeaponSO _:
+                    return WeaponCategory.Light;
+
+                case HeavyWeaponSO _:
+                    return WeaponCategory.Heavy;
+
+                default:
+                    return WeaponCategory.None;
+            }
+        }
+
+        /// <summary>
+        /// 將 PlayStyleProfile 目前的當日/累積按鍵歸屬計數、節奏線上累加器狀態與上次記錄日期同步寫回
+        /// SaveData，讓 PlayStyleProfile 本身維持不依賴 Persistence 的純 C# 設計。只寫入記憶體中的
+        /// SaveLifecycleController.CurrentSaveData，實際落盤仍由既有的存檔時機（App 關閉、RequestSave）負責。
+        /// </summary>
+        private void SyncPersistedPlayStyleState()
+        {
+            PlayStyleSaveData saveData = SaveLifecycleController.CurrentSaveData.playStyle;
+            saveData.dailyLightWeaponKeyPressCount = _profile.DailyLightWeaponKeyPressCount;
+            saveData.dailyHeavyWeaponKeyPressCount = _profile.DailyHeavyWeaponKeyPressCount;
+            saveData.totalLightWeaponKeyPressCount = _profile.TotalLightWeaponKeyPressCount;
+            saveData.totalHeavyWeaponKeyPressCount = _profile.TotalHeavyWeaponKeyPressCount;
+            saveData.lastRecordedDate = _profile.LastRecordedDate;
+            saveData.dailyRhythmSampleCount = _profile.DailyRhythmSampleCount;
+            saveData.dailyRhythmMean = _profile.DailyRhythmMean;
+            saveData.dailyRhythmM2 = _profile.DailyRhythmM2;
+            saveData.totalRhythmSampleCount = _profile.TotalRhythmSampleCount;
+            saveData.totalRhythmMean = _profile.TotalRhythmMean;
+            saveData.totalRhythmM2 = _profile.TotalRhythmM2;
         }
     }
 }

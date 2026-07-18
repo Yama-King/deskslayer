@@ -135,5 +135,17 @@ namespace DeskSlayer.Weather
                 OnWeatherChanged?.Invoke(CurrentModifier);
             }
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// 僅供 Editor 測試使用：略過 API 請求與城市查詢流程，直接套用指定天氣分類並在有變化時觸發
+        /// OnWeatherChanged，讓「風雨無阻」等訂閱端能被同一套正式判定邏輯驗證，不需要真的等待/僞造
+        /// API 回應。以 #if UNITY_EDITOR 包住，不會被打包進正式 Build。
+        /// </summary>
+        public void DebugForceCategory(WeatherCategory category)
+        {
+            ApplyCategory(category, notify: true);
+        }
+#endif
     }
 }

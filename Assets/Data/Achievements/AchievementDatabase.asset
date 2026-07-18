@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b618b5febe78744fa7c2036a8df66e5, type: 3}
+  m_Name: AchievementDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Achievements.AchievementDatabaseSO
+  _allAchievements:
+  - {fileID: 11400000, guid: 569ee877cd30f4d4eb419811670cf9a4, type: 2}
+  - {fileID: 11400000, guid: d36aa62b1c8b2c3448fb41af076ea27c, type: 2}
+  - {fileID: 11400000, guid: 989fbf54765710a4da4312cc3be231b9, type: 2}
+  - {fileID: 11400000, guid: bbbc59b92a635684d9299c85bd8cde34, type: 2}
+  - {fileID: 11400000, guid: 085d0e2566b158946b4f45c767c18acf, type: 2}

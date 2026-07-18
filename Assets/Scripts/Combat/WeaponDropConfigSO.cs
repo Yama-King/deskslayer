@@ -7,11 +7,13 @@ namespace DeskSlayer.Combat
     /// 武器掉落與合成的可調數值設定檔。所有數字皆可直接在 Inspector 調整，不需要改程式碼，
     /// 供之後平衡數值微調使用。掉落判定的演算法本身在 IWeaponDropResolver，這裡只提供數值。
     ///
-    /// 交叉依賴提醒：AchievementService 的「初戰告捷」成就目前訂閱 WeaponDropDispatcher.OnWeaponDropped
-    /// 當作擊殺代理事件，隱性假設這裡的權重設定會讓每次擊殺都 100% 產生掉落（只有某個家族完全沒建置
-    /// 任何武器資產時，DefaultWeaponDropResolver 才會回傳 null、不觸發事件）。若把某個稀有度或家族的
-    /// 權重調成會讓掉落變成「這次真的沒東西掉」的機率制，會連帶影響「初戰告捷」的觸發時機，
-    /// 屆時需要通知成就系統那邊重新評估。
+    /// 交叉依賴提醒：AchievementService 的「初戰告捷」成就與 ShareCardStatsTracker（分享卡系統）的
+    /// 擊殺數計數，都訂閱 WeaponDropDispatcher.OnWeaponDropped 當作擊殺代理事件，隱性假設這裡的權重
+    /// 設定會讓每次擊殺都 100% 產生掉落（只有某個家族完全沒建置任何武器資產時，
+    /// DefaultWeaponDropResolver 才會回傳 null、不觸發事件）。若把某個稀有度或家族的
+    /// 權重調成會讓掉落變成「這次真的沒東西掉」的機率制，會連帶影響「初戰告捷」的觸發時機與
+    /// 分享卡擊殺數的準確性（擊殺了但沒掉落，兩邊都不會計入），屆時需要通知成就系統與分享卡系統
+    /// 那邊重新評估（分享卡系統屆時可考慮改回直接訂閱 EnemyController.OnDeath）。
     /// </summary>
     [CreateAssetMenu(fileName = "WeaponDropConfig", menuName = "DeskSlayer/Combat/Weapon Drop Config", order = 3)]
     public sealed class WeaponDropConfigSO : ScriptableObject

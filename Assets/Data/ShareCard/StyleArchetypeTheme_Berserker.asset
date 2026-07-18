@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a386188508981454ba4227f8f7dab577, type: 3}
+  m_Name: StyleArchetypeTheme_Berserker
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.ShareCard.StyleArchetypeThemeSO
+  _archetypeId: 4
+  _displayName: "\u72C2\u6230\u58EB\u578B"
+  _themeColor: {r: 0.8, g: 0.15, b: 0.15, a: 1}
+  _icon: {fileID: 0}
+  _slogan: "\u7206\u767C\u5168\u958B\uFF0C\u4E0D\u8AD6\u4EC0\u9EBC\u7AE0\u6CD5"

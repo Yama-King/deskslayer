@@ -35,6 +35,8 @@ namespace DeskSlayer.Persistence
         public WeaponRarity equippedWeaponRarity;
 
         public AchievementSaveData achievements = new AchievementSaveData();
+
+        public ShareCardSaveData shareCard = new ShareCardSaveData();
     }
 
     /// <summary>
@@ -79,5 +81,26 @@ namespace DeskSlayer.Persistence
         public WeaponFamily family;
         public WeaponRarity rarity;
         public int shardCount;
+    }
+
+    /// <summary>
+    /// 分享卡系統的存檔資料：當日／累積打字量、當日／累積擊殺數，以及跨日惰性歸零判斷用的
+    /// 「上次記錄日期」。這份計數與成就系統的 typedCharacterCount／attackTriggerCount 完全獨立
+    /// （即使部分來源事件相同），不共用、不參照成就系統的存檔欄位或計數邏輯。
+    /// lastRecordedDate 為空字串代表尚未有任何一次事件或分享卡生成觸發過惰性判斷，
+    /// 第一次觸發時會視為「跟今天不同」而直接初始化，不需要特別處理初始值。
+    /// </summary>
+    [Serializable]
+    public sealed class ShareCardSaveData
+    {
+        public int dailyTypedCount;
+
+        public int dailyKillCount;
+
+        public long totalTypedCount;
+
+        public long totalKillCount;
+
+        public string lastRecordedDate = string.Empty;
     }
 }

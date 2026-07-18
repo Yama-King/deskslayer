@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b60f0e72e8c5b4bbae2c81e45047f6, type: 3}
+  m_Name: Dagger_ShareCardPose
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.ShareCard.ShareCardPoseSO
+  _targetWeapon: {fileID: 11400000, guid: 7035f0509c3373444ab25f0f9a545788, type: 2}
+  _weaponAnimationStateName: Attack
+  _bodyAnimationStateName: Attack
+  _normalizedTime: 0.4

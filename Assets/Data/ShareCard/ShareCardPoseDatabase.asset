@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae23fd3ce1ec004ca38d4e2d08fac31, type: 3}
+  m_Name: ShareCardPoseDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.ShareCard.ShareCardPoseDatabaseSO
+  _allPoses:
+  - {fileID: 11400000, guid: 442efba3e7324ee48bc487f4d1eab089, type: 2}
+  - {fileID: 11400000, guid: 2a740bcd4fbb5d149af1ab630ea4f139, type: 2}

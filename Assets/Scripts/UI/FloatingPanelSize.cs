@@ -4,14 +4,29 @@ using UnityEngine.EventSystems;
 namespace DeskSlayer.UI
 {
     /// <summary>
-    /// 浮動面板（武器背包、天氣選城市）外框尺寸/位置的可調參數。[ExecuteAlways] + OnValidate
-    /// 讓 Inspector 數值變動時 Edit Mode 就直接套用，不需要進 Play Mode 才能預覽調整結果——
-    /// 面板最終大小是實機試玩後的主觀判斷（見規格書已知限制），這裡只負責讓調整這件事本身
-    /// 快速，不是預先算出正確答案。
+    /// 浮動面板（武器背包、天氣選城市、成就清單、分享卡片）外框尺寸/位置的可調參數。
+    ///
+    /// 套用 _anchoredPosition/_baseSizeDelta/_baseContentScale 這幾個設計原始值到 RectTransform，
+    /// 刻意改成只能透過 Inspector 右鍵選單的「套用設計原始值」手動觸發（見 ApplyDesignValues），
+    /// 不會在 OnEnable 或 OnValidate 自動套用。早期版本 OnEnable／OnValidate 都會自動套用一次，
+    /// 結果只要直接在 Scene 視圖拖曳 RectTransform、或改 RectTransform 元件自己的欄位（而不是
+    /// 透過這個元件的欄位調整），改動當下看起來沒事，但接下來只要有任何時機讓這個
+    /// [ExecuteAlways] 元件重新驗證，就會用還沒更新的舊序列化欄位把 RectTransform 悄悄蓋回去。
+    /// 原本以為「只有使用者編輯這個元件自己的欄位才會觸發 OnValidate」，但實測用 Debug.Log 追蹤
+    /// 發現：即使完全沒有編輯任何欄位，Unity 光是進入或離開 Play Mode，就會對場景裡所有
+    /// [ExecuteAlways] 元件自動重新呼叫一次 OnValidate——這是實測抓到的真實 bug，不是假設性風險，
+    /// 也是這個元件放棄「自動套用」、改成手動觸發的直接原因：手動觸發不受 Unity 什麼時候會自動
+    /// 重新驗證 ExecuteAlways 元件這個内部時機影響，套用這件事永遠只發生在使用者真的按下按鈕
+    /// 的當下，沒有第三種「背景自動觸發」的可能性。
+    ///
+    /// Build 執行期不需要自動套用：玩家看到的 RectTransform 值本來就是 Editor 存檔當下最後一次
+    /// 手動按過「套用設計原始值」的結果，直接序列化在場景/Prefab 裡，不需要在 Awake/OnEnable
+    /// 重新套用一次。
     ///
     /// 額外支援滑鼠中鍵滾輪縮放（IScrollHandler）：桌面透明視窗環境下無法重新 Build 就即時看到
-    /// Inspector 欄位調整的結果（欄位調整仍然只能在 Editor 裡預覽），滾輪縮放讓使用者能直接在
-    /// 打包出來的 .exe 裡滑鼠移到面板上滾動滑鼠中鍵即時試出想要的大小，不用重新 Build。
+    /// Inspector 欄位調整的結果，滾輪縮放讓使用者能直接在打包出來的 .exe 裡滑鼠移到面板上滾動
+    /// 滑鼠中鍵即時試出想要的大小，不用重新 Build。這條路徑不受上面「移除自動套用」影響，
+    /// OnScroll 呼叫 ApplySize 屬於使用者當下主動操作觸發，不是背景自動套用。
     ///
     /// 外框尺寸（_baseSizeDelta）與內部內容縮放（_baseContentScale）刻意用同一個 _zoomRatio 共同
     /// 驅動，而不是各自維護一組獨立的滾輪縮放上下限：早期版本讓兩者各自 clamp 在自己的
@@ -21,11 +36,11 @@ namespace DeskSlayer.UI
     /// 外框與內容永遠是「設計原始值 × 同一個 zoomRatio」，不管縮放到範圍內任何一點，兩者的比例
     /// 關係都跟原始設計（zoomRatio=1 時）完全一致，天生不會跑版。
     ///
-    /// 位置（_anchoredPosition）刻意跟尺寸分開套用：這個欄位只在 OnEnable／Inspector 編輯時
-    /// （OnValidate）套用一次，滾輪縮放（OnScroll）只呼叫 ApplySize，不會重新套用位置。
-    /// 面板實際的即時位置在使用者拖曳後（PanelDragHandle）是由 RectTransform.anchoredPosition
-    /// 自己記著，並不會回寫進這個欄位——如果 OnScroll 也跟著套用位置，玩家拖曳面板到別處後只要
-    /// 再滾一次滾輪，面板就會瞬間跳回原本的設計位置，這是實測抓到的真實 bug，不是假設性風險。
+    /// 位置（_anchoredPosition）刻意跟尺寸分開套用：手動按「套用設計原始值」會同時套用位置跟
+    /// 尺寸，但滾輪縮放（OnScroll）只呼叫 ApplySize，不會重新套用位置。面板實際的即時位置在
+    /// 使用者拖曳後（PanelDragHandle）是由 RectTransform.anchoredPosition 自己記著，並不會回寫
+    /// 進這個欄位——如果 OnScroll 也跟著套用位置，玩家拖曳面板到別處後只要再滾一次滾輪，面板就會
+    /// 瞬間跳回原本的設計位置，這是實測抓到的真實 bug，不是假設性風險。
     /// </summary>
     [ExecuteAlways]
     [DisallowMultipleComponent]
@@ -55,37 +70,22 @@ namespace DeskSlayer.UI
         private RectTransform _rectTransform;
         private float _zoomRatio = 1f;
 
-        private void OnEnable()
-        {
-            ApplyPosition();
-            ApplySize();
-        }
-
         private void OnValidate()
         {
             _zoomRatio = Mathf.Clamp(_zoomRatio, _minZoomRatio, _maxZoomRatio);
+        }
 
-#if UNITY_EDITOR
-            // RectTransform 的 sizeDelta/anchoredPosition 改動會觸發版面配置系統用 SendMessage 通知
-            // 相關元件，但 OnValidate 執行期間 Unity 不允許呼叫 SendMessage，直接在這裡套用會在
-            // Console 噴出無害但吵雜的警告。延到下一個 Editor tick 再套用，避開這個時機限制——
-            // 純粹是 Editor 內 Inspector 編輯時的時機問題，Build 裡 OnValidate 本來就不會被呼叫，
-            // 不影響玩家看到的行為。delayCall 排進佇列後如果剛好遇到程式重新編譯（domain reload），
-            // 這個元件實例會被銷毀重建，佇列裡留著對舊實例的參照，執行時就會噴
-            // MissingReferenceException——用 `this != null`（Unity 對已銷毀物件覆寫過的判斷）
-            // 擋掉這個情況，而不是假設 delayCall 一定會在同一個實例活著的時候執行。
-            UnityEditor.EditorApplication.delayCall += () =>
-            {
-                if (this != null)
-                {
-                    ApplyPosition();
-                    ApplySize();
-                }
-            };
-#else
+        /// <summary>
+        /// 在 Inspector 對這個元件按右鍵選單，選「套用設計原始值」手動觸發：把
+        /// _anchoredPosition/_baseSizeDelta/_baseContentScale 套用到 RectTransform，用來取代
+        /// 舊版在 OnEnable/OnValidate 自動套用（見類別註解）。調完 _anchoredPosition/_baseSizeDelta
+        /// /_baseContentScale 這幾個欄位後，記得手動按這裡才會在 Scene 看到套用結果。
+        /// </summary>
+        [ContextMenu("套用設計原始值 (Apply Design Values)")]
+        private void ApplyDesignValues()
+        {
             ApplyPosition();
             ApplySize();
-#endif
         }
 
         /// <summary>

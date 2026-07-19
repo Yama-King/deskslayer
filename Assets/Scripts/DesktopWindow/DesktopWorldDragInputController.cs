@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace DeskSlayer.DesktopWindow
 {
@@ -9,8 +8,11 @@ namespace DeskSlayer.DesktopWindow
     /// PanelDragHandle），不經過這裡——這裡只負責 mediator.LastHitKind 為 GameObject 的情況，
     /// 兩條路徑最終都收斂到同一個 GameWorldDragCoordinator.ApplyScreenDelta，見該類別註解。
     ///
-    /// 專案 Active Input Handler 設為新版 Input System Only（ProjectSettings.activeInputHandler=1），
-    /// 因此用 Mouse.current 讀取按鍵狀態，不能用舊版 Input.GetMouseButton 系列。
+    /// 改用舊版 Input.GetMouseButton 系列，不使用新版 Input System 的 Mouse.current：
+    /// 新版 Input System 的 Native Backend 啟用時，會在 DeskSlayer 視窗取得 OS 焦點時跟
+    /// Win32LowLevelKeyboardHook 搶鍵盤輸入，導致視窗一被點擊聚焦就完全偵測不到打字
+    /// （見 Win32LowLevelKeyboardHook.cs 類別註解）。專案 ProjectSettings.activeInputHandler
+    /// 因此固定為 0（Input Manager Only），這裡也要跟著改回舊版 API，否則 Mouse.current 會是 null。
     ///
     /// 這裡每幀讀的 mediator.LastHitKind/LastScreenPoint 是 mediator 自己 Update() 當幀算出來的，
     /// 必須確保這裡的 Update() 在 mediator 的 Update() 之後執行，否則會讀到上一幀的舊值——Unity 不
@@ -38,13 +40,7 @@ namespace DeskSlayer.DesktopWindow
 
         private void Update()
         {
-            Mouse mouse = Mouse.current;
-            if (mouse == null)
-            {
-                return;
-            }
-
-            if (mouse.leftButton.wasPressedThisFrame)
+            if (Input.GetMouseButtonDown(0))
             {
                 if (_mediator.LastHitKind == CursorHitKind.GameObject)
                 {
@@ -55,7 +51,7 @@ namespace DeskSlayer.DesktopWindow
                 return;
             }
 
-            if (mouse.leftButton.wasReleasedThisFrame)
+            if (Input.GetMouseButtonUp(0))
             {
                 _isDragging = false;
                 return;
@@ -66,7 +62,7 @@ namespace DeskSlayer.DesktopWindow
                 return;
             }
 
-            if (!mouse.leftButton.isPressed)
+            if (!Input.GetMouseButton(0))
             {
                 _isDragging = false;
                 return;

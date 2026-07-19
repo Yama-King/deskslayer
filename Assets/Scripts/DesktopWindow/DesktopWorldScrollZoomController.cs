@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace DeskSlayer.DesktopWindow
 {
@@ -9,6 +8,9 @@ namespace DeskSlayer.DesktopWindow
     /// mediator.LastHitKind 為 GameObject 的情況，兩條路徑最終都收斂到同一個
     /// GameWorldDragCoordinator.ApplyWorldScaleDelta，見該類別註解。架構上完全比照
     /// DesktopWorldDragInputController 處理拖曳輸入的既有模式，只是這裡讀的是滾輪而不是左鍵。
+    ///
+    /// 改用舊版 Input.mouseScrollDelta，原因同 DesktopWorldDragInputController：新版 Input System
+    /// 的 Native Backend 會跟全域鍵盤 Hook 搶輸入，專案已固定使用 Input Manager (Old)。
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(DesktopWindowClickThroughMediator))]
@@ -27,18 +29,12 @@ namespace DeskSlayer.DesktopWindow
 
         private void Update()
         {
-            Mouse mouse = Mouse.current;
-            if (mouse == null)
-            {
-                return;
-            }
-
             if (_mediator.LastHitKind != CursorHitKind.GameObject)
             {
                 return;
             }
 
-            float scrollY = mouse.scroll.ReadValue().y;
+            float scrollY = Input.mouseScrollDelta.y;
             if (scrollY == 0f)
             {
                 return;

@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
-using DeskSlayer.KeyboardHook;
+using DeskSlayer.AttackInput;
 
 namespace DeskSlayer.Combat
 {
     /// <summary>
-    /// 訂閱 GlobalKeyboardHookService 的按鍵事件，向 WeaponSwitcher 查詢目前裝備的武器，
-    /// 呼叫該武器的 TryTriggerAttack() 決定是否觸發攻擊。職責僅限於按鍵轉發與事件分派，
-    /// 不做傷害運算或敵人互動（交由 CombatDispatcher 等下游模組處理），也不認識任何具體武器的觸發規則。
+    /// 訂閱 AttackInputAggregator 彙整後的攻擊輸入事件（鍵盤字元輸入與滑鼠點擊完全對等），
+    /// 向 WeaponSwitcher 查詢目前裝備的武器，呼叫該武器的 TryTriggerAttack() 決定是否觸發攻擊。
+    /// 職責僅限於輸入轉發與事件分派，不做傷害運算或敵人互動（交由 CombatDispatcher 等下游模組處理），
+    /// 也不認識任何具體武器的觸發規則，更不認識輸入實際來自鍵盤還是滑鼠。
     /// </summary>
-    [RequireComponent(typeof(GlobalKeyboardHookService))]
+    [RequireComponent(typeof(AttackInputAggregator))]
     [RequireComponent(typeof(WeaponSwitcher))]
     public sealed class TypingEnergySystem : MonoBehaviour
     {
@@ -19,26 +20,26 @@ namespace DeskSlayer.Combat
         /// <summary>裝備重武器且累積按鍵次數達到閾值時觸發攻擊，帶入對應的重武器數據。</summary>
         public event Action<HeavyWeaponSO> OnHeavyAttackTriggered;
 
-        private GlobalKeyboardHookService _hookService;
+        private AttackInputAggregator _attackInputAggregator;
         private WeaponSwitcher _weaponSwitcher;
 
         private void Awake()
         {
-            _hookService = GetComponent<GlobalKeyboardHookService>();
+            _attackInputAggregator = GetComponent<AttackInputAggregator>();
             _weaponSwitcher = GetComponent<WeaponSwitcher>();
         }
 
         private void OnEnable()
         {
-            _hookService.OnKeyPressed += HandleKeyPressed;
+            _attackInputAggregator.OnAttackInputTriggered += HandleAttackInput;
         }
 
         private void OnDisable()
         {
-            _hookService.OnKeyPressed -= HandleKeyPressed;
+            _attackInputAggregator.OnAttackInputTriggered -= HandleAttackInput;
         }
 
-        private void HandleKeyPressed(KeyPressData data)
+        private void HandleAttackInput(AttackInputData data)
         {
             WeaponDataSO weapon = _weaponSwitcher.CurrentWeapon;
             if (weapon == null || !weapon.TryTriggerAttack())

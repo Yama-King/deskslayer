@@ -39,6 +39,8 @@ namespace DeskSlayer.Persistence
         public ShareCardSaveData shareCard = new ShareCardSaveData();
 
         public PlayStyleSaveData playStyle = new PlayStyleSaveData();
+
+        public GameSettingsSaveData gameSettings = new GameSettingsSaveData();
     }
 
     /// <summary>
@@ -138,5 +140,18 @@ namespace DeskSlayer.Persistence
         public double totalRhythmMean;
 
         public double totalRhythmM2;
+    }
+
+    /// <summary>
+    /// 玩家可調整設定的存檔資料：滑鼠偵測開關（是否將滑鼠點擊視為攻擊輸入）與主音量。
+    /// 比照 WeatherCityPreferenceStore 現行的做法直接掛在 SaveData 底下，不使用 PlayerPrefs——
+    /// 城市選擇資料已從 PlayerPrefs 遷移至此，這裡從一開始就採用相同的持久化路徑。
+    /// </summary>
+    [Serializable]
+    public sealed class GameSettingsSaveData
+    {
+        public bool mouseAttackInputEnabled = true;
+
+        public float masterVolume = 1f;
     }
 }

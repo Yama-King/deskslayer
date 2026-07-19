@@ -1,18 +1,23 @@
 using UnityEngine;
-using DeskSlayer.KeyboardHook;
+using DeskSlayer.AttackInput;
 using DeskSlayer.Combat;
 using DeskSlayer.Persistence;
 
 namespace DeskSlayer.Analytics
 {
     /// <summary>
-    /// 統計玩家打字節奏與輕重攻擊觸發比例，映射成「戰鬥風格」傾向分數（當日／累積兩個版本），供 UI 查詢。
-    /// 純粹訂閱既有事件做統計，不修改 GlobalKeyboardHookService 或 TypingEnergySystem。
+    /// 統計玩家打字/點擊節奏與輕重攻擊觸發比例，映射成「戰鬥風格」傾向分數（當日／累積兩個版本），供 UI 查詢。
+    /// 純粹訂閱既有事件做統計，不修改 AttackInputAggregator 或 TypingEnergySystem。
     /// 統計運算拆到 PlayStyleProfile（純 C# class），此類別負責 Unity 生命週期、事件轉接，
     /// 以及與 SaveLifecycleController 之間的存檔讀寫橋接（PlayStyleProfile 本身不依賴 Persistence，
     /// 比照 IFrameGuard（純邏輯）與 EnemyController（Unity 宿主）的分工方式。
+    ///
+    /// 滑鼠點擊與鍵盤字元輸入透過 AttackInputAggregator 彙整成同一種 AttackInputData 事件，
+    /// 這裡完全不區分來源，兩者對節奏統計與武器歸屬統計一視同仁。PlayStyleProfile 內部方法
+    /// （RecordKeyTimestamp 等）與存檔欄位（dailyLightWeaponKeyPressCount 等）仍沿用「按鍵」字樣命名，
+    /// 是刻意選擇不重新命名——避免異動既有存檔 JSON 欄位造成相容性風險，語意上現在涵蓋所有攻擊輸入來源。
     /// </summary>
-    [RequireComponent(typeof(GlobalKeyboardHookService))]
+    [RequireComponent(typeof(AttackInputAggregator))]
     [RequireComponent(typeof(TypingEnergySystem))]
     [RequireComponent(typeof(WeaponSwitcher))]
     public sealed class PlayStyleAnalyzer : MonoBehaviour
@@ -26,7 +31,7 @@ namespace DeskSlayer.Analytics
         [SerializeField, Tooltip("計算節奏穩定度所需的段落內樣本數下限。低於此下限時分數維持前次結果不更新，避免極少樣本算出失真分數")]
         private int _minSegmentSampleCount = PlayStyleProfile.DefaultMinSegmentSampleCount;
 
-        private GlobalKeyboardHookService _hookService;
+        private AttackInputAggregator _attackInputAggregator;
         private TypingEnergySystem _typingEnergySystem;
         private WeaponSwitcher _weaponSwitcher;
         private readonly PlayStyleProfile _profile = new PlayStyleProfile();
@@ -46,7 +51,7 @@ namespace DeskSlayer.Analytics
 
         private void Awake()
         {
-            _hookService = GetComponent<GlobalKeyboardHookService>();
+            _attackInputAggregator = GetComponent<AttackInputAggregator>();
             _typingEnergySystem = GetComponent<TypingEnergySystem>();
             _weaponSwitcher = GetComponent<WeaponSwitcher>();
             _profile.SegmentBreakThresholdMs = _segmentBreakThresholdMs;
@@ -73,14 +78,14 @@ namespace DeskSlayer.Analytics
 
         private void OnEnable()
         {
-            _hookService.OnKeyPressed += HandleKeyPressed;
+            _attackInputAggregator.OnAttackInputTriggered += HandleAttackInput;
             _typingEnergySystem.OnLightAttackTriggered += HandleLightAttackTriggered;
             _typingEnergySystem.OnHeavyAttackTriggered += HandleHeavyAttackTriggered;
         }
 
         private void OnDisable()
         {
-            _hookService.OnKeyPressed -= HandleKeyPressed;
+            _attackInputAggregator.OnAttackInputTriggered -= HandleAttackInput;
             _typingEnergySystem.OnLightAttackTriggered -= HandleLightAttackTriggered;
             _typingEnergySystem.OnHeavyAttackTriggered -= HandleHeavyAttackTriggered;
         }
@@ -109,10 +114,10 @@ namespace DeskSlayer.Analytics
         }
 
         /// <summary>
-        /// 記錄時間戳記以計算節奏，並依當下裝備的武器類型記錄按鍵歸屬（供 LightAttackTendencyScore 使用）。
-        /// 攻擊「觸發」計數則一律交由 TypingEnergySystem 的事件負責，避免重複判斷有效按鍵。
+        /// 記錄時間戳記以計算節奏，並依當下裝備的武器類型記錄輸入歸屬（供 LightAttackTendencyScore 使用）。
+        /// 攻擊「觸發」計數則一律交由 TypingEnergySystem 的事件負責，避免重複判斷有效輸入。
         /// </summary>
-        private void HandleKeyPressed(KeyPressData data)
+        private void HandleAttackInput(AttackInputData data)
         {
             _profile.RecordKeyTimestamp(data.TimestampTicks);
             _profile.RecordEquippedWeaponKeyPress(ResolveWeaponCategory(_weaponSwitcher.CurrentWeapon));

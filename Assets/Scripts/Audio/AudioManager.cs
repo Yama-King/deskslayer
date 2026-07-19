@@ -1,4 +1,5 @@
 using DeskSlayer.GameState;
+using DeskSlayer.Settings;
 using UnityEngine;
 
 namespace DeskSlayer.Audio
@@ -29,6 +30,9 @@ namespace DeskSlayer.Audio
             Instance = this;
             DontDestroyOnLoad(gameObject);
             BuildSourcePool();
+
+            // 開機當下就套用玩家上次設定的主音量，不需要等玩家手動打開設定面板才生效。
+            SetMasterVolume(GameSettingsPreferenceStore.MasterVolume);
         }
 
         private void OnDestroy()
@@ -135,6 +139,17 @@ namespace DeskSlayer.Audio
             source.volume = data.GetRandomVolume();
             source.pitch = data.GetRandomPitch();
             source.Play();
+        }
+
+        /// <summary>
+        /// 設定主音量（0~1，超出範圍會被夾住）。套用到 AudioListener.volume 而非逐一改寫
+        /// AudioSource.volume——這是 Unity 標準的全域主音量做法，對「目前正在播放中」與
+        /// 「之後才播放」的音源都即時生效，完全不用碰 PlaySound()/GetAvailableSource() 的既有播放邏輯。
+        /// 專案目前只有這組 SFX 音效池、沒有獨立的 BGM/Music 系統，因此套用單一全域係數不會誤傷其他音軌。
+        /// </summary>
+        public void SetMasterVolume(float volume)
+        {
+            AudioListener.volume = Mathf.Clamp01(volume);
         }
 
         private AudioSource GetAvailableSource()

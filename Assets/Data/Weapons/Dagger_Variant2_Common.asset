@@ -15,7 +15,7 @@ MonoBehaviour:
   _weaponName: "\u5C0F\u5200\xB7\u8B8A\u9AD42"
   _baseDamage: 5
   _icon: {fileID: 21300000, guid: 39139087ee52ed04db4469bda0b20a92, type: 3}
-  _hitStopDuration: 0.03
+  _hitStopDuration: 0.06
   _family: 0
   _variant: 2
   _rarity: 0

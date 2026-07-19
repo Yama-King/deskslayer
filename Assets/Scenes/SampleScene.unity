@@ -3411,6 +3411,7 @@ GameObject:
   - component: {fileID: 480471073}
   - component: {fileID: 480471074}
   - component: {fileID: 480471075}
+  - component: {fileID: 480471076}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -3699,8 +3700,59 @@ MonoBehaviour:
     m_RotationOrder: 4
   _jitterMaxDistance: 0.15
   _noiseFrequency: 18
+  _jitterImpulseDecayDuration: 0.15
   _glowSettleDuration: 0.15
   _jitterSettleDuration: 0.225
+--- !u!114 &480471076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480471068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 885e41e21cee8a94bbffad137884974a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.WeaponAfterimageDispatcher
+  _typingEnergySystem: {fileID: 453109601}
+  _afterimagePool: {fileID: 1449851627}
+  _heavyWeaponSpriteRenderer: {fileID: 1385609752}
+  _afterimageLifetime: 0.35
+  _alphaDecayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.85
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _initialAlpha: 0.6
 --- !u!1 &518079182
 GameObject:
   m_ObjectHideFlags: 0
@@ -9627,6 +9679,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437363171}
   m_CullTransparentMesh: 1
+--- !u!1 &1449851626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1449851628}
+  - component: {fileID: 1449851627}
+  m_Layer: 0
+  m_Name: WeaponAfterimagePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1449851627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449851626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62345e424db37b343acc35d1576e6c49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.WeaponAfterimagePool
+  _poolSize: 12
+  _afterimageMaterial: {fileID: 2100000, guid: ca37cd89806b1ba429cb37c9e7c212ce, type: 2}
+  _sortingLayerName: Default
+  _sortingOrder: 0
+--- !u!4 &1449851628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449851626}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1450246964
 GameObject:
   m_ObjectHideFlags: 0
@@ -13243,3 +13343,4 @@ SceneRoots:
   - {fileID: 535029117}
   - {fileID: 46956594}
   - {fileID: 413917116}
+  - {fileID: 1449851628}

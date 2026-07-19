@@ -33,6 +33,7 @@
 ## 核心機制
 
 - **Global Keyboard Hook**：**技術路線已定案**——手刻 Win32 `SetWindowsHookEx`（`WH_KEYBOARD_LL`），透過 P/Invoke 呼叫 `user32.dll`，不使用第三方套件（如 SharpHook）或 `RegisterHotKey`。需另開 STA 執行緒處理 Windows 訊息迴圈，並用 `ConcurrentQueue` 等機制將按鍵事件安全傳回 Unity 主執行緒，不可阻塞主執行緒。這是專案技術深度最高的一塊，注意全域鍵盤監聽行為可能被防毒軟體誤判為 Keylogger，README 需誠實說明用途。必須能在遊戲視窗未聚焦時，仍正確攔截並回應全域鍵盤輸入。
+- **⚠️ 專案級約束：不可啟用新版 Input System**：`ProjectSettings.activeInputHandler` 必須維持為 `0`（Input Manager Old），**絕對不可改為新版 Input System Only 或 Both**。實測證實新版 Input System 的 Native Backend，在遊戲視窗取得 OS 焦點時會跟自訂的全域 `WH_KEYBOARD_LL` Hook 搶鍵盤輸入，導致 Hook 的 `HookCallback` 完全收不到事件——曾經因為這個設定被啟用，造成「打字攻擊在視窗聚焦時無反應」的嚴重迴歸 bug，且症狀本身跟 Hook 程式碼邏輯完全無關，純粹是設定層級衝突，排查成本很高。這是跟下方「Graphics API 必須鎖定 Direct3D11」同等級的專案級約束，之後任何 Package Manager / Player Settings 相關改動都不能違反這個前提。詳見〈技術決策紀錄_全域鍵盤Hook與新版InputSystem搶輸入衝突.md〉。專案內因此全面使用舊版 `Input.GetMouseButton`／`Input.mouseScrollDelta`／`StandaloneInputModule` 等 legacy Input API，不要在任何新功能裡引入 `Mouse.current`／`Keyboard.current`／`PlayerInput` 元件等新版 Input System 寫法。
 - **核心迴圈**：打字 (Input) → 累積能量 → 觸發動作 (Output)。**攻擊機制已定案**：雙武器模式，不做打字對錯判定（背景常駐軟體無目標文字可比對）。
   - **輕攻擊**：每次偵測到有效按鍵（可列印字元）→ 立即觸發一次小攻擊，傷害低、頻率高
   - **重攻擊**：累積按鍵次數/密度達閾值 → 觸發一次大攻擊，傷害高、需蓄力

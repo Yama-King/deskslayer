@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af464dfc3547cf046ba63227ca2ba38a, type: 3}
   m_Name: DesktopWorldPresentationSettings
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.DesktopWindow.DesktopWorldPresentationSettingsSO
-  _worldScale: 0.5
+  _worldScale: 1

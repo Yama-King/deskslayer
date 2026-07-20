@@ -22,6 +22,9 @@ namespace DeskSlayer.Enemy
         /// <summary>實際受到傷害時發出，帶入本次造成的傷害值，供 AudioDispatcher、DamagePopupDispatcher 等純表現層模組訂閱。</summary>
         public event Action<int> OnHit;
 
+        /// <summary>血量變化時發出，帶入目前生命值與最大生命值，供 EnemyHealthBarDispatcher 等純表現層模組訂閱。</summary>
+        public event Action<int, int> OnHealthChanged;
+
         /// <summary>生命值歸零時發出一次，供死亡表現層（如 EnemyDeathVisualDispatcher）訂閱。</summary>
         public event Action OnDeath;
 
@@ -78,6 +81,7 @@ namespace DeskSlayer.Enemy
 
             Debug.Log($"[EnemyController] {_enemyData.EnemyName} 受到 {result.Damage} 點傷害，剩餘生命值 {_currentHealth}/{_enemyData.MaxHealth}");
             OnHit?.Invoke(result.Damage);
+            OnHealthChanged?.Invoke(_currentHealth, _enemyData.MaxHealth);
 
             if (_currentHealth <= 0 && !_isDead)
             {

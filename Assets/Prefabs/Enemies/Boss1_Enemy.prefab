@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 897924229137271524}
   - component: {fileID: 1798514099645772211}
   - component: {fileID: 2252191525932970491}
+  - component: {fileID: 307308961834856921}
   m_Layer: 8
   m_Name: Boss1_Enemy
   m_TagString: Untagged
@@ -36,7 +37,8 @@ Transform:
   m_LocalPosition: {x: 0.8983, y: 0, z: 0}
   m_LocalScale: {x: 2.1250358, y: 2.1250358, z: 2.1250358}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4152264581894884076}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!114 &4236546417874386962
@@ -236,3 +238,129 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.35, y: 0.9544054}
   m_EdgeRadius: 0
+--- !u!114 &307308961834856921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7845446509638145624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27bc12ad74eb31440a4c7bc995ddd9ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.EnemyHealthBarDispatcher
+  _healthBarView: {fileID: 9150326807747657265}
+--- !u!1001 &7753704084103423516
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6698488409213773317}
+    m_Modifications:
+    - target: {fileID: 717557594209206640, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_Name
+      value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+--- !u!224 &4152264581894884076 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+  m_PrefabInstance: {fileID: 7753704084103423516}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9150326807747657265 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1542145360169965613, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+  m_PrefabInstance: {fileID: 7753704084103423516}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da3c8ea75ef8c74bb487e161ced3960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.EnemyHealthBarView

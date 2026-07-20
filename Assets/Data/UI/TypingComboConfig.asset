@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b47f6abf8e7cf349aecf664fa006554, type: 3}
+  m_Name: TypingComboConfig
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.TypingComboConfigSO
+  _idleTimeoutSeconds: 1.2
+  _punchScaleStrength: 0.25
+  _punchScaleDuration: 0.2
+  _fadeInDuration: 0.12
+  _fadeOutDuration: 0.4

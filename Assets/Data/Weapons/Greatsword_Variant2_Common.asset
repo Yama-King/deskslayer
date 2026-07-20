@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Greatsword_Variant2_Common
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Combat.HeavyWeaponSO
   _weaponName: "\u91CD\u528D\xB7\u8B8A\u9AD42"
-  _baseDamage: 30
+  _baseDamage: 26
   _icon: {fileID: 21300000, guid: ca54e5ac92d7b94498c625a4240d5109, type: 3}
   _hitStopDuration: 3
   _family: 1

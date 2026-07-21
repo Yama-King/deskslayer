@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 9097390634351419987}
   - component: {fileID: 3855350950259323800}
   - component: {fileID: 827222754768463603}
+  - component: {fileID: 3274247897544660607}
   m_Layer: 8
   m_Name: Boss3_Enemy
   m_TagString: Untagged
@@ -34,11 +35,12 @@ Transform:
   m_GameObject: {fileID: 5920453436741761795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 1.1593, y: 0, z: 0}
-  m_LocalScale: {x: 1.7769549, y: 1.7769549, z: 1.7769549}
+  m_LocalPosition: {x: -0.9361, y: 0, z: 0}
+  m_LocalScale: {x: 1.7731513, y: 1.7731513, z: 1.7731513}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2796641148204005974}
+  - {fileID: 8277618252240041993}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!114 &5250773286392313792
@@ -176,7 +178,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.EnemyDeathVisualDispatcher
   _spriteRenderer: {fileID: 613567982745009794}
   _animator: {fileID: 7099712044709785050}
-  _deathSprite: {fileID: 6991849013916550155, guid: cb5009fa2f686cb44b60208b33c1a0c6, type: 3}
+  _deathFrames:
+  - {fileID: 6991849013916550155, guid: cb5009fa2f686cb44b60208b33c1a0c6, type: 3}
+  - {fileID: -276728812324164698, guid: cb5009fa2f686cb44b60208b33c1a0c6, type: 3}
+  - {fileID: 3156895337291164288, guid: cb5009fa2f686cb44b60208b33c1a0c6, type: 3}
+  - {fileID: 1400002288684528572, guid: cb5009fa2f686cb44b60208b33c1a0c6, type: 3}
+  - {fileID: -1891625820773287384, guid: cb5009fa2f686cb44b60208b33c1a0c6, type: 3}
+  - {fileID: -5789737788129074030, guid: cb5009fa2f686cb44b60208b33c1a0c6, type: 3}
 --- !u!114 &9097390634351419987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +259,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.EnemyHealthBarDispatcher
   _healthBarView: {fileID: 7038028002650689163}
+--- !u!114 &3274247897544660607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920453436741761795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b7f320d4639c144ac54e10f45549b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Visuals.EnemyHitVfxAnchors
+  _enemyHitAnchor: {fileID: 8277618252240041993}
+--- !u!1 &8404020572717313202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8277618252240041993}
+  m_Layer: 0
+  m_Name: EnemyHitVfxAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8277618252240041993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404020572717313202}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  m_LocalPosition: {x: 0.23, y: 0.985, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 8548320172144904318}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8415772110043846310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -325,7 +377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.23
       objectReference: {fileID: 0}
     - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
       propertyPath: m_AnchoredPosition.y

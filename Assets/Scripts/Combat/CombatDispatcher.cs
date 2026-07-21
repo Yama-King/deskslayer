@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using DeskSlayer.Enemy;
 using DeskSlayer.Juice;
@@ -19,6 +20,15 @@ namespace DeskSlayer.Combat
 
         [SerializeField, Tooltip("天氣數值彙整來源，留空時視為無天氣修正")]
         private WeatherService _weatherService;
+
+        /// <summary>輕攻擊實際造成傷害時發出（無敵幀吞掉的命中不算），帶入受擊的敵人，供 HitVfxDirector 等純表現層模組訂閱。</summary>
+        public event Action<EnemyController> OnLightAttackHit;
+
+        /// <summary>重攻擊實際造成傷害時發出（無敵幀吞掉的命中不算），帶入受擊的敵人，供 HitVfxDirector 等純表現層模組訂閱。</summary>
+        public event Action<EnemyController> OnHeavyAttackHit;
+
+        /// <summary>任一攻擊（輕/重皆算）實際造成傷害時發出，帶入受擊的敵人，供 HitVfxDirector 等純表現層模組訂閱。</summary>
+        public event Action<EnemyController> OnEnemyHit;
 
         private TypingEnergySystem _typingEnergySystem;
         private ICombatResolver _combatResolver;
@@ -82,7 +92,27 @@ namespace DeskSlayer.Combat
                 HitStopController.Instance?.Trigger(weapon.HitStopDuration);
             }
 
-            _targetEnemy.TakeHit(result);
+            EnemyController hitEnemy = _targetEnemy;
+            int healthBeforeHit = hitEnemy.CurrentHealth;
+            hitEnemy.TakeHit(result);
+
+            // 命中特效的觸發時機不能只看 result.IsHit——命中仍可能因為敵人正處於無敵幀而被 EnemyController
+            // 內部吞掉，不套用傷害、也不會發出 Hurt 動畫/傷害飄字/受擊音效依賴的 OnHit。若特效只依 IsHit
+            // 觸發，連續打字時會在無敵幀期間持續閃爆特效，跟畫面上「有沒有真的打中」的其他回饋脫節。
+            // 改用 TakeHit 前後的血量差判斷「這次是否真的造成傷害」，語意與既有受擊回饋保持一致。
+            if (hitEnemy.CurrentHealth < healthBeforeHit)
+            {
+                OnEnemyHit?.Invoke(hitEnemy);
+
+                if (weapon is HeavyWeaponSO)
+                {
+                    OnHeavyAttackHit?.Invoke(hitEnemy);
+                }
+                else
+                {
+                    OnLightAttackHit?.Invoke(hitEnemy);
+                }
+            }
         }
     }
 }

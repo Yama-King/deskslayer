@@ -4,13 +4,12 @@ using UnityEngine;
 namespace DeskSlayer.UI
 {
     /// <summary>
-    /// 天氣城市選擇面板的開關生命週期。比照 WeaponInventoryPanelController 的作法：
-    /// 疊加在遊戲畫面上的浮動面板，不使用 Time.timeScale = 0，開啟時鍵盤監聽與打字觸發攻擊
-    /// 仍正常運作；開關方式只透過畫面按鈕點擊，不綁定鍵盤熱鍵。獨立成專屬類別而非重用
-    /// WeaponInventoryPanelController，是為了保持命名與職責清楚對應各自的功能面板。
+    /// 主選單清單面板（按下桌面主要功能選單鈕後跳出的那份清單）的開關生命週期。比照
+    /// WeatherCityPanelController 的作法：疊加在畫面上的浮動面板，不使用 Time.timeScale = 0，
+    /// 開關方式只透過畫面按鈕點擊，不綁定鍵盤熱鍵。
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
-    public sealed class WeatherCityPanelController : MonoBehaviour
+    public sealed class MainMenuPanelController : MonoBehaviour
     {
         [SerializeField, Tooltip("淡入淡出過場時長（秒）")]
         private float _fadeDuration = 0.2f;
@@ -71,13 +70,14 @@ namespace DeskSlayer.UI
             _isOpen = false;
 
             _canvasGroup.DOKill();
-            _panelRoot.DOKill();
             _canvasGroup.DOFade(0f, _fadeDuration)
                 .OnComplete(() =>
                 {
                     _canvasGroup.blocksRaycasts = false;
                     _canvasGroup.interactable = false;
                 });
+
+            _panelRoot.DOKill();
             _panelRoot.DOScale(0.95f, _fadeDuration);
         }
 

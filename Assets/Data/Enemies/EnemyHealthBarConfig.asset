@@ -16,5 +16,5 @@ MonoBehaviour:
   _fadeInDuration: 0.15
   _holdDuration: 2
   _fadeOutDuration: 0.4
-  _fillColor: {r: 0.85, g: 0.15, b: 0.15, a: 1}
-  _backgroundColor: {r: 0, g: 0, b: 0, a: 0.6}
+  _fillColor: {r: 1, g: 1, b: 1, a: 1}
+  _backgroundColor: {r: 1, g: 1, b: 1, a: 1}

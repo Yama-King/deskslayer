@@ -311,10 +311,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6698488409213773317}
     m_Modifications:
+    - target: {fileID: 468915873287775525, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 717557594209206640, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
       propertyPath: m_Name
       value: HealthBar
       objectReference: {fileID: 0}
+    - target: {fileID: 717557594209206640, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1306773083392720374, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446812831762218775, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6166630917638763591, guid: aac83966b1bbe924dbb3db09ecaf0262, type: 3}
+    - target: {fileID: 2487191470794837060, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6675631093878870937, guid: 7a6d7858b9134f243846328753ec9ea6, type: 3}
     - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -341,7 +361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 223.218
       objectReference: {fileID: 0}
     - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
       propertyPath: m_SizeDelta.y
@@ -394,6 +414,14 @@ PrefabInstance:
     - target: {fileID: 5910269086758939888, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440742413668292094, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013914227522444144, guid: d3d47474bc6956646bce2dfecab6db61, type: 3}
+      propertyPath: m_Type
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

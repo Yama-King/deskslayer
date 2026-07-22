@@ -15,4 +15,4 @@ MonoBehaviour:
   _id: first_kill
   _displayName: "\u521D\u6230\u544A\u6377"
   _description: "\u64CA\u6557\u7B2C\u4E00\u96BB\u602A\u7269\u3002"
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 5929d2b8287887946907bf80ba6bd66e, type: 3}

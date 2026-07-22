@@ -15,4 +15,4 @@ MonoBehaviour:
   _id: weather_set
   _displayName: "\u98A8\u96E8\u7121\u963B"
   _description: "\u9AD4\u9A57\u904E\u5168\u90E8\u4E94\u7A2E\u5929\u6C23\u3002"
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 418b31c17374ad442bbb7317c6fc9362, type: 3}

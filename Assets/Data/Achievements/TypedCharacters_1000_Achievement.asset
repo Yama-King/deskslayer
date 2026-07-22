@@ -15,6 +15,6 @@ MonoBehaviour:
   _id: typed_characters_1000
   _displayName: "\u6253\u5B57\u91CF\u91CC\u7A0B\u7891\uFF1A1000 \u5B57"
   _description: "\u7D2F\u7A4D\u6253\u51FA 1000 \u500B\u5B57\u5143\u3002"
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 15e480d76344408499df40d10f972fb3, type: 3}
   _sourceType: 0
   _threshold: 1000

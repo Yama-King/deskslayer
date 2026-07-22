@@ -22,24 +22,30 @@ namespace DeskSlayer.UI
         [SerializeField]
         private Slider _masterVolumeSlider;
 
+        [SerializeField]
+        private Toggle _launchOnStartupToggle;
+
         private void Start()
         {
             // 用 SetIsOnWithoutNotify/SetValueWithoutNotify 同步初始值，避免初始化過程觸發
             // onValueChanged 回呼、把讀到的值又立刻寫回存檔（多此一舉，但不算錯誤，這裡單純避免浪費）。
             _mouseInputToggle.SetIsOnWithoutNotify(GameSettingsPreferenceStore.MouseAttackInputEnabled);
             _masterVolumeSlider.SetValueWithoutNotify(GameSettingsPreferenceStore.MasterVolume);
+            _launchOnStartupToggle.SetIsOnWithoutNotify(GameSettingsPreferenceStore.LaunchOnStartupEnabled);
         }
 
         private void OnEnable()
         {
             _mouseInputToggle.onValueChanged.AddListener(HandleMouseInputToggleChanged);
             _masterVolumeSlider.onValueChanged.AddListener(HandleMasterVolumeChanged);
+            _launchOnStartupToggle.onValueChanged.AddListener(HandleLaunchOnStartupToggleChanged);
         }
 
         private void OnDisable()
         {
             _mouseInputToggle.onValueChanged.RemoveListener(HandleMouseInputToggleChanged);
             _masterVolumeSlider.onValueChanged.RemoveListener(HandleMasterVolumeChanged);
+            _launchOnStartupToggle.onValueChanged.RemoveListener(HandleLaunchOnStartupToggleChanged);
         }
 
         private void HandleMouseInputToggleChanged(bool isOn)
@@ -51,6 +57,12 @@ namespace DeskSlayer.UI
         {
             GameSettingsPreferenceStore.MasterVolume = value;
             AudioManager.Instance?.SetMasterVolume(value);
+        }
+
+        private void HandleLaunchOnStartupToggleChanged(bool isOn)
+        {
+            GameSettingsPreferenceStore.LaunchOnStartupEnabled = isOn;
+            LaunchOnStartupService.SetEnabled(isOn);
         }
     }
 }

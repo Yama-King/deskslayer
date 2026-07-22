@@ -153,5 +153,9 @@ namespace DeskSlayer.Persistence
         public bool mouseAttackInputEnabled = true;
 
         public float masterVolume = 1f;
+
+        /// <summary>是否透過 Windows 登錄檔 Run 機碼開機自動啟動，預設關閉——背景常駐程式
+        /// 不應該未經玩家同意就跟著開機啟動。</summary>
+        public bool launchOnStartupEnabled;
     }
 }

@@ -52,6 +52,7 @@ namespace DeskSlayer.UI
             _isOpen = true;
             _canvasGroup.blocksRaycasts = true;
             _canvasGroup.interactable = true;
+            GetComponent<PanelDragHandle>()?.BringToFront();
 
             _canvasGroup.DOKill();
             _panelRoot.DOKill();

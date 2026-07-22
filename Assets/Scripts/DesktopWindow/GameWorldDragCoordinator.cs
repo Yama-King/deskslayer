@@ -37,6 +37,7 @@ namespace DeskSlayer.DesktopWindow
 
         private Camera _camera;
         private float _currentWorldScale = 1f;
+        private bool _isLocked;
 
         /// <summary>
         /// GameWorldRoot 每次因拖曳而位移時廣播，帶出的是原始螢幕像素差（不是世界位移量）——
@@ -46,6 +47,18 @@ namespace DeskSlayer.DesktopWindow
 
         /// <summary>GameWorldRoot 每次因滾輪縮放而改變時廣播，帶出縮放後的絕對倍率（不是差量）。</summary>
         public event Action<float> OnWorldScaleChanged;
+
+        /// <summary>目前是否鎖定（鎖定時 ApplyScreenDelta/ApplyWorldScaleDelta 直接忽略輸入）。</summary>
+        public bool IsLocked => _isLocked;
+
+        /// <summary>
+        /// 鎖定／解鎖桌面世界的拖曳與滾輪縮放。只鎖這裡管的「世界成員 + 錨定按鈕」整組移動/縮放，
+        /// 不影響個別浮動面板自己的 PanelDragHandle/FloatingPanelSize——兩者是刻意分開的獨立系統。
+        /// </summary>
+        public void SetLocked(bool isLocked)
+        {
+            _isLocked = isLocked;
+        }
 
         private void Start()
         {
@@ -66,6 +79,11 @@ namespace DeskSlayer.DesktopWindow
         /// </summary>
         public void ApplyWorldScaleDelta(float scrollY)
         {
+            if (_isLocked)
+            {
+                return;
+            }
+
             float direction = Mathf.Sign(scrollY);
             if (direction == 0f)
             {
@@ -75,6 +93,21 @@ namespace DeskSlayer.DesktopWindow
             float factor = 1f + direction * _scrollStep;
             float newScale = Mathf.Clamp(_currentWorldScale * factor, _minWorldScale, _maxWorldScale);
             ApplyWorldScale(newScale);
+        }
+
+        /// <summary>
+        /// 直接套用一個絕對縮放倍率（例如「介面大小拉桿」這種滑桿 UI，本身操作的就是絕對值，
+        /// 不是滾輪那種「一格一格」的差量），一樣會被夾在 _minWorldScale ~ _maxWorldScale 之間，
+        /// 樞紐點同樣是攝影機視野中心，跟滾輪縮放（ApplyWorldScaleDelta）共用同一套 ApplyWorldScale。
+        /// </summary>
+        public void SetWorldScale(float scale)
+        {
+            if (_isLocked)
+            {
+                return;
+            }
+
+            ApplyWorldScale(Mathf.Clamp(scale, _minWorldScale, _maxWorldScale));
         }
 
         /// <summary>
@@ -110,7 +143,7 @@ namespace DeskSlayer.DesktopWindow
         /// </summary>
         public void ApplyScreenDelta(Vector2 screenPixelDelta)
         {
-            if (_gameWorldRoot == null || _camera == null)
+            if (_isLocked || _gameWorldRoot == null || _camera == null)
             {
                 return;
             }

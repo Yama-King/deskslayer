@@ -133,6 +133,7 @@ namespace DeskSlayer.ShareCard
             _isOpen = true;
             _canvasGroup.blocksRaycasts = true;
             _canvasGroup.interactable = true;
+            GetComponent<DeskSlayer.UI.PanelDragHandle>()?.BringToFront();
 
             _canvasGroup.DOKill();
             _canvasGroup.DOFade(1f, _fadeDuration);

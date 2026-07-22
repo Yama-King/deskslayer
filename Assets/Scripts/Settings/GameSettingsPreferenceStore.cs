@@ -33,5 +33,18 @@ namespace DeskSlayer.Settings
                 SaveLifecycleController.RequestSave();
             }
         }
+
+        /// <summary>是否開機自動啟動。純粹是存檔用的偏好值，實際寫入/移除 Windows 登錄檔的
+        /// 動作由 LaunchOnStartupService 負責，比照 MasterVolume 與 AudioManager 的分工——
+        /// 這裡只負責記住玩家的選擇，不負責讓選擇真的生效。</summary>
+        public static bool LaunchOnStartupEnabled
+        {
+            get => SaveLifecycleController.CurrentSaveData.gameSettings.launchOnStartupEnabled;
+            set
+            {
+                SaveLifecycleController.CurrentSaveData.gameSettings.launchOnStartupEnabled = value;
+                SaveLifecycleController.RequestSave();
+            }
+        }
     }
 }

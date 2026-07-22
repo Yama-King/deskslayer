@@ -15,6 +15,13 @@ namespace DeskSlayer.Weather
         /// <summary>天氣分類改變時發出，帶入新的分類對應數值，供戰鬥/UI 系統訂閱而不需要每影格查詢。</summary>
         public event Action<WeatherModifierData> OnWeatherChanged;
 
+        /// <summary>
+        /// 選定城市改變時發出，帶入新城市的顯示名稱。刻意跟 OnWeatherChanged 分開：切換城市當下就該
+        /// 更新「目前選擇城市」的顯示，不能依賴 OnWeatherChanged（新城市剛好跟舊城市同一種天氣分類時
+        /// OnWeatherChanged 不會觸發，但城市名稱本身已經換了，UI 不能沿用舊城市名稱）。
+        /// </summary>
+        public event Action<string> OnCityChanged;
+
         [SerializeField]
         private WeatherCityDatabaseSO _cityDatabase;
 
@@ -41,6 +48,9 @@ namespace DeskSlayer.Weather
 
         /// <summary>目前天氣分類對應的數值資料。</summary>
         public WeatherModifierData CurrentModifier { get; private set; }
+
+        /// <summary>目前選定城市的顯示名稱；尚未指派城市資料庫時回傳空字串。</summary>
+        public string CurrentCityDisplayName => _cityDatabase != null ? _cityDatabase.CurrentCity.DisplayName : string.Empty;
 
         private void Awake()
         {
@@ -76,6 +86,7 @@ namespace DeskSlayer.Weather
 
             _cityDatabase.SetSelectedCityIndex(cityIndex);
             WeatherCityPreferenceStore.Save(cityIndex);
+            OnCityChanged?.Invoke(_cityDatabase.CurrentCity.DisplayName);
 
             if (_immediateFetchCoroutine != null)
             {

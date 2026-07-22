@@ -67,12 +67,40 @@ namespace DeskSlayer.UI
         [SerializeField, Range(1f, 3f), Tooltip("縮放倍率上限，太大可能超出螢幕範圍，依實機試玩調整")]
         private float _maxZoomRatio = 1.6f;
 
+        [Header("全域尺寸拉桿（可留空，不強制要求）")]
+        [SerializeField, Tooltip("介面大小拉桿的廣播者，收到 OnGlobalScaleChanged 時會把倍率一併乘進尺寸計算")]
+        private GlobalPanelScaleBroadcaster _globalScaleBroadcaster;
+
         private RectTransform _rectTransform;
         private float _zoomRatio = 1f;
+        private float _globalScale = 1f;
 
         private void OnValidate()
         {
             _zoomRatio = Mathf.Clamp(_zoomRatio, _minZoomRatio, _maxZoomRatio);
+        }
+
+        private void OnEnable()
+        {
+            if (_globalScaleBroadcaster != null)
+            {
+                _globalScale = _globalScaleBroadcaster.CurrentScale;
+                _globalScaleBroadcaster.OnGlobalScaleChanged += HandleGlobalScaleChanged;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_globalScaleBroadcaster != null)
+            {
+                _globalScaleBroadcaster.OnGlobalScaleChanged -= HandleGlobalScaleChanged;
+            }
+        }
+
+        private void HandleGlobalScaleChanged(float scale)
+        {
+            _globalScale = scale;
+            ApplySize();
         }
 
         /// <summary>
@@ -86,6 +114,41 @@ namespace DeskSlayer.UI
         {
             ApplyPosition();
             ApplySize();
+        }
+
+        /// <summary>
+        /// 跟 ApplyDesignValues 方向相反：把「目前 RectTransform 手動調整出來的實際尺寸/位置」
+        /// 存回 _baseSizeDelta/_anchoredPosition，取代原本序列化的設計值。
+        ///
+        /// 用途：滑鼠滾輪縮放（OnScroll）每次都是用 _baseSizeDelta × _zoomRatio 重新算尺寸，而
+        /// _zoomRatio 是 private 執行期欄位、每次進 Play 都從 1 開始。如果使用者直接在 Scene/Game
+        /// 視圖手動拖曳調整過面板大小（沒有透過這個元件的欄位），_baseSizeDelta 完全不知道這件事——
+        /// 玩家一進 Play 只要滾一格滾輪，就會直接用舊的 _baseSizeDelta 算出全新尺寸，把剛剛手動調
+        /// 好的大小整個蓋掉，畫面瞬間跳到不一樣的尺寸（這是實測抓到的真實 bug：手動調到 289×330，
+        /// 一滾滑鼠中鍵就跳回 _baseSizeDelta≈420×480 附近，不是假設性風險）。
+        ///
+        /// 手動調整完大小後，在 Inspector 對這個元件按右鍵選「採用目前尺寸為設計值」，把當下的
+        /// sizeDelta/anchoredPosition/內容縮放存回設計值欄位，並把 _zoomRatio 重置為 1，之後滾輪
+        /// 縮放就會以這個新尺寸為基準，不會再跳掉。跟 ApplyDesignValues 一樣刻意只能手動觸發。
+        /// </summary>
+        [ContextMenu("採用目前尺寸為設計值 (Capture Current as Design Values)")]
+        private void CaptureCurrentAsDesignValues()
+        {
+            if (_rectTransform == null)
+            {
+                _rectTransform = (RectTransform)transform;
+            }
+
+            _baseSizeDelta = _rectTransform.sizeDelta;
+            _anchoredPosition = _rectTransform.anchoredPosition;
+
+            Transform contentScaleRoot = FindDeepChild(transform, "ContentScaleRoot");
+            if (contentScaleRoot != null)
+            {
+                _baseContentScale = contentScaleRoot.localScale.x;
+            }
+
+            _zoomRatio = 1f;
         }
 
         /// <summary>
@@ -124,13 +187,42 @@ namespace DeskSlayer.UI
                 _rectTransform = (RectTransform)transform;
             }
 
-            _rectTransform.sizeDelta = _baseSizeDelta * _zoomRatio;
+            _rectTransform.sizeDelta = _baseSizeDelta * _zoomRatio * _globalScale;
 
-            Transform contentScaleRoot = transform.Find("ContentScaleRoot");
+            Transform contentScaleRoot = FindDeepChild(transform, "ContentScaleRoot");
             if (contentScaleRoot != null)
             {
-                contentScaleRoot.localScale = Vector3.one * (_baseContentScale * _zoomRatio);
+                contentScaleRoot.localScale = Vector3.one * (_baseContentScale * _zoomRatio * _globalScale);
             }
+        }
+
+        /// <summary>
+        /// 遞迴往下找名為 <paramref name="name"/> 的子物件，取代原本只找「直接子物件」的
+        /// <c>transform.Find(name)</c>。改用遞迴的原因：套用了邊框系統（CyberpunkPanel 系列）的面板，
+        /// ContentScaleRoot 會被巢狀放在邊框 Prefab 自己的 ContentContainer 底下（多一層），
+        /// 直接子物件查找會找不到，導致縮放時外框跟著滾輪縮放但內容物完全沒有等比縮放，
+        /// 兩者比例對不上而互相蓋到（這是實測抓到的真實 bug，不是假設性風險）。沒套邊框系統的
+        /// 舊面板（武器背包、成就清單、分享卡片）ContentScaleRoot 仍是直接子物件，遞迴查找對它們
+        /// 是等價的，行為不受影響。
+        /// </summary>
+        private static Transform FindDeepChild(Transform parent, string name)
+        {
+            Transform direct = parent.Find(name);
+            if (direct != null)
+            {
+                return direct;
+            }
+
+            foreach (Transform child in parent)
+            {
+                Transform found = FindDeepChild(child, name);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+
+            return null;
         }
     }
 }

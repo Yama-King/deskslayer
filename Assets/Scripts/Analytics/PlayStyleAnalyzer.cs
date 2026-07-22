@@ -38,16 +38,40 @@ namespace DeskSlayer.Analytics
         private float _logTimer;
 
         /// <summary>當日輕攻擊傾向分數（0~100）。數值越高代表今天越傾向輕攻擊流，越低代表越傾向重攻擊流。</summary>
-        public float DailyLightAttackTendencyScore => _profile.DailyLightAttackTendencyScore;
+        public float DailyLightAttackTendencyScore => _debugLightOverride ?? _profile.DailyLightAttackTendencyScore;
 
         /// <summary>累積（全生涯）輕攻擊傾向分數（0~100）。</summary>
-        public float TotalLightAttackTendencyScore => _profile.TotalLightAttackTendencyScore;
+        public float TotalLightAttackTendencyScore => _debugLightOverride ?? _profile.TotalLightAttackTendencyScore;
 
         /// <summary>當日打字節奏穩定度分數（0~100）。數值越高代表今天的按鍵間隔越穩定（節奏型），越低代表忽快忽慢（爆發型）。</summary>
-        public float DailyRhythmStabilityScore => _profile.DailyRhythmStabilityScore;
+        public float DailyRhythmStabilityScore => _debugRhythmOverride ?? _profile.DailyRhythmStabilityScore;
 
         /// <summary>累積打字節奏穩定度分數（0~100），代表近期整體節奏特徵，不特別區分日期界線。</summary>
-        public float TotalRhythmStabilityScore => _profile.TotalRhythmStabilityScore;
+        public float TotalRhythmStabilityScore => _debugRhythmOverride ?? _profile.TotalRhythmStabilityScore;
+
+#if UNITY_EDITOR
+        private float? _debugLightOverride;
+        private float? _debugRhythmOverride;
+
+        /// <summary>
+        /// 僅供 Editor 測試工具使用：強制覆蓋當日/累積分數（不分開覆蓋，兩者一律回傳同一組覆蓋值），
+        /// 讓分享卡風格揭曉可以不必真的打字磨出對應分數就能立即測試五種原型。比照 WeatherService.
+        /// DebugForceCategory 的做法，以 #if UNITY_EDITOR 包住，不會被打包進正式 Build，也完全不觸碰
+        /// PlayStyleProfile 內部狀態或存檔資料，純粹是讀取端的顯示層覆蓋。
+        /// </summary>
+        public void DebugForceScores(float lightAttackTendencyScore, float rhythmStabilityScore)
+        {
+            _debugLightOverride = lightAttackTendencyScore;
+            _debugRhythmOverride = rhythmStabilityScore;
+        }
+
+        /// <summary>清除強制覆蓋，恢復讀取 PlayStyleProfile 真實計算出來的分數。</summary>
+        public void DebugClearForcedScores()
+        {
+            _debugLightOverride = null;
+            _debugRhythmOverride = null;
+        }
+#endif
 
         private void Awake()
         {

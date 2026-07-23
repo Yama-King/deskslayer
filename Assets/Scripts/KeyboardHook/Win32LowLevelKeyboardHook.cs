@@ -129,6 +129,12 @@ namespace DeskSlayer.KeyboardHook
         private readonly byte[] _keyboardState = new byte[256];
         private bool _capsLockPhysicallyDown;
 
+        // 追蹤「目前是否已按著」的按鍵集合，用來過濾 Windows 對長按送出的 auto-repeat WM_KEYDOWN。
+        // 低階 Hook 的 KBDLLHOOKSTRUCT 沒有暴露傳統 WM_KEYDOWN lParam 的 bit30（先前鍵盤狀態），
+        // 只能靠自己記錄每個 vkCode 的按下/放開狀態；概念上跟下方 CapsLock 的
+        // _capsLockPhysicallyDown 是同一套防重複判斷，只是這裡要通用到所有按鍵。
+        private readonly bool[] _keyCurrentlyDown = new bool[256];
+
         public Win32LowLevelKeyboardHook(KeyboardEventQueue eventQueue)
         {
             _eventQueue = eventQueue ?? throw new ArgumentNullException(nameof(eventQueue));
@@ -182,6 +188,7 @@ namespace DeskSlayer.KeyboardHook
             _messageLoopThreadId = GetCurrentThreadId();
 
             Array.Clear(_keyboardState, 0, _keyboardState.Length);
+            Array.Clear(_keyCurrentlyDown, 0, _keyCurrentlyDown.Length);
             _capsLockPhysicallyDown = false;
             InitializeCapsLockState();
 
@@ -231,7 +238,18 @@ namespace DeskSlayer.KeyboardHook
                         // 一般按鍵放開事件對 ToUnicode 無意義，UpdateModifierState 內部會直接忽略。
                         UpdateModifierState(hookStruct.vkCode, hookStruct.flags, isKeyDown);
 
-                        if (isKeyDown && TryResolveCharacter(hookStruct.vkCode, hookStruct.scanCode, out char character))
+                        // 長按會讓 Windows 持續送出多次 WM_KEYDOWN（auto-repeat），
+                        // 這裡的 KBDLLHOOKSTRUCT 沒有像傳統 lParam bit30 那樣的「先前按鍵狀態」可用，
+                        // 只能靠 _keyCurrentlyDown 自行記錄：同一顆鍵在放開之前的重複 KEYDOWN 一律視為
+                        // 重複訊號、不觸發攻擊，直到真正收到對應的 KEYUP 才清除狀態、允許下一次按下計入。
+                        bool isRepeat = false;
+                        if (hookStruct.vkCode < _keyCurrentlyDown.Length)
+                        {
+                            isRepeat = isKeyDown && _keyCurrentlyDown[hookStruct.vkCode];
+                            _keyCurrentlyDown[hookStruct.vkCode] = isKeyDown;
+                        }
+
+                        if (isKeyDown && !isRepeat && TryResolveCharacter(hookStruct.vkCode, hookStruct.scanCode, out char character))
                         {
                             _eventQueue.Enqueue(new KeyPressData(character, DateTime.UtcNow.Ticks));
                         }

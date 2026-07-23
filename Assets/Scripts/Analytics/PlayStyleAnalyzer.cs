@@ -49,10 +49,15 @@ namespace DeskSlayer.Analytics
         /// <summary>累積打字節奏穩定度分數（0~100），代表近期整體節奏特徵，不特別區分日期界線。</summary>
         public float TotalRhythmStabilityScore => _debugRhythmOverride ?? _profile.TotalRhythmStabilityScore;
 
-#if UNITY_EDITOR
+        // 兩個 override 欄位刻意宣告在 #if UNITY_EDITOR 區塊外：下面幾個公開分數屬性（DailyLightAttack
+        // TendencyScore 等）不分 Editor/Build 都要讀取它們，若欄位跟著包進 #if UNITY_EDITOR，正式 Build
+        // 編譯時 UNITY_EDITOR 未定義、欄位就不存在，會直接是 CS0103 編譯錯誤（Build 失敗但 Editor 內編譯
+        // 正常，因為 Editor 組譯時 UNITY_EDITOR 有定義）。只有下方會「寫入」這兩個欄位的 Debug 方法
+        // 才需要包在 #if UNITY_EDITOR 內，正式 Build 永遠維持 null，等同於沒有覆蓋、直接回傳真實分數。
         private float? _debugLightOverride;
         private float? _debugRhythmOverride;
 
+#if UNITY_EDITOR
         /// <summary>
         /// 僅供 Editor 測試工具使用：強制覆蓋當日/累積分數（不分開覆蓋，兩者一律回傳同一組覆蓋值），
         /// 讓分享卡風格揭曉可以不必真的打字磨出對應分數就能立即測試五種原型。比照 WeatherService.

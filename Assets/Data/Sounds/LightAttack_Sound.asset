@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.Audio.SoundDataSO
   _clips:
   - {fileID: 8300000, guid: af820662ee03b7b4d9522b971fb4781c, type: 3}
-  _minVolume: 0.8
-  _maxVolume: 1
+  _minVolume: 0.5
+  _maxVolume: 0.7
   _minPitch: 0.95
   _maxPitch: 1.05

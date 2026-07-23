@@ -1,17 +1,18 @@
 using System;
 using UnityEngine;
-using DeskSlayer.KeyboardHook;
+using DeskSlayer.AttackInput;
 
 namespace DeskSlayer.Visuals
 {
     /// <summary>
-    /// 打字連擊計數器的邏輯核心：單向訂閱同一個 GameObject 上 GlobalKeyboardHookService 的
-    /// OnKeyPressed 事件（與驅動 TypingEnergySystem 的同一個既有輸入來源），不經過
-    /// AttackInputAggregator 彙整層，因為滑鼠點擊不算「打字」、且攻擊觸發次數與實際打字字元數
-    /// 並非一對一關係。純粹自行維護計數與閒置計時狀態，不與 PlayStyleAnalyzer、成就系統、
+    /// 打字連擊計數器的邏輯核心：訂閱同一個 GameObject 上 AttackInputAggregator 的
+    /// OnAttackInputTriggered 事件，反映「有效攻擊次數」而非單純的「有效打字次數」——
+    /// 滑鼠攻擊是否計入連擊，交由彙整層既有的滑鼠偵測開關判定（GameSettingsPreferenceStore.
+    /// MouseAttackInputEnabled），這裡不重複判斷輸入來源，未來彙整層新增第三種輸入來源時
+    /// 也不需要回頭修改這裡。純粹自行維護計數與閒置計時狀態，不與 PlayStyleAnalyzer、成就系統、
     /// CombatDispatcher 等其他系統產生任何依賴，僅對外公開兩個事件供表現層訂閱轉發。
     /// </summary>
-    [RequireComponent(typeof(GlobalKeyboardHookService))]
+    [RequireComponent(typeof(AttackInputAggregator))]
     public sealed class TypingComboTracker : MonoBehaviour
     {
         [SerializeField]
@@ -23,24 +24,24 @@ namespace DeskSlayer.Visuals
         /// <summary>閒置逾時、計數已歸零時觸發。</summary>
         public event Action OnComboExpired;
 
-        private GlobalKeyboardHookService _hookService;
+        private AttackInputAggregator _attackInputAggregator;
         private int _comboCount;
         private float _idleTimer;
 
         private void Awake()
         {
-            _hookService = GetComponent<GlobalKeyboardHookService>();
+            _attackInputAggregator = GetComponent<AttackInputAggregator>();
         }
 
         private void OnEnable()
         {
-            _hookService.OnKeyPressed -= HandleKeyPressed;
-            _hookService.OnKeyPressed += HandleKeyPressed;
+            _attackInputAggregator.OnAttackInputTriggered -= HandleAttackInputTriggered;
+            _attackInputAggregator.OnAttackInputTriggered += HandleAttackInputTriggered;
         }
 
         private void OnDisable()
         {
-            _hookService.OnKeyPressed -= HandleKeyPressed;
+            _attackInputAggregator.OnAttackInputTriggered -= HandleAttackInputTriggered;
         }
 
         private void Update()
@@ -58,7 +59,7 @@ namespace DeskSlayer.Visuals
             }
         }
 
-        private void HandleKeyPressed(KeyPressData data)
+        private void HandleAttackInputTriggered(AttackInputData data)
         {
             _comboCount++;
             _idleTimer = 0f;
@@ -74,12 +75,12 @@ namespace DeskSlayer.Visuals
 
 #if UNITY_EDITOR
         /// <summary>
-        /// Editor-only 測試輔助：手動注入一次按鍵事件以驗證計數／閒置計時邏輯，
+        /// Editor-only 測試輔助：手動注入一次攻擊輸入事件以驗證計數／閒置計時邏輯，
         /// 不參與正式執行流程，僅供編輯器內驗證使用。
         /// </summary>
-        public void DebugSimulateKeyPress(char character)
+        public void DebugSimulateKeyPress()
         {
-            HandleKeyPressed(new KeyPressData(character, DateTime.UtcNow.Ticks));
+            HandleAttackInputTriggered(new AttackInputData(DateTime.UtcNow.Ticks, AttackInputSource.Keyboard));
         }
 #endif
     }

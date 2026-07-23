@@ -15,4 +15,4 @@ MonoBehaviour:
   _id: first_weapon
   _displayName: "\u8ECD\u706B\u5546"
   _description: "\u53D6\u5F97\u7B2C\u4E00\u628A\u6B66\u5668\u3002"
-  _icon: {fileID: -8221737138467185080, guid: 1c771d8d23debed4a93b9d6ba6336b77, type: 3}
+  _icon: {fileID: 21300000, guid: 1c771d8d23debed4a93b9d6ba6336b77, type: 3}

@@ -510,7 +510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8939031190581796363, guid: 38a08eb79f033a3489403a1919e3a92c, type: 3}
       propertyPath: m_Name
-      value: CyberpunkPanelDualButton 1
+      value: CyberpunkPanelCompactFrame
       objectReference: {fileID: 0}
     - target: {fileID: 8994191468875659926, guid: 38a08eb79f033a3489403a1919e3a92c, type: 3}
       propertyPath: m_SizeDelta.y

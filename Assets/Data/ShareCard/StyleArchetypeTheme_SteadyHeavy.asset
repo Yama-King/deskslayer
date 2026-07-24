@@ -15,5 +15,5 @@ MonoBehaviour:
   _archetypeId: 2
   _displayName: "\u6C89\u7A69\u91CD\u7832\u578B"
   _themeColor: {r: 0.55, g: 0.35, b: 0.15, a: 1}
-  _icon: {fileID: 4839542078547052869, guid: bb6a0c89072c9b344a6519e921e28331, type: 3}
+  _icon: {fileID: 21300000, guid: 0b2948d5f7a22d84892d4b52ae2e2984, type: 3}
   _slogan: "\u7A69\u5982\u78D0\u77F3\uFF0C\u4E00\u767C\u5B9A\u751F\u6B7B"

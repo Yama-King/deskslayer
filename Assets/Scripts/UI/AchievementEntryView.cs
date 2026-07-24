@@ -23,6 +23,9 @@ namespace DeskSlayer.UI
         [SerializeField]
         private TextMeshProUGUI _statusLabel;
 
+        [SerializeField, Tooltip("未解鎖時蓋在整個項目上方的深色遮罩，解鎖後隱藏")]
+        private GameObject _lockedOverlay;
+
         /// <summary>此項目對應的成就識別碼，供 AchievementListPanelController 查找要即時更新的項目使用。</summary>
         public string AchievementId { get; private set; }
 
@@ -55,6 +58,11 @@ namespace DeskSlayer.UI
             if (_statusLabel != null)
             {
                 _statusLabel.text = unlocked ? "已解鎖" : "未解鎖";
+            }
+
+            if (_lockedOverlay != null)
+            {
+                _lockedOverlay.SetActive(!unlocked);
             }
         }
     }

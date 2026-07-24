@@ -157,5 +157,9 @@ namespace DeskSlayer.Persistence
         /// <summary>是否透過 Windows 登錄檔 Run 機碼開機自動啟動，預設關閉——背景常駐程式
         /// 不應該未經玩家同意就跟著開機啟動。</summary>
         public bool launchOnStartupEnabled;
+
+        /// <summary>視窗是否維持在所有視窗最上層，預設開啟——沿用改版前「永遠置頂」的既有行為，
+        /// 這次只是新增「可以關閉」的能力，不是改變預設值。</summary>
+        public bool windowTopmostEnabled = true;
     }
 }

@@ -46,5 +46,18 @@ namespace DeskSlayer.Settings
                 SaveLifecycleController.RequestSave();
             }
         }
+
+        /// <summary>視窗是否維持最上層。純粹是存檔用的偏好值，實際套用到 UniWindowController 的
+        /// 動作由 DesktopWindowTopmostController 負責，分工比照 LaunchOnStartupEnabled 與
+        /// LaunchOnStartupService——這裡只負責記住玩家的選擇，不負責讓選擇真的生效。</summary>
+        public static bool WindowTopmostEnabled
+        {
+            get => SaveLifecycleController.CurrentSaveData.gameSettings.windowTopmostEnabled;
+            set
+            {
+                SaveLifecycleController.CurrentSaveData.gameSettings.windowTopmostEnabled = value;
+                SaveLifecycleController.RequestSave();
+            }
+        }
     }
 }

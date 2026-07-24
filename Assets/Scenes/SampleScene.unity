@@ -3715,6 +3715,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 206755730}
   m_CullTransparentMesh: 1
+--- !u!1 &210271041 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8909482750036141115, guid: a5ed49f9b997bd14280877475574c7e7, type: 3}
+  m_PrefabInstance: {fileID: 2145328063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &210271044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210271041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f43ae5460101f4f81a3e76afc1ebe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskSlayer.UI.WorldScaleSliderSync
+  _coordinator: {fileID: 46956599}
 --- !u!1 &229165431
 GameObject:
   m_ObjectHideFlags: 0
@@ -32527,6 +32545,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6432444776355605761, guid: a5ed49f9b997bd14280877475574c7e7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 445468579}
+    - targetCorrespondingSourceObject: {fileID: 8909482750036141115, guid: a5ed49f9b997bd14280877475574c7e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 210271044}
   m_SourcePrefab: {fileID: 100100000, guid: a5ed49f9b997bd14280877475574c7e7, type: 3}
 --- !u!114 &2145328064 stripped
 MonoBehaviour:

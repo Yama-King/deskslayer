@@ -52,6 +52,13 @@ namespace DeskSlayer.DesktopWindow
         public bool IsLocked => _isLocked;
 
         /// <summary>
+        /// 目前的絕對縮放倍率，滾輪縮放與滑桿拖曳共用的單一事實來源。給需要「補做一次初始同步」的
+        /// 訂閱者讀取（例如設定選單滑桿剛被啟用時），事件（OnWorldScaleChanged）本身只在數值改變的
+        /// 當下廣播，補不到訂閱之前就已經發生過的縮放。
+        /// </summary>
+        public float CurrentWorldScale => _currentWorldScale;
+
+        /// <summary>
         /// 鎖定／解鎖桌面世界的拖曳與滾輪縮放。只鎖這裡管的「世界成員 + 錨定按鈕」整組移動/縮放，
         /// 不影響個別浮動面板自己的 PanelDragHandle/FloatingPanelSize——兩者是刻意分開的獨立系統。
         /// </summary>

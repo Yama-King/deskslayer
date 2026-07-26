@@ -31,7 +31,7 @@ DeskSlayer 會疊加在你的桌面上，用完全透明的視窗跟著你工作
 - 成就系統：記錄打字量與戰鬥歷程里程碑
 
 <details>
-<summary><b>▶ 完整玩法展示（6張動圖）</b></summary>
+<summary><b>▶ 完整玩法展示</b></summary>
 <br>
 
 <table>
@@ -67,11 +67,13 @@ DeskSlayer 會疊加在你的桌面上，用完全透明的視窗跟著你工作
 <summary><b>▶ 更多技術決策</b></summary>
 <br>
 
-- [Unity MCP 連線除錯：定位 Windows 應用程式沙盒導致的路徑不一致](docs/decisions/unity-mcp-debugging.md)
-- [Shader Graph 轉手寫 HLSL 的技術路線調整](docs/decisions/0007-shader-approach-change.md)
 - [成就系統：單向訂閱架構下的零修改擴充](docs/decisions/0008-achievement-system.md)
-- [排行榜功能評估與捨棄](docs/decisions/0009-leaderboard-evaluation.md)
-- [測試與除錯工具設計原則](docs/decisions/0010-testing-tools.md)
+- [武器收集與合成系統](docs/decisions/0009-weapon-collection-system.md)
+- [Shader Graph 轉手寫 HLSL 的技術路線調整](docs/decisions/0007-shader-approach-change.md)
+- [Git 版控實務](docs/decisions/0010-git-workflow.md)
+- [敏捷精神實踐：單人開發下的時間盒與迭代增量](docs/decisions/0011-agile-in-solo-dev.md)
+- [排行榜功能評估與捨棄](docs/decisions/0012-leaderboard-evaluation.md)
+- [測試與除錯工具設計原則](docs/decisions/0013-testing-tools.md)
 
 </details>
 

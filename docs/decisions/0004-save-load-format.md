@@ -1,4 +1,4 @@
-# 0001. 存檔系統採用自訂 JSON 格式，而非單純依賴 PlayerPrefs
+# 0004. 存檔系統採用自訂 JSON 格式，而非單純依賴 PlayerPrefs
 
 ## 狀態
 

@@ -56,10 +56,10 @@ DeskSlayer 會疊加在你的桌面上，用完全透明的視窗跟著你工作
 | 技術點 | 說明 |
 |---|---|
 | **ScriptableObject 資料驅動架構** | 全專案資料層一致採用，武器/敵人/成就/風格主題皆為 SO 驅動，新增內容規範有條理 |
-| **介面化與解耦設計** | `ICombatResolver` 介面化戰鬥判定、`CombatDispatcher` Mediator 解耦輸入與敵人系統、`AttackInputAggregator` 統一鍵盤/滑鼠輸入來源 → [完整決策文件](docs/decisions/0002-decoupled-input-architecture.md) |
-| **桌面透明視窗整合** | Spike 分支驗證手刻 Win32 方案，正式階段評估後改用 UniWindowController → [完整決策文件](docs/decisions/0003-desktop-overlay-integration.md) |
-| **CPU 效能優化** | 反射停用第三方套件內部無條件執行的協程，CPU 佔用降低約 10 倍 → [完整決策文件](docs/decisions/0004-cpu-performance-optimization.md) |
-| **存檔系統設計** | 依資料性質分流 PlayerPrefs 與自訂 JSON，具備版本相容機制 → [完整決策文件](docs/decisions/0001-save-load-format.md) |
+| **介面化與解耦設計** | `ICombatResolver` 介面化戰鬥判定、`CombatDispatcher` Mediator 解耦輸入與敵人系統、`AttackInputAggregator` 統一鍵盤/滑鼠輸入來源 → [完整決策文件](docs/decisions/0001-decoupled-input-architecture.md) |
+| **桌面透明視窗整合** | Spike 分支驗證手刻 Win32 方案，正式階段評估後改用 UniWindowController → [完整決策文件](docs/decisions/0002-desktop-overlay-integration.md) |
+| **CPU 效能優化** | 反射停用第三方套件內部無條件執行的協程，CPU 佔用降低約 10 倍 → [完整決策文件](docs/decisions/0003-cpu-performance-optimization.md) |
+| **存檔系統設計** | 依資料性質分流 PlayerPrefs 與自訂 JSON，具備版本相容機制 → [完整決策文件](docs/decisions/0004-save-load-format.md) |
 | **天氣 API 整合** | 選用 OpenWeatherMap，含金鑰管理、離線容錯、快取節流 → [完整決策文件](docs/decisions/0005-weather-api-integration.md) |
 | **PlayStyleProfile 演算法迭代** | 採 Welford's Online Algorithm，以定量記憶體捕捉完整 session 歷史 → [完整決策文件](docs/decisions/0006-playstyle-algorithm.md) |
 
@@ -67,9 +67,9 @@ DeskSlayer 會疊加在你的桌面上，用完全透明的視窗跟著你工作
 <summary><b>▶ 更多技術決策</b></summary>
 <br>
 
-- [成就系統：單向訂閱架構下的零修改擴充](docs/decisions/0008-achievement-system.md)
-- [武器收集與合成系統](docs/decisions/0009-weapon-collection-system.md)
-- [Shader Graph 轉手寫 HLSL 的技術路線調整](docs/decisions/0007-shader-approach-change.md)
+- [成就系統：單向訂閱架構下的零修改擴充](docs/decisions/0007-achievement-system.md)
+- [武器收集與合成系統](docs/decisions/0008-weapon-collection-system.md)
+- [Shader Graph 轉手寫 HLSL 的技術路線調整](docs/decisions/0009-shader-approach-change.md)
 - [Git 版控實務](docs/decisions/0010-git-workflow.md)
 - [敏捷精神實踐：單人開發下的時間盒與迭代增量](docs/decisions/0011-agile-in-solo-dev.md)
 - [排行榜功能評估與捨棄](docs/decisions/0012-leaderboard-evaluation.md)

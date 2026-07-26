@@ -19,7 +19,6 @@
 
 DeskSlayer 會疊加在你的桌面上，用完全透明的視窗跟著你工作。你平常打字的每一下按鍵，就是你的攻擊指令——不需要額外操作，一邊工作、一邊讓角色在桌面上默默跟怪物戰鬥。
 
-一個月獨立開發完成的個人作品，作為求職作品集打造，技術決策與工作流皆對齊業界遊戲工程師職缺的實務要求。
 
 ## 核心玩法
 
@@ -56,7 +55,7 @@ DeskSlayer 會疊加在你的桌面上，用完全透明的視窗跟著你工作
 
 | 技術點 | 說明 |
 |---|---|
-| **ScriptableObject 資料驅動架構** | 全專案資料層一致採用，武器/敵人/成就/風格主題皆為 SO 驅動，新增內容不需修改程式碼 |
+| **ScriptableObject 資料驅動架構** | 全專案資料層一致採用，武器/敵人/成就/風格主題皆為 SO 驅動，新增內容規範有條理 |
 | **介面化與解耦設計** | `ICombatResolver` 介面化戰鬥判定、`CombatDispatcher` Mediator 解耦輸入與敵人系統、`AttackInputAggregator` 統一鍵盤/滑鼠輸入來源 → [完整決策文件](docs/decisions/0002-decoupled-input-architecture.md) |
 | **桌面透明視窗整合** | Spike 分支驗證手刻 Win32 方案，正式階段評估後改用 UniWindowController → [完整決策文件](docs/decisions/0003-desktop-overlay-integration.md) |
 | **CPU 效能優化** | 反射停用第三方套件內部無條件執行的協程，CPU 佔用降低約 10 倍 → [完整決策文件](docs/decisions/0004-cpu-performance-optimization.md) |
@@ -78,7 +77,7 @@ DeskSlayer 會疊加在你的桌面上，用完全透明的視窗跟著你工作
 
 ## 開發方式
 
-開發過程採用 claude.ai 負責架構決策與技術路線比較、Claude Code 負責依規格實作並透過 Unity MCP 操作 Editor 的協作模式。版控採 feature branch + PR 流程、Conventional Commits，並依任務性質判斷 Git Worktree 的使用時機。
+開發過程採用 Claude Code 負責依規格實作並透過 Unity MCP 操作 Editor 的協作模式。版控採 feature branch + PR 流程、Conventional Commits，並依任務性質判斷 Git Worktree 的使用時機。
 
 ## Credits
 

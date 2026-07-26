@@ -7771,7 +7771,7 @@ Tilemap:
       - {fileID: 1843515439, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
       - {fileID: 481632769, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
       - {fileID: 734820369, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -1, y: -4, z: 0}
@@ -7846,7 +7846,7 @@ Tilemap:
       - {fileID: 1843515439, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
       - {fileID: 481632769, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
       - {fileID: 734820369, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: -4, z: 0}
@@ -8086,7 +8086,7 @@ Tilemap:
       - {fileID: 1053351782, guid: 62136df75e5bbd94596381e64688ff49, type: 3}
       - {fileID: -1647402988, guid: 62136df75e5bbd94596381e64688ff49, type: 3}
       - {fileID: -2114781651, guid: 62136df75e5bbd94596381e64688ff49, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -3, y: -2, z: 0}
@@ -8236,7 +8236,7 @@ Tilemap:
       - {fileID: 1843515439, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
       - {fileID: 481632769, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
       - {fileID: 734820369, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 7, y: -2, z: 0}
@@ -8431,7 +8431,7 @@ Tilemap:
       - {fileID: 1843515439, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
       - {fileID: 481632769, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
       - {fileID: 734820369, guid: 81915265a3773bc418c33e6668148dc0, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: -1, z: 0}
@@ -11812,7 +11812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -65, y: -140}
+  m_AnchoredPosition: {x: -137, y: 65}
   m_SizeDelta: {x: 300, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &620163809
@@ -16166,8 +16166,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 53.28, y: 53.29}
+  m_AnchoredPosition: {x: 0.000002861, y: 3.605}
+  m_SizeDelta: {x: 37.2, y: 37.21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &913945810
 MonoBehaviour:
@@ -19893,7 +19893,7 @@ Tilemap:
       - {fileID: -1877793930, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
       - {fileID: 1093785879, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
       - {fileID: -2040994031, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 9, y: -2, z: 0}
@@ -19998,7 +19998,7 @@ Tilemap:
       - {fileID: -1877793930, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
       - {fileID: 1093785879, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
       - {fileID: -2040994031, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 1, y: -1, z: 0}
@@ -20148,7 +20148,7 @@ Tilemap:
       - {fileID: -1877793930, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
       - {fileID: 1093785879, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
       - {fileID: -2040994031, guid: 9fbe83b97253fed488d7fcea996a9687, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   m_TileAssetArray:
@@ -25706,7 +25706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8104675, g: 0.7387754, b: 0.9169811, a: 0.40784314}
+  m_Color: {r: 0.8104675, g: 0.7387754, b: 0.9169811, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -28756,7 +28756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7764706}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.84705883}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -30601,7 +30601,7 @@ Tilemap:
       - {fileID: -3463070028636962532, guid: daac2233c327c5c4fa6c3b645996b688, type: 3}
       - {fileID: 2123513492, guid: daac2233c327c5c4fa6c3b645996b688, type: 3}
       - {fileID: 780426609, guid: daac2233c327c5c4fa6c3b645996b688, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 6, y: -2, z: 0}
@@ -30856,7 +30856,7 @@ Tilemap:
       - {fileID: -3463070028636962532, guid: daac2233c327c5c4fa6c3b645996b688, type: 3}
       - {fileID: 2123513492, guid: daac2233c327c5c4fa6c3b645996b688, type: 3}
       - {fileID: 780426609, guid: daac2233c327c5c4fa6c3b645996b688, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 8, y: -1, z: 0}
@@ -35382,7 +35382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150, y: -190}
+  m_AnchoredPosition: {x: -222, y: 15}
   m_SizeDelta: {x: 140, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1971712547
@@ -35736,7 +35736,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 20, y: -190}
+  m_AnchoredPosition: {x: -52.000008, y: 15}
   m_SizeDelta: {x: 140, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1993462737
